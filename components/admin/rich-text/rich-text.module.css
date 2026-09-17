@@ -1,0 +1,214 @@
+.shell {
+  border: 1px solid var(--admin-border, #e5e8ec);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid var(--admin-border, #e5e8ec);
+  background: #f7f8fa;
+}
+
+.toolbarBtn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #3a4050;
+  cursor: pointer;
+}
+
+.toolbarBtn:hover {
+  background: #fff;
+  border-color: #d5dae2;
+}
+
+.toolbarBtnActive {
+  background: #fff;
+  border-color: rgba(228, 6, 19, 0.45);
+  color: #e40613;
+}
+
+.toolbarSep {
+  width: 1px;
+  align-self: stretch;
+  background: #d5dae2;
+  margin: 0 0.15rem;
+}
+
+.editorSurface {
+  min-height: 280px;
+}
+
+.prose {
+  min-height: 280px;
+  padding: 1rem 1.1rem 1.25rem;
+  outline: none;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #1b1c1e;
+}
+
+.prose :global(p) {
+  margin: 0 0 0.85rem;
+}
+
+.prose :global(h2) {
+  margin: 1.2rem 0 0.55rem;
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.prose :global(h3) {
+  margin: 1rem 0 0.45rem;
+  font-size: 1.15rem;
+}
+
+.prose :global(ul),
+.prose :global(ol) {
+  margin: 0 0 0.85rem;
+  padding-left: 1.35rem;
+}
+
+.prose :global(blockquote) {
+  margin: 0 0 0.85rem;
+  padding: 0.15rem 0 0.15rem 0.85rem;
+  border-left: 3px solid #e40613;
+  color: #5c6470;
+}
+
+.prose :global(a) {
+  color: #e40613;
+}
+
+.prose :global(hr) {
+  border: 0;
+  border-top: 1px solid #e5e8ec;
+  margin: 1.25rem 0;
+}
+
+.prose :global(p.is-editor-empty:first-child::before) {
+  color: #98a1ad;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.inlineImage {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0.75rem 0;
+}
+
+.dialogBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(16, 18, 22, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.dialog {
+  width: min(100%, 720px);
+  max-height: min(85vh, 720px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e5e8ec;
+  box-shadow: 0 16px 48px rgba(16, 18, 22, 0.18);
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.dialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.dialogHeader h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.dialogClose {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #5c6470;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dialogHint {
+  margin: 0 0 0.75rem;
+  color: #5c6470;
+  font-size: 0.88rem;
+}
+
+.dialogSearch {
+  width: 100%;
+  border: 1px solid #e5e8ec;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  margin-bottom: 0.85rem;
+}
+
+.dialogGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.65rem;
+}
+
+.dialogThumb {
+  appearance: none;
+  border: 1px solid #e5e8ec;
+  border-radius: 10px;
+  background: #f7f8fa;
+  padding: 0.4rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dialogThumb:hover {
+  border-color: rgba(228, 6, 19, 0.45);
+}
+
+.dialogThumb img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.dialogThumb span {
+  display: block;
+  font-size: 0.72rem;
+  color: #5c6470;
+  word-break: break-all;
+}
+
+.dialogEmpty {
+  grid-column: 1 / -1;
+  margin: 0.5rem 0;
+  color: #5c6470;
+}

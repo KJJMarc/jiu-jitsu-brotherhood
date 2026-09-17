@@ -1,0 +1,52 @@
+.wrap {
+  padding-block: clamp(3.5rem, 10vw, 7rem);
+  text-align: center;
+}
+
+.code {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(4.5rem, 16vw, 9rem);
+  line-height: 1;
+  color: var(--red);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: 0.6rem;
+}
+
+.lead {
+  max-width: 560px;
+  margin: 0 auto 2rem;
+  color: var(--grey-600);
+  font-size: 1.1rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  justify-content: center;
+  list-style: none;
+  margin-bottom: 2.2rem;
+}
+
+.links a {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.links a:hover {
+  color: var(--red);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+}

@@ -1,0 +1,111 @@
+.banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 0.65rem 0.75rem;
+  background: rgba(17, 19, 23, 0.97);
+  color: #eef1f5;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25);
+  animation: cookieUp 0.28s ease;
+}
+
+@keyframes cookieUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  align-items: flex-start;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin: 0 0 0.15rem;
+  color: #fff;
+}
+
+.body {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #c3cad4;
+  max-width: 70ch;
+}
+
+.body a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.actions :global(.btn) {
+  flex: 1 1 calc(50% - 0.25rem);
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  box-shadow: none;
+}
+
+.actions :global(.btn--primary) {
+  box-shadow: 0 4px 12px rgba(228, 6, 19, 0.22);
+}
+
+@media (max-width: 380px) {
+  /* Very narrow phones: stack full-width for readable labels + touch targets */
+  .actions :global(.btn) {
+    flex: 1 1 100%;
+  }
+}
+
+@media (min-width: 720px) {
+  .banner {
+    padding: 0.55rem 1rem;
+  }
+
+  .inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.1rem;
+  }
+
+  .title {
+    font-size: 0.95rem;
+  }
+
+  .body {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .actions {
+    width: auto;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+  }
+
+  .actions :global(.btn) {
+    flex: 0 0 auto;
+    min-height: 2.35rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+  }
+}

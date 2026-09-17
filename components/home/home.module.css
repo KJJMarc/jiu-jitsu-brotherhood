@@ -1,0 +1,462 @@
+/* Shared cover-image helper */
+.coverImg {
+  object-fit: cover;
+}
+
+/* ============ HERO ============ */
+.hero {
+  position: relative;
+  min-height: min(78vh, 660px);
+  /* Column flex so the inner block is sized on the block axis; avoids the
+     default row-flex min-width:auto trap that can retain a landscape width
+     on iOS Safari after orientation change. */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #fff;
+  isolation: isolate;
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.heroImg {
+  object-fit: cover;
+  /* Keep the genuine photograph bright and visible. */
+  filter: brightness(1.06) saturate(1.02);
+}
+
+/* Light directional gradient: only enough to keep the text legible along the
+   bottom-left, leaving most of the photograph fully visible. */
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      to top,
+      rgba(15, 16, 18, 0.72) 0%,
+      rgba(15, 16, 18, 0.4) 26%,
+      rgba(15, 16, 18, 0.08) 52%,
+      rgba(15, 16, 18, 0) 72%
+    ),
+    linear-gradient(
+      to right,
+      rgba(15, 16, 18, 0.45) 0%,
+      rgba(15, 16, 18, 0.12) 40%,
+      rgba(15, 16, 18, 0) 70%
+    );
+}
+
+.heroInner {
+  padding-block: clamp(2.25rem, 6vw, 4rem);
+  width: 100%;
+  max-width: 680px;
+  min-width: 0;
+}
+
+.heroEyebrow {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #fff;
+  background: var(--red);
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  margin: 0 0 1.1rem;
+  /* Keep the full tagline on one line; size/spacing shrink on narrow viewports.
+     overflow:hidden so nowrap text cannot expand a flex/grid ancestor’s
+     scrollable overflow width on iOS. */
+  white-space: nowrap;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Narrow phones: shrink type, tracking and padding so “THAMES” stays on one line
+   without horizontal overflow. Unchanged from ~600px up (desktop look preserved). */
+@media (max-width: 599px) {
+  .heroEyebrow {
+    font-size: clamp(0.625rem, 2.7vw, 0.8rem);
+    letter-spacing: clamp(0.05em, 0.35vw, 0.16em);
+    padding: 0.3rem clamp(0.45rem, 1.8vw, 0.8rem);
+  }
+}
+
+.heroTitle {
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.4vw, 3.3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+  max-width: 14ch;
+}
+
+.heroLead {
+  font-size: clamp(1.02rem, 1.7vw, 1.2rem);
+  max-width: 46ch;
+  color: #f2f4f7;
+  margin-bottom: 1.6rem;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+/* ============ WELCOME ============ */
+.welcomeGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: center;
+}
+
+.welcomeText {
+  min-width: 0;
+}
+
+.welcomeText h2 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+}
+
+/* Concise homepage intro: slightly larger than base body for easier scanning.
+   Mobile ~17–18px; desktop ~20–22px. Heading size stays unchanged. */
+.welcomeBody {
+  font-size: clamp(1.0625rem, 0.95rem + 0.45vw, 1.3125rem);
+  line-height: 1.58;
+  max-width: 36rem;
+}
+
+.welcomeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.welcomeAside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.welcomeImage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  list-style: none;
+}
+
+.stats li {
+  background: var(--grey-100);
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  min-width: 0;
+}
+
+.stats strong {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1.1;
+}
+
+.stats span {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--grey-600);
+  line-height: 1.35;
+}
+
+/* Long location subtitle — desktop inherits .stats span; mobile nudges below. */
+.statsLabelLong {
+  display: block;
+}
+
+/* Mobile: keep punchy heading/subtitle sizes. Only the long location
+   subtitle is slightly smaller + nowrap so it doesn’t orphan “Thames”.
+   “Mauricio Gomes” may wrap. Desktop (≥600px) unchanged. */
+@media (max-width: 599px) {
+  .stats li {
+    padding: 0.9rem clamp(0.65rem, 2.6vw, 0.95rem);
+  }
+
+  .stats span.statsLabelLong {
+    font-size: 0.72rem;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+  }
+}
+
+/* ============ CLASSES ============ */
+.classGrid {
+  display: grid;
+  /* Explicit 1-col default — do not use auto-fill/auto-fit here. iOS Safari
+     can retain the landscape track count after rotating back to portrait,
+     leaving the section wider than the viewport. Breakpoints below set 2/3. */
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  list-style: none;
+}
+
+.classCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.classCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: #fff;
+  text-decoration: none;
+}
+
+.classMedia {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.classMedia .coverImg {
+  transition: transform 0.4s ease;
+}
+
+.classCard:hover .coverImg {
+  transform: scale(1.05);
+}
+
+.classBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.25rem;
+  flex: 1;
+}
+
+.classTitle {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.classArrow {
+  color: var(--red);
+  font-weight: 700;
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.classCard:hover .classArrow {
+  transform: translateX(4px);
+}
+
+/* ============ TESTIMONIALS ============ */
+.reviewGrid {
+  display: grid;
+  /* Same rationale as .classGrid: explicit columns, not auto-fit. */
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  list-style: none;
+}
+
+.review {
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.stars {
+  color: #f5a623;
+  letter-spacing: 0.12em;
+  font-size: 1.05rem;
+}
+
+.reviewQuote {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--grey-900);
+  line-height: 1.65;
+}
+
+.reviewAuthor {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--ink);
+}
+
+.reviewCta {
+  text-align: center;
+  margin-top: 2.2rem;
+}
+
+/* ============ RESOURCES ============ */
+.resourceGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  list-style: none;
+}
+
+.resourceCard {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.resourceMedia {
+  position: relative;
+  aspect-ratio: 3 / 2;
+}
+
+.resourceBody {
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.resourceTitle {
+  font-size: 1.14rem;
+}
+
+.resourceBody p {
+  color: var(--grey-600);
+  font-size: 0.94rem;
+  flex: 1;
+  margin: 0;
+}
+
+/* ============ FINAL CTA ============ */
+.finalCta {
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+  color: #fff;
+}
+
+.finalInner {
+  text-align: center;
+  padding-block: clamp(3rem, 7vw, 5rem);
+  max-width: 760px;
+}
+
+.finalEyebrow {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin-bottom: 0.7rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.finalTitle {
+  color: #fff;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  margin-bottom: 1rem;
+}
+
+.finalLead {
+  font-size: 1.14rem;
+  color: rgba(255, 255, 255, 0.94);
+  margin-bottom: 2rem;
+}
+
+.finalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+}
+
+.finalCta .btn--primary {
+  background: #fff;
+  color: var(--red);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+.finalCta .btn--primary:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+@media (min-width: 640px) {
+  .resourceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 700px) {
+  .reviewGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 720px) {
+  .classGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .welcomeGrid {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .classGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .resourceGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .reviewGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

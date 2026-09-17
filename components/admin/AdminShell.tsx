@@ -1,0 +1,170 @@
+import Link from "next/link";
+import Image from "next/image";
+import { signOutAdminAction } from "@/app/admin/actions";
+import styles from "@/app/admin/admin.module.css";
+
+export type AdminNavItem = {
+  href: string;
+  label: string;
+  enabled: boolean;
+};
+
+export type AdminNavSection = {
+  title?: string;
+  items: AdminNavItem[];
+};
+
+const NAV: AdminNavSection[] = [
+  {
+    items: [{ href: "/admin/", label: "Dashboard", enabled: true }],
+  },
+  {
+    title: "Content",
+    items: [
+      { href: "/admin/articles/", label: "Articles", enabled: true },
+      { href: "/admin/pages/", label: "Pages", enabled: true },
+    ],
+  },
+  {
+    title: "Store",
+    items: [
+      { href: "/admin/store/", label: "Overview", enabled: true },
+      { href: "/admin/store/products/", label: "Products", enabled: true },
+      {
+        href: "/admin/store/fulfilment/",
+        label: "Shipping & collection",
+        enabled: true,
+      },
+      { href: "/admin/store/orders/", label: "Orders", enabled: true },
+      { href: "/admin/store/preview/", label: "Store preview", enabled: true },
+    ],
+  },
+  {
+    title: "Website",
+    items: [
+      { href: "/admin/settings/", label: "Site Settings", enabled: true },
+      {
+        href: "/admin/settings/tracking/",
+        label: "Tracking & Pixels",
+        enabled: true,
+      },
+      {
+        href: "/admin/settings/cookies/",
+        label: "Cookies & Privacy",
+        enabled: true,
+      },
+    ],
+  },
+  {
+    title: "Administration",
+    items: [
+      { href: "/admin/access/", label: "Admin Access", enabled: true },
+    ],
+  },
+];
+export default function AdminShell({
+  email,
+  children,
+}: {
+  email: string | null;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className={styles.shell}>
+      <aside className={styles.sidebar} aria-label="Admin">
+        <div className={styles.sidebarBrand}>
+          <Image
+            src="/images/logo-mark.png"
+            alt=""
+            width={36}
+            height={36}
+            className={styles.sidebarMark}
+          />
+          <div>
+            <p className={styles.sidebarTitle}>KJJ Admin</p>
+            <p className={styles.sidebarSub}>Kingston Jiu Jitsu</p>
+          </div>
+        </div>
+
+        <nav className={styles.nav}>
+          {NAV.map((section) => (
+            <div key={section.title ?? "main"} className={styles.navSection}>
+              {section.title ? (
+                <p className={styles.navSectionTitle}>{section.title}</p>
+              ) : null}
+              <ul>
+                {section.items.map((item) => (
+                  <li key={item.href}>
+                    {item.enabled ? (
+                      <Link href={item.href} className={styles.navLink}>
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <span
+                        className={`${styles.navLink} ${styles.navLinkDisabled}`}
+                        title="Coming in a later phase"
+                      >
+                        {item.label}
+                        <span className={styles.soon}>Soon</span>
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        <div className={styles.sidebarFooter}>
+          <a
+            className={styles.navLink}
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Site ↗
+          </a>
+          <form action={signOutAdminAction}>
+            <button type="submit" className={styles.signOut}>
+              Sign Out
+            </button>
+          </form>
+          {email ? <p className={styles.signedInAs}>{email}</p> : null}
+        </div>
+      </aside>
+
+      <div className={styles.mainColumn}>
+        <header className={styles.topbar}>
+          <p className={styles.topbarLabel}>KJJ Admin</p>
+          <div className={styles.topbarActions}>
+            <a
+              className={styles.topbarLink}
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Site
+            </a>
+            <form action={signOutAdminAction}>
+              <button type="submit" className={styles.topbarSignOut}>
+                Sign Out
+              </button>
+            </form>
+          </div>
+        </header>
+        <nav className={styles.mobileNav} aria-label="Admin sections">
+          {NAV.flatMap((section) =>
+            section.items.map((item) =>
+              item.enabled ? (
+                <Link key={item.href} href={item.href} className={styles.mobileNavLink}>
+                  {item.label}
+                </Link>
+              ) : null,
+            ),
+          )}
+        </nav>
+        <main className={styles.content}>{children}</main>
+      </div>
+    </div>
+  );
+}

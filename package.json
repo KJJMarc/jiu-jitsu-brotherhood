@@ -1,0 +1,50 @@
+{
+  "name": "kingston-jiu-jitsu",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kingston Jiu Jitsu website (Next.js rebuild)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "import:articles": "node --env-file=.env.local scripts/import-articles.mjs",
+    "import:articles:dry-run": "node --env-file=.env.local scripts/import-articles.mjs --dry-run",
+    "import:shopify": "node scripts/import-shopify-catalogue.mjs --apply",
+    "import:shopify:dry-run": "node scripts/import-shopify-catalogue.mjs",
+    "import:inventory": "node scripts/apply-shopify-inventory.mjs --apply",
+    "import:inventory:dry-run": "node scripts/apply-shopify-inventory.mjs",
+    "import:physical-drafts": "node scripts/import-physical-inventory-drafts.mjs --apply",
+    "import:physical-drafts:dry-run": "node scripts/import-physical-inventory-drafts.mjs",
+    "seed:manual-physical-drafts": "node scripts/seed-manual-physical-drafts.mjs --apply",
+    "seed:manual-physical-drafts:dry-run": "node scripts/seed-manual-physical-drafts.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.116.0",
+    "@tiptap/extension-image": "^3.31.3",
+    "@tiptap/extension-link": "^3.31.3",
+    "@tiptap/extension-placeholder": "^3.31.3",
+    "@tiptap/extension-underline": "^3.31.3",
+    "@tiptap/pm": "^3.31.3",
+    "@tiptap/react": "^3.31.3",
+    "@tiptap/starter-kit": "^3.31.3",
+    "next": "^15.5.25",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "resend": "^6.28.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.11",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "csv-parse": "^5.6.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.25",
+    "sharp": "^0.33.5",
+    "tsx": "^4.23.13",
+    "typescript": "^5.6.3"
+  }
+}

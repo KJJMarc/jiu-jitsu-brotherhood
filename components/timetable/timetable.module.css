@@ -1,0 +1,108 @@
+/* One section per venue, clearly separated. */
+.venues {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 3.25rem);
+}
+
+.venueHead {
+  font-size: clamp(1.3rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--red);
+}
+
+/* Weekly grid: 7 columns on desktop, stacked day-by-day on mobile. */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.dayCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dayHead {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--grey-200);
+}
+
+.classList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+}
+
+.classCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-left: 3px solid var(--red);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.className {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.classTime {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--grey-700);
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  color: var(--grey-400);
+  font-size: 0.88rem;
+  font-style: italic;
+  margin: 0;
+  padding: 0.2rem 0;
+}
+
+/* Tablet: two columns of days. */
+@media (min-width: 620px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1.25rem;
+  }
+}
+
+/* Desktop: full seven-day week grid. */
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem 0.75rem;
+    align-items: start;
+  }
+  .dayHead {
+    font-size: 0.95rem;
+  }
+  .classCard {
+    padding: 0.6rem 0.65rem;
+  }
+  .className {
+    font-size: 0.88rem;
+  }
+}

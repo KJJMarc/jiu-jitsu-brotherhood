@@ -1,0 +1,161 @@
+.footer {
+  background: var(--ink);
+  color: #c7ced8;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  padding-block: clamp(2.75rem, 6vw, 4.5rem);
+}
+
+.brandCol {
+  max-width: 340px;
+}
+
+.logoChip {
+  display: inline-block;
+  background: #fff;
+  padding: 0.7rem 0.95rem;
+  border-radius: 12px;
+  margin-bottom: 1.1rem;
+}
+
+.logo {
+  height: auto;
+  width: 190px;
+  display: block;
+}
+
+.blurb {
+  color: #9aa4b1;
+  font-size: 0.98rem;
+  margin-bottom: 1.3rem;
+}
+
+.socials {
+  display: flex;
+  gap: 0.6rem;
+  list-style: none;
+}
+
+.socials a {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.socials a:hover {
+  background: var(--red);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.colTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0;
+  margin-bottom: 1rem;
+}
+
+.col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.col a {
+  color: #c7ced8;
+  font-size: 0.96rem;
+}
+
+.col a:hover {
+  color: #fff;
+}
+
+.contact {
+  margin-bottom: 1.4rem;
+}
+
+.venueHead {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  margin: 0 0 0.6rem;
+}
+
+.venues {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  font-style: normal;
+}
+
+.venues span {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #9aa4b1;
+  line-height: 1.5;
+}
+
+.venues strong {
+  color: #e6eaef;
+  font-weight: 600;
+}
+
+.bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bottomBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.4rem;
+}
+
+.bottomBar p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #8b95a2;
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.legalLinks a {
+  color: #8b95a2;
+  font-size: 0.88rem;
+}
+
+.legalLinks a:hover {
+  color: #fff;
+}
+
+@media (min-width: 640px) {
+  .top {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .top {
+    grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+    gap: 3rem;
+  }
+}

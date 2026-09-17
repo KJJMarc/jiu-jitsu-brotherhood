@@ -1,0 +1,1047 @@
+.prose {
+  max-width: 720px;
+}
+
+.prose p {
+  color: var(--grey-700);
+  font-size: 1.08rem;
+  margin: 0 0 1.1rem;
+}
+
+.prose h2 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  margin-top: 2rem;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.75rem;
+}
+
+/* ---------- Classes hub ---------- */
+.classList {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vw, 2.75rem);
+  list-style: none;
+}
+
+.classRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: center;
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+
+.classRow .media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.classRow .media img {
+  object-fit: cover;
+}
+
+.classRow h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-bottom: 0.5rem;
+}
+
+.classRow p {
+  color: var(--grey-700);
+  margin: 0;
+}
+
+/* ---------- Cards grid (venues, values) ---------- */
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  list-style: none;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: var(--grey-600);
+  margin: 0 0 0.4rem;
+}
+
+.card address {
+  font-style: normal;
+  color: var(--grey-700);
+  margin-bottom: 0.9rem;
+  line-height: 1.6;
+}
+
+.mapFrame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--grey-200);
+  margin-bottom: 0.9rem;
+  background: var(--grey-100);
+}
+
+.mapFrame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- Pricing (Join Us) ---------- */
+.priceGroup {
+  margin-bottom: clamp(2.25rem, 5vw, 3.5rem);
+}
+
+.priceGroup > p {
+  color: var(--grey-600);
+  margin-top: -0.4rem;
+}
+
+.priceGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+}
+
+.priceCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.priceCard.featured {
+  border-color: var(--red);
+  box-shadow: 0 12px 34px rgba(228, 6, 19, 0.14);
+}
+
+.badge {
+  position: absolute;
+  top: -0.7rem;
+  left: 1.5rem;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+
+.priceName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.3rem;
+}
+
+.priceAmount {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+}
+
+.priceTerm {
+  color: var(--grey-600);
+  font-size: 0.9rem;
+  margin: 0.2rem 0 1rem;
+}
+
+.priceCard ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 0 1.3rem;
+  flex: 1;
+}
+
+.priceCard li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: var(--grey-700);
+  font-size: 0.95rem;
+}
+
+.priceCard li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.note {
+  background: var(--grey-100);
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+  color: var(--grey-700);
+  font-size: 0.98rem;
+  margin-bottom: 2rem;
+}
+
+/* ---------- Contact ---------- */
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Venue address cards: full-width and 2-up while the contact grid is stacked,
+   then a single stacked column once they move into the narrower right rail. */
+.venueGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  list-style: none;
+}
+
+@media (min-width: 560px) and (max-width: 1023px) {
+  .venueGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Two-column contact layout only once the right rail is wide enough for a
+   venue card to read cleanly (prevents the cramped mid-width reflow). */
+@media (min-width: 1024px) {
+  .contactGrid {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+.contactList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.contactList li {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactList span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-400);
+}
+
+.contactList a,
+.contactList strong {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.socialRow {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.socialRow a {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--grey-100);
+  border: 1px solid var(--grey-200);
+  color: var(--ink);
+}
+
+.socialRow a:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+/* ---------- Contact action buttons ---------- */
+.actionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--red);
+  border: 1px solid var(--red);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  color: #fff;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.actionCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.actionIcon {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.actionText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.actionLabel {
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.2;
+}
+
+.actionSub {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.followBlock {
+  margin-top: 1.75rem;
+}
+
+.followBlock > span {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-400);
+  margin-bottom: 0.55rem;
+}
+
+@media (min-width: 520px) {
+  .actionGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.link {
+  font-weight: 600;
+}
+
+/* ---------- Class programme pages ---------- */
+/* Class page content section — tighter top gap after the hero than the
+   global .section spacing, while keeping the usual bottom padding. */
+.classContentSection {
+  padding-top: clamp(1.5rem, 3.4vw, 3rem);
+  padding-bottom: clamp(3rem, 7vw, 5.5rem);
+}
+
+.classPageGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.prose h2 {
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  margin: 1.9rem 0 0.6rem;
+}
+
+.proseCta {
+  margin-top: 1.6rem;
+}
+
+.prose > div:first-child h2 {
+  margin-top: 0;
+}
+
+.prose p {
+  color: var(--grey-700);
+  margin: 0 0 1rem;
+}
+
+.ticks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0 0 1.2rem;
+}
+
+.ticks li {
+  position: relative;
+  padding-left: 1.6rem;
+  color: var(--grey-700);
+}
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--red);
+}
+
+.quote {
+  margin: 1.5rem 0 0;
+  padding: 1.3rem 1.5rem;
+  background: var(--grey-100);
+  border-left: 4px solid var(--red);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.quote p {
+  margin: 0 0 0.6rem;
+  color: var(--grey-900);
+  font-style: italic;
+}
+
+.quote cite {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.classMediaCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.classMediaImg {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.classMediaImg img {
+  object-fit: cover;
+}
+
+.videoEmbed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+  box-shadow: var(--shadow-sm);
+}
+
+.videoEmbed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (min-width: 900px) {
+  .classPageGrid {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+  .classMediaCol {
+    position: sticky;
+    top: calc(var(--header-h) + 20px);
+  }
+}
+
+/* ---------- News index ---------- */
+.newsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  list-style: none;
+}
+
+.coverImg {
+  object-fit: cover;
+}
+
+.newsCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.newsCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.newsMedia {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--charcoal);
+}
+
+.newsPlaceholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+}
+
+.newsBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  flex: 1;
+}
+
+.newsMeta {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.newsTitle {
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.newsExcerpt {
+  color: var(--grey-600);
+  font-size: 0.94rem;
+  flex: 1;
+}
+
+.newsLink {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--red);
+}
+
+/* ---------- Story timeline (zig-zag) ---------- */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.25rem, 5vw, 3.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tlEntry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.tlFigure {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: var(--grey-100);
+}
+
+.tlFigure img {
+  object-fit: cover;
+}
+
+.tlYear {
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.tlBody h2 {
+  margin: 0.2rem 0 0.7rem;
+  font-size: clamp(1.35rem, 2.8vw, 1.95rem);
+  line-height: 1.15;
+}
+
+.tlBody p {
+  color: var(--grey-700);
+  font-size: 1.05rem;
+  margin: 0 0 0.9rem;
+}
+
+.tlCreed {
+  margin: 0.4rem 0 0;
+  padding: 1.1rem 1.3rem;
+  background: var(--grey-100);
+  border-left: 4px solid var(--red);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 1.1rem;
+}
+
+@media (min-width: 820px) {
+  .tlEntry {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.75rem, 4vw, 3.25rem);
+  }
+  .tlEntry:nth-child(even) .tlFigure {
+    order: 2;
+  }
+}
+
+/* ---------- Instructors ---------- */
+.teamGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  list-style: none;
+}
+
+/* Featured pair (Mauricio + Marc) — centred and a little larger, above the
+   rows-of-three grid below. */
+.teamFeatured {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  list-style: none;
+  max-width: 860px;
+  margin: 0 auto clamp(1.75rem, 4vw, 2.75rem);
+}
+
+@media (min-width: 620px) {
+  .teamFeatured {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.teamCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.teamCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.teamMedia {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--grey-100);
+}
+
+.teamMedia img {
+  object-fit: cover;
+}
+
+.teamBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.teamRank {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.teamName {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.teamRole {
+  color: var(--grey-600);
+  font-size: 0.92rem;
+}
+
+/* ---------- Instructor profile ---------- */
+.profileGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.profilePortrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: var(--grey-100);
+}
+
+.profilePortrait img {
+  object-fit: cover;
+}
+
+@media (min-width: 900px) {
+  .profileGrid {
+    grid-template-columns: 0.85fr 1.15fr;
+  }
+  .profilePortrait {
+    position: sticky;
+    top: calc(var(--header-h) + 20px);
+  }
+}
+
+/* ---------- Legal / policy pages ---------- */
+.legal h3 {
+  font-size: 1.12rem;
+  margin: 1.3rem 0 0.5rem;
+  color: var(--ink);
+}
+
+.legalList {
+  list-style: disc;
+  padding-left: 1.3rem;
+  margin: 0 0 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.legalList li {
+  color: var(--grey-700);
+}
+
+/* ---------- Cookie policy ---------- */
+.cookieManage {
+  margin: 1.25rem 0 2rem;
+}
+
+.cookieTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0 1.75rem;
+  font-size: 0.92rem;
+}
+
+.cookieTable th,
+.cookieTable td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--grey-200);
+  color: var(--grey-700);
+}
+
+.cookieTable th {
+  color: var(--ink);
+  font-weight: 700;
+  background: var(--grey-100);
+}
+
+.cookieNone {
+  color: var(--grey-600);
+  font-style: italic;
+}
+
+/* ---------- Timetable fallback ---------- */
+.timetableError {
+  max-width: 640px;
+  background: var(--grey-100);
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+}
+
+.timetableError h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.timetableError p {
+  margin: 0;
+  color: var(--grey-700);
+}
+
+/* Red square bullets (matching .ticks) — scoped to the Training Etiquette page */
+.legalRedBullets .legalList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.legalRedBullets .legalList li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+
+.legalRedBullets .legalList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--red);
+}
+
+.paypalForm {
+  margin: 0.75rem 0 1rem;
+}
+
+.paypalForm :global(.btn) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 26rem;
+  min-height: 2.85rem;
+  padding: 0.7rem 1.25rem;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.25;
+}
+
+.licencePanel,
+.legal :global(.kjj-licence-panel) {
+  margin: 2rem 0 2.25rem;
+  padding: 1.35rem 1.25rem 1.15rem;
+  border: 1px solid var(--grey-200, #e5e8ec);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff 0%, #f7f8fa 100%);
+  box-shadow: 0 1px 2px rgba(16, 18, 22, 0.04);
+}
+
+.licencePanel h2,
+.legal :global(.kjj-licence-panel) h2 {
+  margin-top: 0;
+}
+
+.licencePanel .paypalForm,
+.legal :global(.kjj-licence-panel) .paypalForm {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.legal {
+  max-width: 42rem;
+}
+
+.legal h2 {
+  margin: 2rem 0 0.75rem;
+  font-size: clamp(1.2rem, 2.4vw, 1.45rem);
+  letter-spacing: -0.015em;
+}
+
+.legal h2:first-child {
+  margin-top: 0;
+}
+
+.legal p,
+.legal li {
+  max-width: 40rem;
+}
+
+.legal ul {
+  margin: 0 0 1.1rem;
+}
+
+@media (min-width: 640px) {
+  .licencePanel,
+  .legal :global(.kjj-licence-panel) {
+    padding: 1.5rem 1.5rem 1.25rem;
+  }
+
+  .paypalForm :global(.btn) {
+    width: 26rem;
+    max-width: 100%;
+  }
+}
+
+/* ---------- News article ---------- */
+.articleWrap {
+  max-width: 780px;
+}
+
+.articleMeta {
+  color: var(--grey-600);
+  margin: 0;
+}
+
+.articleHero {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.75rem;
+}
+
+.article p {
+  color: var(--grey-700);
+  font-size: 1.06rem;
+  margin: 0 0 1.1rem;
+}
+
+.article .videoEmbed {
+  margin: 1.5rem 0;
+}
+
+.backLink {
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .newsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .newsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 640px) {
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .teamGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 760px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .priceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .classRow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .classRow.reverse .media {
+    order: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .priceGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+.articleBodyHtml {
+  line-height: 1.65;
+}
+
+.articleBodyHtml p {
+  margin: 0 0 0.85rem;
+}
+
+.articleBodyHtml h2 {
+  margin: 1.2rem 0 0.55rem;
+  font-size: 1.35rem;
+}
+
+.articleBodyHtml h3 {
+  margin: 1rem 0 0.45rem;
+  font-size: 1.15rem;
+}
+
+.articleBodyHtml ul,
+.articleBodyHtml ol {
+  margin: 0 0 0.85rem;
+  padding-left: 1.35rem;
+}
+
+.articleBodyHtml img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0.75rem 0;
+}
+
+.articleBodyHtml blockquote {
+  margin: 0 0 0.85rem;
+  padding-left: 0.85rem;
+  border-left: 3px solid #e40613;
+  color: #5c6470;
+}

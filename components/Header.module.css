@@ -1,0 +1,334 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--grey-200);
+  transition: box-shadow 0.2s ease;
+}
+
+.scrolled {
+  box-shadow: var(--shadow-sm);
+}
+
+.bar {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.logo {
+  height: 56px;
+  width: auto;
+  max-width: min(215px, 55vw);
+  object-fit: contain;
+}
+
+@media (max-width: 380px) {
+  .logo {
+    height: 44px;
+  }
+}
+
+/* ---------- Desktop nav ---------- */
+.desktopNav {
+  display: none;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.15rem;
+  list-style: none;
+}
+
+.navList > li {
+  position: relative;
+}
+
+.navTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.navList a {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0.5rem 0.6rem;
+  color: var(--grey-900);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  border-radius: 8px;
+}
+
+.navList a:hover {
+  color: var(--red);
+  text-decoration: none;
+}
+
+/* Non-clickable dropdown-parent label (e.g. Timetable) */
+.navStatic {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0.5rem 0.6rem;
+  color: var(--grey-900);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: default;
+  user-select: none;
+}
+
+.hasChildren:hover .navStatic {
+  color: var(--red);
+}
+
+.chevron {
+  color: var(--grey-400);
+  flex: 0 0 auto;
+  margin-left: -0.1rem;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 232px;
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: 0.4rem;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+}
+
+.hasChildren:hover .dropdown,
+.hasChildren:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown a {
+  display: block;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  white-space: nowrap;
+  border-radius: 8px;
+}
+
+.dropdown a:hover {
+  background: var(--grey-100);
+}
+
+/* ---------- Actions ---------- */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 0 0 auto;
+}
+
+.actions .cta {
+  display: none;
+  padding: 0.6rem 1.15rem;
+  font-size: 0.95rem;
+}
+
+.burger {
+  --bar: 2px;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.burger span {
+  width: 22px;
+  height: var(--bar);
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.barTop {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.barMid {
+  opacity: 0;
+}
+
+.barBot {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- Mobile drawer ---------- */
+.overlay {
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  background: rgba(16, 18, 22, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 90;
+}
+
+.overlayOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer {
+  position: fixed;
+  top: var(--header-h);
+  right: 0;
+  bottom: 0;
+  /* Prefer % over vw: 100vw can exceed the layout viewport on iOS Safari
+     and contribute to the landscape→portrait “stuck scale / white gutter”
+     bug. Cap at 360px as before. */
+  width: min(360px, 100%);
+  background: #fff;
+  border-left: 1px solid var(--grey-200);
+  box-shadow: var(--shadow-lg);
+  padding: 1.25rem;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.24s ease;
+  z-index: 95;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.mobileList {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileList > li {
+  border-bottom: 1px solid var(--grey-200);
+  padding: 0.35rem 0;
+}
+
+.mobileList a {
+  display: block;
+  padding: 0.6rem 0.25rem;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.mobileList a:hover {
+  color: var(--red);
+  text-decoration: none;
+}
+
+.mobileList .navStatic {
+  display: block;
+  padding: 0.6rem 0.25rem;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Accordion toggle for parent sections */
+.mobileToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.mobileToggle:hover {
+  color: var(--red);
+}
+
+.mChevron {
+  flex: 0 0 auto;
+  color: var(--grey-400);
+  transition: transform 0.2s ease;
+}
+
+.mChevronOpen {
+  transform: rotate(180deg);
+  color: var(--red);
+}
+
+.mobileSub {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--grey-200);
+}
+
+.mobileSub a {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--grey-600);
+  padding: 0.4rem 0.25rem;
+}
+
+/* ---------- Breakpoints ---------- */
+@media (min-width: 1200px) {
+  .desktopNav {
+    display: flex;
+  }
+  .actions .cta {
+    display: inline-flex;
+  }
+  .burger {
+    display: none;
+  }
+  .overlay,
+  .drawer {
+    display: none;
+  }
+}
