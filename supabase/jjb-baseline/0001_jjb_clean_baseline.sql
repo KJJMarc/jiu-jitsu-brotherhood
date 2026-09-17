@@ -1319,13 +1319,16 @@ CREATE POLICY "contents_admin_delete"
   USING (public.is_admin());
 
 GRANT SELECT ON public.authors TO anon, authenticated;
-GRANT INSERT, UPDATE, DELETE ON public.authors TO authenticated, service_role;
+GRANT INSERT, UPDATE, DELETE ON public.authors TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.authors TO service_role;
 
 GRANT SELECT ON public.media_assets TO anon, authenticated;
-GRANT INSERT, UPDATE, DELETE ON public.media_assets TO authenticated, service_role;
+GRANT INSERT, UPDATE, DELETE ON public.media_assets TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.media_assets TO service_role;
 
 GRANT SELECT ON public.contents TO anon, authenticated;
-GRANT INSERT, UPDATE, DELETE ON public.contents TO authenticated, service_role;
+GRANT INSERT, UPDATE, DELETE ON public.contents TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.contents TO service_role;
 
 REVOKE ALL ON public.authors FROM PUBLIC;
 REVOKE ALL ON public.media_assets FROM PUBLIC;
