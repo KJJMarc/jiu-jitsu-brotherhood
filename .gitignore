@@ -145,3 +145,6 @@ vite.config.ts.timestamp-*
 # Private Shopify catalogue exports (do not commit merchant data)
 imports/shopify/*.csv
 /imports/shopify/private/
+
+# Local importer dry-run reports
+/tmp/

@@ -1,32 +1,50 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/lib/canonical";
+import { listSitemapContentPaths } from "@/lib/content/public.server";
 
 /**
- * Phase 2B sitemap: only URLs that already 200 as empty route shells.
- * Do not emit KJJ news, unmigrated article/product/page handles, redirects,
- * 410s, checkout, cart, or admin.
+ * Shell routes that already 200 without imported bodies, plus published
+ * contents rows (noindex excluded). Never invents demo editorial URLs.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const paths: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "yearly" }[] =
-    [
-      { path: "/", priority: 1, changeFrequency: "weekly" },
-      { path: "/blogs/blog", priority: 0.8, changeFrequency: "weekly" },
-      { path: "/blogs/techniques", priority: 0.8, changeFrequency: "weekly" },
-      { path: "/blogs/news", priority: 0.3, changeFrequency: "yearly" },
-      { path: "/blogs/videos", priority: 0.3, changeFrequency: "yearly" },
-      { path: "/blogs/articles", priority: 0.3, changeFrequency: "yearly" },
-      { path: "/blogs/podcast", priority: 0.3, changeFrequency: "yearly" },
-      { path: "/collections", priority: 0.6, changeFrequency: "weekly" },
-      { path: "/collections/all", priority: 0.8, changeFrequency: "weekly" },
-      { path: "/search", priority: 0.2, changeFrequency: "yearly" },
-      { path: "/cookie-policy", priority: 0.3, changeFrequency: "yearly" },
-    ];
+  const shells: {
+    path: string;
+    priority: number;
+    changeFrequency: "weekly" | "monthly" | "yearly";
+  }[] = [
+    { path: "/", priority: 1, changeFrequency: "weekly" },
+    { path: "/blogs/blog", priority: 0.8, changeFrequency: "weekly" },
+    { path: "/blogs/techniques", priority: 0.8, changeFrequency: "weekly" },
+    { path: "/blogs/news", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/blogs/videos", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/blogs/articles", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/blogs/podcast", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/collections", priority: 0.6, changeFrequency: "weekly" },
+    { path: "/collections/all", priority: 0.8, changeFrequency: "weekly" },
+    { path: "/search", priority: 0.2, changeFrequency: "yearly" },
+    { path: "/cookie-policy", priority: 0.3, changeFrequency: "yearly" },
+  ];
 
-  return paths.map((r) => ({
+  const contentRows = await listSitemapContentPaths();
+  const shellPaths = new Set(shells.map((s) => s.path));
+
+  const entries: MetadataRoute.Sitemap = shells.map((r) => ({
     url: absoluteUrl(r.path),
     lastModified: now,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }));
+
+  for (const row of contentRows) {
+    if (shellPaths.has(row.path)) continue;
+    entries.push({
+      url: absoluteUrl(row.path),
+      lastModified: new Date(row.lastModified),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    });
+  }
+
+  return entries;
 }

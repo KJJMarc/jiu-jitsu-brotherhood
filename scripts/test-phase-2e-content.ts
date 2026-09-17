@@ -1,0 +1,130 @@
+import assert from "node:assert/strict";
+import {
+  extractYoutubeIdsFromHtml,
+  sanitizeContentHtml,
+  splitContentHtmlForRender,
+} from "../lib/content/sanitize";
+import {
+  shouldSkipUnchanged,
+  simpleChecksum,
+  transformInternalLinks,
+  transformShopifyHtml,
+} from "../lib/content/import/transforms";
+import {
+  defaultCanonicalPath,
+  isValidCanonicalPath,
+  normalizeCanonicalPath,
+} from "../lib/content/paths";
+import { assessJjbSupabaseProject } from "../lib/supabase/jjb-project";
+import { JJB_LEGAL_ENTITY } from "../lib/legal-entity";
+
+// --- Paths / canonical ---
+assert.equal(
+  defaultCanonicalPath({ type: "article", handle: "foo" }),
+  "/blogs/blog/foo",
+);
+assert.equal(
+  defaultCanonicalPath({ type: "technique", handle: "bar" }),
+  "/blogs/techniques/bar",
+);
+assert.equal(
+  defaultCanonicalPath({
+    type: "past_event",
+    handle: "summer-seaside-special",
+    blog_handle: "blog",
+  }),
+  "/blogs/blog/summer-seaside-special",
+);
+assert.equal(
+  defaultCanonicalPath({ type: "page", handle: "about" }),
+  "/pages/about",
+);
+assert.equal(normalizeCanonicalPath("/blogs/blog/foo/"), "/blogs/blog/foo");
+assert.ok(isValidCanonicalPath("/pages/past-events"));
+assert.equal(isValidCanonicalPath("/Pages/Nope"), false);
+
+// --- Sanitisation ---
+const dirty = `
+<p onclick="alert(1)">Hello <script>evil()</script>world</p>
+<iframe src="https://www.youtube.com/embed/bmtZrIzxKPc" width="560" height="315"></iframe>
+<iframe src="https://evil.example/embed"></iframe>
+<a href="javascript:alert(1)">bad</a>
+<a href="/blogs/blog/safe">ok</a>
+<img src="https://cdn.shopify.com/s/files/x.png" alt="gi" onerror="alert(1)">
+<p data-mce-fragment="1">Keep prose intact.</p>
+`;
+
+const cleaned = sanitizeContentHtml(dirty);
+assert.ok(!cleaned.html.includes("<script"));
+assert.ok(!cleaned.html.includes("onclick"));
+assert.ok(!cleaned.html.includes("javascript:"));
+assert.ok(!cleaned.html.includes("onerror"));
+assert.ok(!cleaned.html.includes("evil.example"));
+assert.ok(cleaned.html.includes("Keep prose intact."));
+assert.ok(cleaned.html.includes('data-jjb-youtube="bmtZrIzxKPc"'));
+assert.deepEqual(cleaned.youtubeIds, ["bmtZrIzxKPc"]);
+assert.ok(cleaned.html.includes('href="/blogs/blog/safe"'));
+
+const parts = splitContentHtmlForRender(cleaned.html);
+assert.ok(parts.some((p) => p.type === "youtube" && p.id === "bmtZrIzxKPc"));
+
+assert.deepEqual(
+  extractYoutubeIdsFromHtml(
+    '<iframe src="https://www.youtube.com/embed/abcdefghijk"></iframe>',
+  ),
+  ["abcdefghijk"],
+);
+
+// --- Link transforms ---
+const links = transformInternalLinks(`
+<a href="http://www.jiujitsubrotherhood.com/pages/about/">About</a>
+<a href="https://store.jiujitsubrotherhood.com/products/x">Product</a>
+<a href="http://www.jiujitsubrotherhood.com/wp-content/uploads/old.jpg">WP</a>
+<a href="www.kingstonjiujitsu.com">bare</a>
+`);
+assert.ok(links.html.includes("https://www.jiujitsubrotherhood.com/pages/about"));
+assert.ok(
+  links.html.includes("https://www.jiujitsubrotherhood.com/products/x"),
+);
+assert.ok(links.events.some((e) => e.code === "HTTPS_WWW"));
+assert.ok(links.events.some((e) => e.code === "STORE_HOST"));
+assert.ok(links.events.some((e) => e.code === "WP_UPLOAD"));
+assert.ok(links.events.some((e) => e.code === "BAD_HREF"));
+
+const full = transformShopifyHtml(
+  '<p>Hi</p><iframe src="https://www.youtube.com/embed/bmtZrIzxKPc"></iframe>',
+);
+assert.ok(full.youtubeIds.includes("bmtZrIzxKPc"));
+assert.ok(full.html.includes("data-jjb-youtube"));
+
+// --- Idempotency ---
+const checksum = simpleChecksum(full.html);
+assert.equal(
+  shouldSkipUnchanged({
+    existingSourceUpdatedAt: "2024-01-01T00:00:00Z",
+    incomingSourceUpdatedAt: "2024-01-01T00:00:00Z",
+    existingBodyChecksum: checksum,
+    incomingBodyChecksum: checksum,
+  }),
+  true,
+);
+assert.equal(
+  shouldSkipUnchanged({
+    existingSourceUpdatedAt: "2024-01-01T00:00:00Z",
+    incomingSourceUpdatedAt: "2024-01-02T00:00:00Z",
+    existingBodyChecksum: checksum,
+    incomingBodyChecksum: checksum,
+  }),
+  false,
+);
+
+// --- No KJJ Supabase fallback when unconfigured ---
+const safety = assessJjbSupabaseProject();
+assert.equal(safety.ok, false);
+assert.match(safety.reason, /Supabase|JJB_SUPABASE/i);
+
+// --- Legal identity constant present ---
+assert.equal(JJB_LEGAL_ENTITY.operatorLegalName, "Kingston Jiu Jitsu Ltd");
+assert.ok(!/company number|VAT|FastDD|PayPal/i.test(JSON.stringify(JJB_LEGAL_ENTITY)));
+
+console.log("Phase 2E content foundation tests passed.");
