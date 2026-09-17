@@ -59,7 +59,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
     },
     robots: { index: true, follow: true },
-    // Icons remain the inherited app/icon.png until a JJB mark is supplied.
+    // Favicon / app icons: app/icon.png + app/apple-icon.png (JJB ouroboros).
   };
 }
 

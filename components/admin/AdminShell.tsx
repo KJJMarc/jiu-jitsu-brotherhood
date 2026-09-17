@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { signOutAdminAction } from "@/app/admin/actions";
-import AdminWordmark from "@/components/admin/AdminWordmark";
+import AdminCompactMark from "@/components/admin/AdminCompactMark";
 import styles from "@/app/admin/admin.module.css";
 
 export type AdminNavItem = {
@@ -74,7 +74,7 @@ export default function AdminShell({
     <div className={styles.shell}>
       <aside className={styles.sidebar} aria-label="Admin">
         <div className={styles.sidebarBrand}>
-          <AdminWordmark className={styles.sidebarMark} />
+          <AdminCompactMark className={styles.sidebarMark} />
           <div>
             <p className={styles.sidebarTitle}>JJB Admin</p>
             <p className={styles.sidebarSub}>Jiu Jitsu Brotherhood</p>
