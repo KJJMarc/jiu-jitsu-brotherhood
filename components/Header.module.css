@@ -31,15 +31,15 @@
 }
 
 .logo {
-  height: 68px;
+  height: 78px;
   width: auto;
-  max-width: min(280px, 62vw);
+  max-width: min(320px, 68vw);
   object-fit: contain;
 }
 
 @media (max-width: 380px) {
   .logo {
-    height: 52px;
+    height: 58px;
   }
 }
 
@@ -155,8 +155,9 @@
 
 .actions .cta {
   display: none;
-  padding: 0.6rem 1.15rem;
+  padding: 0.55rem 1.25rem;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .burger {

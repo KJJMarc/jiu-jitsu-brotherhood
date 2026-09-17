@@ -90,6 +90,7 @@ export const primaryNav: NavItem[] = [
     href: "/pages/jiu-jitsu-brotherhood-club-network",
   },
   { label: "Shop", href: externalLinks.shop },
+  { label: "Contact", href: "/pages/contact" },
 ];
 
 /** Footer Explore group — content-first destinations. */

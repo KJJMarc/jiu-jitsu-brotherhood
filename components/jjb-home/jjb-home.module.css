@@ -218,7 +218,7 @@
 .headRow {
   display: flex;
   flex-wrap: wrap;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 0.75rem 1.5rem;
   margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
@@ -814,8 +814,8 @@
 
 @media (min-width: 800px) {
   .summer {
-    /* Nudge copy right of the left edge, but not as far as Oli's text column */
-    grid-template-columns: minmax(4rem, 10rem) minmax(20rem, 36rem) minmax(14rem, 22rem);
+    /* Slight inset from the left edge, lighter than Oli's column */
+    grid-template-columns: minmax(1.5rem, 4.5rem) minmax(20rem, 36rem) minmax(14rem, 22rem);
     gap: clamp(1.5rem, 3vw, 2.5rem);
   }
 
@@ -979,6 +979,53 @@
   .ouroInner {
     max-width: 26rem;
   }
+}
+
+/* ---------- Newsletter ---------- */
+.newsletterBand {
+  padding-block: clamp(1.25rem, 2.4vw, 1.85rem);
+}
+
+.newsletter {
+  display: grid;
+  gap: clamp(1.1rem, 2.2vw, 1.5rem);
+  align-items: start;
+  min-width: 0;
+}
+
+@media (min-width: 800px) {
+  .newsletter {
+    grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: center;
+    max-width: 68rem;
+    margin-inline: auto;
+  }
+}
+
+.newsletterCopy {
+  min-width: 0;
+  max-width: 34rem;
+}
+
+.newsletterCopy .kicker {
+  margin-bottom: 0.4rem;
+}
+
+.newsletterCopy h2 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.newsletterLead {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.96rem, 1.4vw, 1.04rem);
+  line-height: 1.5;
+  max-width: 38ch;
 }
 
 @media (prefers-reduced-motion: reduce) {

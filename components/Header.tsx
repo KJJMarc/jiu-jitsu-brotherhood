@@ -71,6 +71,9 @@ export default function Header() {
     setOpenSections([]);
   };
 
+  const desktopNav = primaryNav.filter((item) => item.label !== "Shop");
+  const shopItem = primaryNav.find((item) => item.label === "Shop");
+
   return (
     <>
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
@@ -88,7 +91,7 @@ export default function Header() {
 
         <nav className={styles.desktopNav} aria-label="Primary">
           <ul className={styles.navList}>
-            {primaryNav.map((item) => (
+            {desktopNav.map((item) => (
               <li
                 key={item.label}
                 className={item.children ? styles.hasChildren : undefined}
@@ -122,6 +125,11 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
+          {shopItem?.href && (
+            <Link href={shopItem.href} className={`btn btn--primary ${styles.cta}`}>
+              {shopItem.label}
+            </Link>
+          )}
           <button
             className={styles.burger}
             aria-label={open ? "Close menu" : "Open menu"}

@@ -15,6 +15,7 @@ import OliverGeddes from "@/components/jjb-home/OliverGeddes";
 import SummersJourney from "@/components/jjb-home/SummersJourney";
 import ShopPreview from "@/components/jjb-home/ShopPreview";
 import OuroborosBand from "@/components/jjb-home/OuroborosBand";
+import NewsletterBand from "@/components/jjb-home/NewsletterBand";
 import styles from "@/components/jjb-home/jjb-home.module.css";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function HomePage() {
       <SummersJourney />
       <ShopPreview products={homeProducts} />
       <OuroborosBand />
+      <NewsletterBand />
     </div>
   );
 }
