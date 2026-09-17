@@ -1,17 +1,21 @@
-/* JJB homepage — second design pass. Distinctive black / red / white blocks. */
+/* JJB homepage — distinctive black / red / white blocks. */
+
+.homePage {
+  min-width: 0;
+}
 
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  min-height: clamp(22rem, 52vh, 34rem);
+  min-height: clamp(24rem, 58vh, 38rem);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: stretch;
   color: #fff;
   isolation: isolate;
   overflow: hidden;
-  text-align: center;
+  text-align: left;
 }
 
 .heroMedia {
@@ -23,6 +27,7 @@
 .heroImg {
   object-fit: cover;
   object-position: 68% 42%;
+  filter: brightness(1.18) contrast(1.04);
 }
 
 .heroScrim {
@@ -31,28 +36,35 @@
   background:
     linear-gradient(
       to top,
-      rgba(8, 9, 11, 0.72) 0%,
-      rgba(8, 9, 11, 0.42) 45%,
-      rgba(8, 9, 11, 0.22) 72%,
-      rgba(8, 9, 11, 0.12) 100%
+      rgba(8, 9, 11, 0.62) 0%,
+      rgba(8, 9, 11, 0.28) 42%,
+      rgba(8, 9, 11, 0.1) 72%,
+      rgba(8, 9, 11, 0.04) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(8, 9, 11, 0.42) 0%,
+      rgba(8, 9, 11, 0.18) 42%,
+      rgba(8, 9, 11, 0.02) 78%,
+      transparent 100%
     );
 }
 
 .heroInner {
   width: 100%;
-  max-width: 36rem;
-  margin-inline: auto;
-  padding-block: clamp(2.25rem, 5vw, 3.5rem);
+  max-width: 38rem;
+  margin-inline: 0;
+  padding-block: clamp(2.5rem, 6vw, 4rem);
   min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .heroEst {
   margin: 0 0 0.85rem;
   display: inline-block;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -65,7 +77,7 @@
 .heroTitle {
   margin: 0 0 0.85rem;
   color: #fff;
-  font-size: clamp(1.7rem, 3.8vw, 2.55rem);
+  font-size: clamp(1.8rem, 4.03vw, 2.7rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
   font-weight: 700;
@@ -75,7 +87,7 @@
 .heroLead {
   margin: 0 0 1.45rem;
   max-width: 42ch;
-  font-size: clamp(1.02rem, 1.5vw, 1.12rem);
+  font-size: clamp(1.08rem, 1.59vw, 1.19rem);
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.9);
 }
@@ -84,13 +96,17 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.75rem;
 }
 
 @media (max-width: 700px) {
   .hero {
-    min-height: clamp(20rem, 68vh, 28rem);
+    min-height: clamp(22rem, 72vh, 30rem);
+  }
+
+  .heroInner {
+    max-width: 28rem;
   }
 }
 
@@ -101,7 +117,7 @@
   background: var(--red);
   color: #fff;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.97rem;
   letter-spacing: 0.02em;
   padding: 0.8rem 1.3rem;
   border: 0;
@@ -122,7 +138,7 @@
   background: #fff;
   color: var(--ink);
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.97rem;
   letter-spacing: 0.02em;
   padding: 0.8rem 1.3rem;
   border: 0;
@@ -181,7 +197,7 @@
 
 .kicker {
   margin: 0 0 0.65rem;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -210,13 +226,13 @@
 
 .headRow h2 {
   margin: 0;
-  font-size: clamp(1.85rem, 3.6vw, 2.75rem);
+  font-size: clamp(1.96rem, 3.82vw, 2.92rem);
   letter-spacing: -0.025em;
   line-height: 1.1;
 }
 
 .textLink {
-  font-size: 0.95rem;
+  font-size: 1.01rem;
   font-weight: 600;
   color: inherit;
   text-decoration: none;
@@ -299,7 +315,7 @@
 
 .artMeta {
   margin: 0 0 0.3rem;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -308,7 +324,7 @@
 
 .artTitle {
   margin: 0 0 0.4rem;
-  font-size: clamp(1.3rem, 2.3vw, 1.75rem);
+  font-size: clamp(1.38rem, 2.44vw, 1.85rem);
   line-height: 1.2;
   letter-spacing: -0.02em;
   transition: color 0.15s ease;
@@ -317,7 +333,7 @@
 .artExcerpt {
   margin: 0;
   color: var(--grey-700);
-  font-size: 1rem;
+  font-size: 1.06rem;
   line-height: 1.55;
   max-width: 40ch;
 }
@@ -369,7 +385,7 @@
 
 .artTitleSm {
   margin: 0 0 0.25rem;
-  font-size: 1.05rem;
+  font-size: 1.11rem;
   line-height: 1.3;
   letter-spacing: -0.015em;
   transition: color 0.15s ease;
@@ -396,14 +412,14 @@
 
 .history h2 {
   margin: 0 0 0.9rem;
-  font-size: clamp(1.95rem, 3.6vw, 2.7rem);
+  font-size: clamp(2.07rem, 3.82vw, 2.86rem);
   letter-spacing: -0.025em;
   max-width: 16ch;
 }
 
 .history p {
   margin: 0 0 0.9rem;
-  font-size: 1.05rem;
+  font-size: 1.11rem;
   line-height: 1.6;
   max-width: 34rem;
   color: rgba(255, 255, 255, 0.92);
@@ -426,7 +442,7 @@
   margin-top: 0.5rem;
   color: #fff;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.01rem;
   text-decoration: none;
   border-bottom: 2px solid #fff;
   padding-bottom: 0.15rem;
@@ -514,7 +530,7 @@
 
 .techTitle {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.11rem;
   line-height: 1.3;
   color: #fff;
   transition: color 0.15s ease;
@@ -522,7 +538,7 @@
 
 .techExcerpt {
   margin: 0.4rem 0 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #9aa4b1;
   line-height: 1.45;
 }
@@ -552,7 +568,7 @@
 .freeIntro {
   margin: 0.4rem auto 0;
   max-width: 36rem;
-  font-size: 1.05rem;
+  font-size: 1.11rem;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.92);
 }
@@ -621,12 +637,12 @@
 
 .freeTitle {
   margin: 0 0 0.4rem;
-  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  font-size: clamp(1.27rem, 2.12vw, 1.48rem);
 }
 
 .freeDesc {
   margin: 0;
-  font-size: 0.98rem;
+  font-size: 1.04rem;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.88);
   max-width: 28ch;
@@ -636,7 +652,7 @@
   display: inline-block;
   margin-top: 0.75rem;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.97rem;
   border-bottom: 2px solid #fff;
   padding-bottom: 0.1rem;
 }
@@ -681,7 +697,7 @@
 
 .oliLead {
   margin: 0 0 0.35rem;
-  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  font-size: clamp(1.22rem, 2.12vw, 1.43rem);
   line-height: 1.4;
   color: #e8ecf1;
   font-weight: 500;
@@ -689,7 +705,7 @@
 
 .oliName {
   margin: 0 0 0.35rem;
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-size: clamp(2.12rem, 4.24vw, 2.92rem);
   letter-spacing: -0.03em;
   color: #fff;
   line-height: 1.1;
@@ -697,7 +713,7 @@
 
 .oliYears {
   margin: 0 0 1.5rem;
-  font-size: 1.05rem;
+  font-size: 1.11rem;
   letter-spacing: 0.04em;
   color: #e8ecf1;
   font-weight: 500;
@@ -718,7 +734,7 @@
   background: transparent;
   color: #fff;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.01rem;
   padding: 0.8rem 1.25rem;
   border: 2px solid #fff;
   text-decoration: none;
@@ -733,38 +749,23 @@
 /* ---------- Summer ---------- */
 .summer {
   display: grid;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  gap: clamp(1.35rem, 3vw, 2.5rem);
   align-items: center;
-}
-
-@media (min-width: 800px) {
-  .summer {
-    /* Nudge copy right of the left edge, but not as far as Oli’s text column */
-    grid-template-columns: minmax(4rem, 10rem) minmax(20rem, 36rem) minmax(14rem, 22rem);
-    gap: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .summerCopy {
-    grid-column: 2;
-    justify-self: start;
-  }
-
-  .summerMedia {
-    grid-column: 3;
-  }
+  min-width: 0;
 }
 
 .summerCopy {
   max-width: 32rem;
+  min-width: 0;
 }
 
 .summerMedia {
   background: transparent;
-  justify-self: end;
-  padding-inline-end: clamp(2.5rem, 8vw, 5.5rem);
   box-sizing: border-box;
   max-width: min(22rem, 100%);
   width: 100%;
+  min-width: 0;
+  justify-self: center;
 }
 
 .summerMedia img {
@@ -776,7 +777,7 @@
 
 .summer h2 {
   margin: 0 0 0.75rem;
-  font-size: clamp(1.55rem, 2.8vw, 2rem);
+  font-size: clamp(1.54rem, 2.97vw, 2.12rem);
   letter-spacing: -0.02em;
   color: #fff;
 }
@@ -784,7 +785,7 @@
 .summer p {
   margin: 0 0 1.1rem;
   color: rgba(255, 255, 255, 0.92);
-  font-size: 1.02rem;
+  font-size: clamp(1.01rem, 2.76vw, 1.08rem);
   line-height: 1.55;
   max-width: 40rem;
 }
@@ -804,6 +805,32 @@
   text-decoration: none;
 }
 
+@media (max-width: 799px) {
+  .summerMedia {
+    max-width: min(15.5rem, 68vw);
+    padding-inline: 0;
+  }
+}
+
+@media (min-width: 800px) {
+  .summer {
+    /* Nudge copy right of the left edge, but not as far as Oli's text column */
+    grid-template-columns: minmax(4rem, 10rem) minmax(20rem, 36rem) minmax(14rem, 22rem);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .summerCopy {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .summerMedia {
+    grid-column: 3;
+    justify-self: end;
+    padding-inline-end: clamp(2.5rem, 8vw, 5.5rem);
+  }
+}
+
 /* ---------- Shop ---------- */
 .shopGrid {
   display: grid;
@@ -814,7 +841,22 @@
 @media (max-width: 700px) {
   .shopGrid {
     grid-template-columns: 1fr;
-    max-width: 18rem;
+    max-width: 16.5rem;
+    margin-inline: auto;
+    gap: 1.5rem;
+  }
+
+  .shopFrame {
+    margin-bottom: 0.45rem;
+    padding-bottom: 0.55rem;
+  }
+
+  .shopTitle {
+    font-size: 1.01rem;
+  }
+
+  .shopPrice {
+    font-size: 0.95rem;
   }
 }
 
@@ -853,7 +895,7 @@
 
 .shopTitle {
   margin: 0 0 0.15rem;
-  font-size: 1rem;
+  font-size: 1.06rem;
   line-height: 1.3;
   font-weight: 600;
   transition: color 0.15s ease;
@@ -862,14 +904,16 @@
 .shopPrice {
   margin: 0;
   color: var(--grey-600);
-  font-size: 0.95rem;
+  font-size: 1.01rem;
   font-variant-numeric: tabular-nums;
+  /* Poppins subset can miss £ */
+  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
 .shopNote {
   margin: 0.5rem 0 0;
   color: var(--grey-600);
-  font-size: 0.98rem;
+  font-size: 1.04rem;
   max-width: 36rem;
 }
 
@@ -887,13 +931,12 @@
 .ouroMark {
   position: absolute;
   right: -6%;
-  top: 50%;
+  top: 58%;
   transform: translateY(-50%);
   width: min(68vw, 36rem);
   height: auto;
-  opacity: 0.28;
+  opacity: 0.42;
   pointer-events: none;
-  filter: brightness(0) invert(1);
 }
 
 .ouroInner {
@@ -905,7 +948,7 @@
 
 .ouroInner h2 {
   margin: 0 0 0.9rem;
-  font-size: clamp(2rem, 4vw, 2.85rem);
+  font-size: clamp(2.12rem, 4.24vw, 3.02rem);
   letter-spacing: -0.03em;
   color: #fff;
   line-height: 1.1;
@@ -914,7 +957,7 @@
 .ouroInner p {
   margin: 0;
   color: #c7ced8;
-  font-size: clamp(1.08rem, 1.8vw, 1.22rem);
+  font-size: clamp(1.15rem, 1.91vw, 1.29rem);
   line-height: 1.55;
   max-width: 34ch;
 }

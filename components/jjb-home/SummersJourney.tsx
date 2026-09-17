@@ -34,7 +34,7 @@ export default function SummersJourney() {
             alt={image.alt}
             width={image.width}
             height={image.height}
-            sizes="(max-width: 799px) 70vw, 22rem"
+            sizes="(max-width: 799px) 68vw, 22rem"
           />
         </div>
       </div>

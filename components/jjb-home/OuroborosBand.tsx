@@ -1,15 +1,20 @@
 import Image from "next/image";
-import { compactMark } from "@/lib/brand";
 import styles from "./jjb-home.module.css";
+
+const ouroborosShadow = {
+  src: "/images/jjb/ouroboros-circle-shadow.png",
+  width: 912,
+  height: 950,
+} as const;
 
 export default function OuroborosBand() {
   return (
     <section className={styles.ouro} aria-labelledby="ouroboros-heading">
       <Image
-        src={compactMark.src}
+        src={ouroborosShadow.src}
         alt=""
-        width={compactMark.width}
-        height={compactMark.height}
+        width={ouroborosShadow.width}
+        height={ouroborosShadow.height}
         className={styles.ouroMark}
         aria-hidden="true"
         priority={false}

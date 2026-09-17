@@ -19,7 +19,7 @@ export default function ShopPreview({ products }: Props) {
             <p className={styles.kicker}>Shop</p>
             <h2 id="shop-heading">JJB Gear</h2>
             <p className={styles.shopNote}>
-              A small collection of rashguards, clothing and gear from Jiu Jitsu
+              A collection of rashguards, clothing and gear from Jiu Jitsu
               Brotherhood.
             </p>
           </div>

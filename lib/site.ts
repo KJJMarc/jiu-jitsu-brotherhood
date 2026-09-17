@@ -81,11 +81,14 @@ export type NavItem = {
  * Public navigation: preserved Shopify destinations (Phase 2B).
  */
 export const primaryNav: NavItem[] = [
-  { label: "Home", href: "/" },
+  { label: "About", href: "/pages/about" },
   { label: "Articles", href: "/blogs/blog" },
   { label: "Techniques", href: "/blogs/techniques" },
   { label: "Free Stuff", href: "/#free-stuff" },
-  { label: "About", href: "/pages/about" },
+  {
+    label: "Club Network",
+    href: "/pages/jiu-jitsu-brotherhood-club-network",
+  },
   { label: "Shop", href: externalLinks.shop },
 ];
 
