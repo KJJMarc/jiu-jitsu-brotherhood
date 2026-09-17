@@ -1,6 +1,7 @@
 .footer {
-  background: var(--ink);
-  color: #c7ced8;
+  background: #fff;
+  color: var(--ink);
+  border-top: 1px solid var(--grey-200);
 }
 
 .top {
@@ -20,9 +21,9 @@
 
 .logoChip {
   display: inline-block;
-  background: #fff;
-  padding: 0.7rem 0.95rem;
-  border-radius: 12px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
   margin-bottom: 1.1rem;
 }
 
@@ -33,9 +34,18 @@
 }
 
 .blurb {
-  color: #9aa4b1;
+  color: var(--grey-700);
   font-size: 0.98rem;
-  margin-bottom: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.established {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--grey-600);
 }
 
 .socials {
@@ -50,13 +60,14 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: var(--grey-100);
+  color: var(--ink);
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
 .socials a:hover {
   background: var(--red);
+  color: #fff;
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -64,7 +75,7 @@
 .colTitle {
   font-size: 1.05rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--ink);
   letter-spacing: 0;
   margin-bottom: 1rem;
 }
@@ -77,12 +88,12 @@
 }
 
 .col a {
-  color: #c7ced8;
+  color: var(--grey-700);
   font-size: 0.96rem;
 }
 
 .col a:hover {
-  color: #fff;
+  color: var(--red);
 }
 
 .contact {
@@ -93,7 +104,7 @@
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.95rem;
-  color: #fff;
+  color: var(--ink);
   margin: 0 0 0.6rem;
 }
 
@@ -108,17 +119,17 @@
   display: flex;
   flex-direction: column;
   font-size: 0.9rem;
-  color: #9aa4b1;
+  color: var(--grey-700);
   line-height: 1.5;
 }
 
 .venues strong {
-  color: #e6eaef;
+  color: var(--ink);
   font-weight: 600;
 }
 
 .bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--grey-200);
 }
 
 .bottomBar {
@@ -133,7 +144,12 @@
 .bottomBar p {
   margin: 0;
   font-size: 0.88rem;
-  color: #8b95a2;
+  color: var(--grey-600);
+}
+
+/* Poppins subset can miss © — use a system face for the mark only */
+.copyMark {
+  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
 .legalLinks {
@@ -143,23 +159,32 @@
 }
 
 .legalLinks a {
-  color: #8b95a2;
+  color: var(--grey-600);
   font-size: 0.88rem;
 }
 
 .legalLinks a:hover {
-  color: #fff;
+  color: var(--red);
 }
 
 @media (min-width: 640px) {
   .top {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+
+  .brandCol {
+    grid-column: 1 / -1;
   }
 }
 
 @media (min-width: 1024px) {
   .top {
-    grid-template-columns: 1.6fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr));
+    gap: 2.5rem 3rem;
+  }
+
+  .brandCol {
+    grid-column: auto;
+    max-width: 280px;
   }
 }

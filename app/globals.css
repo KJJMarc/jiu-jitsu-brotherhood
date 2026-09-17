@@ -20,7 +20,7 @@
   --shadow-md: 0 12px 34px rgba(16, 18, 22, 0.12);
   --shadow-lg: 0 24px 60px rgba(16, 18, 22, 0.2);
 
-  --header-h: 76px;
+  --header-h: 92px;
 
   /* Poppins is the single, highly-readable typeface (matches the live site). */
   --font-body: var(--font-poppins), system-ui, -apple-system, "Segoe UI", Roboto,

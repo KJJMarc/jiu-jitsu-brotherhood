@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { site, primaryNav } from "@/lib/site";
+import {
+  site,
+  footerExploreNav,
+  footerShopNav,
+  footerInfoNav,
+} from "@/lib/site";
 import { headerLogo } from "@/lib/brand";
 import styles from "./Footer.module.css";
-
-const legalLinks = [
-  { label: "Privacy Policy", href: "/pages/privacy-policy" },
-  { label: "Cookie Policy", href: "/cookie-policy" },
-  { label: "Terms & Conditions", href: "/pages/terms-conditions" },
-];
 
 export default async function Footer() {
   const year = new Date().getFullYear();
@@ -17,7 +16,11 @@ export default async function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.top}`}>
         <div className={styles.brandCol}>
-          <Link href="/" className={`${styles.logoLink} ${styles.logoChip}`} aria-label={`${site.name} home`}>
+          <Link
+            href="/"
+            className={`${styles.logoLink} ${styles.logoChip}`}
+            aria-label={`${site.name} home`}
+          >
             <Image
               src={headerLogo.src}
               alt={headerLogo.alt}
@@ -26,13 +29,35 @@ export default async function Footer() {
               className={styles.logo}
             />
           </Link>
-          <p className={styles.blurb}>{site.description}</p>
+          <p className={styles.blurb}>{site.footerBlurb}</p>
         </div>
 
-        <nav className={styles.col} aria-label="Footer">
+        <nav className={styles.col} aria-label="Explore">
           <h2 className={styles.colTitle}>Explore</h2>
           <ul>
-            {primaryNav.map((l) => (
+            {footerExploreNav.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href}>{l.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className={styles.col} aria-label="Shop">
+          <h2 className={styles.colTitle}>Shop</h2>
+          <ul>
+            {footerShopNav.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href}>{l.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className={styles.col} aria-label="Information">
+          <h2 className={styles.colTitle}>Information</h2>
+          <ul>
+            {footerInfoNav.map((l) => (
               <li key={l.href}>
                 <Link href={l.href}>{l.label}</Link>
               </li>
@@ -44,15 +69,11 @@ export default async function Footer() {
       <div className={styles.bottom}>
         <div className={`container ${styles.bottomBar}`}>
           <p>
-            © {year} {site.name}. All rights reserved.
+            <span className={styles.copyMark} aria-hidden="true">
+              {"\u00A9"}
+            </span>{" "}
+            {year} {site.name}. All rights reserved.
           </p>
-          <nav className={styles.legalLinks} aria-label="Legal">
-            {legalLinks.map((l) => (
-              <Link key={l.href} href={l.href}>
-                {l.label}
-              </Link>
-            ))}
-          </nav>
         </div>
       </div>
     </footer>

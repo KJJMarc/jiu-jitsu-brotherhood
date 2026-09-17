@@ -1,0 +1,956 @@
+/* JJB homepage — second design pass. Distinctive black / red / white blocks. */
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: clamp(22rem, 52vh, 34rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  isolation: isolate;
+  overflow: hidden;
+  text-align: center;
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.heroImg {
+  object-fit: cover;
+  object-position: 68% 42%;
+}
+
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(8, 9, 11, 0.72) 0%,
+      rgba(8, 9, 11, 0.42) 45%,
+      rgba(8, 9, 11, 0.22) 72%,
+      rgba(8, 9, 11, 0.12) 100%
+    );
+}
+
+.heroInner {
+  width: 100%;
+  max-width: 36rem;
+  margin-inline: auto;
+  padding-block: clamp(2.25rem, 5vw, 3.5rem);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroEst {
+  margin: 0 0 0.85rem;
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--red);
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+}
+
+.heroTitle {
+  margin: 0 0 0.85rem;
+  color: #fff;
+  font-size: clamp(1.7rem, 3.8vw, 2.55rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  max-width: none;
+}
+
+.heroLead {
+  margin: 0 0 1.45rem;
+  max-width: 42ch;
+  font-size: clamp(1.02rem, 1.5vw, 1.12rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@media (max-width: 700px) {
+  .hero {
+    min-height: clamp(20rem, 68vh, 28rem);
+  }
+}
+
+.heroPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  padding: 0.8rem 1.3rem;
+  border: 0;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.heroPrimary:hover {
+  background: var(--red-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+.heroSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  padding: 0.8rem 1.3rem;
+  border: 0;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.heroSecondary:hover {
+  background: #f0f2f5;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* ---------- Shared ---------- */
+.band {
+  padding-block: clamp(2.75rem, 6vw, 4.75rem);
+}
+
+.bandTight {
+  padding-block: clamp(2.5rem, 5vw, 3.75rem);
+}
+
+.bandWhite {
+  background: #fff;
+  color: var(--ink);
+}
+
+.bandRed {
+  background: #d01820;
+  color: #fff;
+}
+
+.bandRed h2,
+.bandRed h3,
+.bandRed p {
+  color: #fff;
+}
+
+.bandBlack {
+  background: #0d0e10;
+  color: #c7ced8;
+}
+
+.bandBlack h2,
+.bandBlack h3 {
+  color: #fff;
+}
+
+.wide {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.25rem);
+  min-width: 0;
+}
+
+.kicker {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bandWhite .kicker {
+  color: var(--red);
+}
+
+.bandBlack .kicker {
+  color: var(--red);
+}
+
+.bandRed .kicker {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.headRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.headRow h2 {
+  margin: 0;
+  font-size: clamp(1.85rem, 3.6vw, 2.75rem);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.textLink {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 0.1rem;
+}
+
+.bandWhite .textLink {
+  color: var(--ink);
+  border-bottom-color: var(--red);
+}
+
+.bandWhite .textLink:hover {
+  color: var(--red);
+  text-decoration: none;
+}
+
+.bandBlack .textLink {
+  color: #fff;
+  border-bottom-color: var(--red);
+}
+
+.bandBlack .textLink:hover {
+  color: #ffb3b8;
+  text-decoration: none;
+}
+
+.bandRed .textLink {
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.7);
+}
+
+.bandRed .textLink:hover {
+  border-bottom-color: #fff;
+  text-decoration: none;
+}
+
+/* ---------- Articles: featured + list ---------- */
+.articlesLayout {
+  display: grid;
+  gap: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+@media (min-width: 960px) {
+  .articlesLayout {
+    grid-template-columns: 1.4fr 0.9fr;
+    align-items: start;
+    column-gap: clamp(2rem, 4vw, 3.25rem);
+  }
+}
+
+.artFeature {
+  display: block;
+  color: inherit;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.artFeature:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.artFeature:hover .artTitle {
+  color: var(--red);
+}
+
+.artFrame {
+  background: transparent;
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.artFrameImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.artMeta {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
+
+.artTitle {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.3rem, 2.3vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  transition: color 0.15s ease;
+}
+
+.artExcerpt {
+  margin: 0;
+  color: var(--grey-700);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 40ch;
+}
+
+.artList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--grey-200);
+}
+
+.artListItem {
+  border-bottom: 1px solid var(--grey-200);
+}
+
+.artListItem a {
+  display: grid;
+  grid-template-columns: minmax(7rem, 9.5rem) 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding-block: 0.85rem;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.artListItem a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.artListItem a:hover .artTitleSm {
+  color: var(--red);
+}
+
+.artThumb {
+  background: #111;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+.artThumb img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.artTitleSm {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  transition: color 0.15s ease;
+}
+
+@media (max-width: 560px) {
+  .artListItem a {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Since 2007 (red history) ---------- */
+.history {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .history {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
+.history h2 {
+  margin: 0 0 0.9rem;
+  font-size: clamp(1.95rem, 3.6vw, 2.7rem);
+  letter-spacing: -0.025em;
+  max-width: 16ch;
+}
+
+.history p {
+  margin: 0 0 0.9rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 34rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.historyMedia {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+}
+
+.historyMedia img {
+  object-fit: cover;
+}
+
+.historyCta {
+  display: inline-flex;
+  margin-top: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 0.15rem;
+}
+
+.historyCta:hover {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+/* ---------- Techniques ---------- */
+.techBand {
+  position: relative;
+}
+
+.techGrid {
+  display: grid;
+  gap: 1.35rem;
+}
+
+@media (min-width: 800px) {
+  .techGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.techCard {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.techCard:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.techCard:hover .techTitle {
+  color: #ffb3b8;
+}
+
+.techFrame {
+  background: #000;
+  margin-bottom: 0.85rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.techFrame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.techPlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.techPlay svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-left: 0.12rem;
+}
+
+.techCard:hover .techPlay {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: var(--red-dark);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
+}
+
+.techTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: #fff;
+  transition: color 0.15s ease;
+}
+
+.techExcerpt {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: #9aa4b1;
+  line-height: 1.45;
+}
+
+@media (max-width: 799px) {
+  .techGrid {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(78%, 1fr);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .techCard {
+    scroll-snap-align: start;
+  }
+}
+
+/* ---------- Free stuff (red) ---------- */
+.freeHead {
+  text-align: center;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.freeIntro {
+  margin: 0.4rem auto 0;
+  max-width: 36rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.freeGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 6vw, 4rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 720px) {
+  .freeGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(4rem, 10vw, 8rem);
+    align-items: start;
+  }
+}
+
+.freeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.freeCard:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.freeCard:hover .freeCoverImg {
+  transform: translateY(-4px);
+}
+
+.freeCard:hover .freeTitle {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.freeCover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: clamp(17rem, 36vw, 23rem);
+  margin-bottom: 1.15rem;
+  background: transparent;
+  padding: 0;
+}
+
+.freeCoverImg {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.35));
+  transition: transform 0.2s ease;
+}
+
+.freeTitle {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+}
+
+.freeDesc {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 28ch;
+}
+
+.freeGet {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 0.1rem;
+}
+
+/* ---------- Oli (black memorial) ---------- */
+.oli {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .oli {
+    grid-template-columns: minmax(16rem, 28rem) 1fr;
+  }
+}
+
+.oliPortrait {
+  /* Sits on .bandBlack charcoal — no framed box; inset from left edge */
+  background: transparent;
+  padding-inline-start: clamp(1.5rem, 6vw, 4rem);
+  box-sizing: border-box;
+  max-width: min(28rem, 100%);
+  justify-self: start;
+  overflow: visible;
+}
+
+.oliPortrait img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.oliCopy {
+  max-width: 28rem;
+}
+
+.oliCopy .kicker {
+  margin-bottom: 1rem;
+}
+
+.oliLead {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.4;
+  color: #e8ecf1;
+  font-weight: 500;
+}
+
+.oliName {
+  margin: 0 0 0.35rem;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: -0.03em;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.oliYears {
+  margin: 0 0 1.5rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: #e8ecf1;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.oliDates {
+  display: inline-block;
+  margin-top: 0.2rem;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.oliSupport {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.25rem;
+  border: 2px solid #fff;
+  text-decoration: none;
+}
+
+.oliSupport:hover {
+  background: #fff;
+  color: #0d0e10;
+  text-decoration: none;
+}
+
+/* ---------- Summer ---------- */
+.summer {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: center;
+}
+
+@media (min-width: 800px) {
+  .summer {
+    /* Nudge copy right of the left edge, but not as far as Oli’s text column */
+    grid-template-columns: minmax(4rem, 10rem) minmax(20rem, 36rem) minmax(14rem, 22rem);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .summerCopy {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .summerMedia {
+    grid-column: 3;
+  }
+}
+
+.summerCopy {
+  max-width: 32rem;
+}
+
+.summerMedia {
+  background: transparent;
+  justify-self: end;
+  padding-inline-end: clamp(2.5rem, 8vw, 5.5rem);
+  box-sizing: border-box;
+  max-width: min(22rem, 100%);
+  width: 100%;
+}
+
+.summerMedia img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.summer h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.55rem, 2.8vw, 2rem);
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.summer p {
+  margin: 0 0 1.1rem;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  max-width: 40rem;
+}
+
+.summerLink {
+  display: inline-flex;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 0.1rem;
+  text-decoration: none;
+}
+
+.summerLink:hover {
+  color: #fff;
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+/* ---------- Shop ---------- */
+.shopGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+@media (max-width: 700px) {
+  .shopGrid {
+    grid-template-columns: 1fr;
+    max-width: 18rem;
+  }
+}
+
+.shopCard {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.shopCard:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.shopCard:hover .shopTitle {
+  color: var(--red);
+}
+
+.shopFrame {
+  background: transparent;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.65rem;
+  padding: 0;
+  border-bottom: 1px solid var(--grey-200);
+  padding-bottom: 0.85rem;
+}
+
+.shopFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.shopTitle {
+  margin: 0 0 0.15rem;
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.shopPrice {
+  margin: 0;
+  color: var(--grey-600);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.shopNote {
+  margin: 0.5rem 0 0;
+  color: var(--grey-600);
+  font-size: 0.98rem;
+  max-width: 36rem;
+}
+
+/* ---------- Ouroboros brand moment ---------- */
+.ouro {
+  position: relative;
+  overflow: hidden;
+  background: #0d0e10;
+  color: #fff;
+  min-height: clamp(18rem, 38vw, 26rem);
+  display: flex;
+  align-items: center;
+}
+
+.ouroMark {
+  position: absolute;
+  right: -6%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(68vw, 36rem);
+  height: auto;
+  opacity: 0.28;
+  pointer-events: none;
+  filter: brightness(0) invert(1);
+}
+
+.ouroInner {
+  position: relative;
+  z-index: 1;
+  max-width: 32rem;
+  padding-block: clamp(3rem, 6vw, 4.75rem);
+}
+
+.ouroInner h2 {
+  margin: 0 0 0.9rem;
+  font-size: clamp(2rem, 4vw, 2.85rem);
+  letter-spacing: -0.03em;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.ouroInner p {
+  margin: 0;
+  color: #c7ced8;
+  font-size: clamp(1.08rem, 1.8vw, 1.22rem);
+  line-height: 1.55;
+  max-width: 34ch;
+}
+
+.ouroAccent {
+  width: 3.25rem;
+  height: 4px;
+  background: var(--red);
+  margin-bottom: 1.35rem;
+}
+
+@media (max-width: 700px) {
+  .ouroMark {
+    right: -12%;
+    width: min(85vw, 24rem);
+    opacity: 0.22;
+  }
+
+  .ouroInner {
+    max-width: 26rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .techPlay,
+  .freeCoverImg,
+  .shopTitle,
+  .artTitle {
+    transition: none;
+  }
+
+  .techCard:hover .techPlay {
+    transform: translate(-50%, -50%);
+  }
+
+  .freeCard:hover .freeCoverImg {
+    transform: none;
+  }
+}

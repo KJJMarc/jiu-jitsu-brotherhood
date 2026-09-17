@@ -31,15 +31,15 @@
 }
 
 .logo {
-  height: 56px;
+  height: 68px;
   width: auto;
-  max-width: min(215px, 55vw);
+  max-width: min(280px, 62vw);
   object-fit: contain;
 }
 
 @media (max-width: 380px) {
   .logo {
-    height: 44px;
+    height: 52px;
   }
 }
 
@@ -71,10 +71,10 @@
 .navList a {
   display: inline-block;
   white-space: nowrap;
-  padding: 0.5rem 0.6rem;
+  padding: 0.55rem 0.65rem;
   color: var(--grey-900);
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: 1.02rem;
   font-weight: 500;
   letter-spacing: 0;
   border-radius: 8px;
@@ -89,10 +89,10 @@
 .navStatic {
   display: inline-block;
   white-space: nowrap;
-  padding: 0.5rem 0.6rem;
+  padding: 0.55rem 0.65rem;
   color: var(--grey-900);
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: 1.02rem;
   font-weight: 500;
   cursor: default;
   user-select: none;
@@ -248,11 +248,11 @@
 
 .mobileList a {
   display: block;
-  padding: 0.6rem 0.25rem;
+  padding: 0.7rem 0.25rem;
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.08rem;
 }
 
 .mobileList a:hover {
@@ -318,13 +318,27 @@
 
 /* ---------- Breakpoints ---------- */
 @media (min-width: 1200px) {
+  .bar {
+    position: relative;
+  }
+
   .desktopNav {
     display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    flex: 0 0 auto;
+    justify-content: center;
   }
+
   .actions .cta {
     display: inline-flex;
   }
   .burger {
+    display: none;
+  }
+  /* No global Bag — shop Bag lives in the storefront banner. */
+  .actions:not(:has(.cta)) {
     display: none;
   }
   .overlay,

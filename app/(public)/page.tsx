@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { site } from "@/lib/site";
-import styles from "@/components/pages.module.css";
+import {
+  homeArticles,
+  homeFreeResources,
+  homeProducts,
+  homeTechniques,
+} from "@/lib/home/prototype";
+import HomeHero from "@/components/jjb-home/HomeHero";
+import LatestArticles from "@/components/jjb-home/LatestArticles";
+import Since2007 from "@/components/jjb-home/Since2007";
+import HomeTechniques from "@/components/jjb-home/HomeTechniques";
+import FreeStuff from "@/components/jjb-home/FreeStuff";
+import OliverGeddes from "@/components/jjb-home/OliverGeddes";
+import SummersJourney from "@/components/jjb-home/SummersJourney";
+import ShopPreview from "@/components/jjb-home/ShopPreview";
+import OuroborosBand from "@/components/jjb-home/OuroborosBand";
 
 export const metadata: Metadata = {
   title: {
@@ -13,20 +26,16 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <section className="pagehero">
-      <div className="container">
-        <p className="eyebrow">{site.name}</p>
-        <h1>{site.tagline}</h1>
-        <p>{site.description}</p>
-        <div className={styles.ctaRow}>
-          <Link className="btn btn--primary" href="/blogs/blog">
-            Articles
-          </Link>
-          <Link className="btn btn--outline" href="/collections/all">
-            Shop
-          </Link>
-        </div>
-      </div>
-    </section>
+    <>
+      <HomeHero />
+      <LatestArticles articles={homeArticles} />
+      <Since2007 />
+      <HomeTechniques techniques={homeTechniques} />
+      <FreeStuff resources={homeFreeResources} />
+      <OliverGeddes />
+      <SummersJourney />
+      <ShopPreview products={homeProducts} />
+      <OuroborosBand />
+    </>
   );
 }

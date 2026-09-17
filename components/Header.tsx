@@ -122,9 +122,6 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <Link className={styles.bagLink} href="/cart" onClick={close}>
-            Bag
-          </Link>
           <button
             className={styles.burger}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -193,9 +190,6 @@ export default function Header() {
               );
             })}
           </ul>
-          <Link className="btn btn--primary btn--block" href="/cart" onClick={close}>
-            Bag
-          </Link>
         </nav>
       </div>
     </>

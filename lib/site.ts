@@ -9,8 +9,9 @@ export const site = {
   name: "Jiu Jitsu Brotherhood",
   shortName: "JJB",
   tagline: "Brazilian Jiu Jitsu",
-  // Neutral placeholder until approved JJB marketing copy exists.
-  description: "Jiu Jitsu Brotherhood — articles, techniques and a small UK shop.",
+  description:
+    "Since 2007, Jiu Jitsu Brotherhood has shared techniques, ideas and stories from the mats - a content and community home for people who believe there is always more to learn.",
+  footerBlurb: "Sharing Jiu Jitsu knowledge since 2007.",
   canonicalOrigin: "https://www.jiujitsubrotherhood.com",
   // Contact details are not approved for Phase 1 public display.
   email: "",
@@ -77,12 +78,37 @@ export type NavItem = {
 };
 
 /**
- * Phase 2B public navigation: preserved Shopify destinations.
+ * Public navigation: preserved Shopify destinations (Phase 2B).
  */
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Articles", href: "/blogs/blog" },
+  { label: "Techniques", href: "/blogs/techniques" },
+  { label: "Free Stuff", href: "/#free-stuff" },
+  { label: "About", href: "/pages/about" },
   { label: "Shop", href: externalLinks.shop },
+];
+
+/** Footer Explore group — content-first destinations. */
+export const footerExploreNav: NavItem[] = [
+  { label: "Articles", href: "/blogs/blog" },
+  { label: "Techniques", href: "/blogs/techniques" },
+  { label: "Free Stuff", href: "/#free-stuff" },
+  { label: "About", href: "/pages/about" },
+];
+
+/** Footer Shop group. */
+export const footerShopNav: NavItem[] = [
+  { label: "Shop", href: externalLinks.shop },
+  { label: "Bag", href: "/cart" },
+];
+
+/** Footer Information group — existing canonical routes only. */
+export const footerInfoNav: NavItem[] = [
+  { label: "Contact", href: "/pages/contact" },
+  { label: "Privacy", href: "/pages/privacy-policy" },
+  { label: "Cookies", href: "/cookie-policy" },
+  { label: "Terms", href: "/pages/terms-conditions" },
 ];
 
 export type ClassCard = {

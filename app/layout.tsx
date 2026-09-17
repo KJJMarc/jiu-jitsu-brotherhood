@@ -8,7 +8,7 @@ import { getSiteSettings } from "@/lib/site-settings.server";
 
 // Keep Poppins during Phase 1 (approved).
 const poppins = Poppins({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   display: "swap",
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",

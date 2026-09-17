@@ -93,7 +93,16 @@ const nextConfig = {
   },
 
   images: {
-    remotePatterns: supabaseImageRemotePatterns(),
+    remotePatterns: [
+      ...supabaseImageRemotePatterns(),
+      // Temporary prototype: genuine JJB photography still hosted on Shopify CDN
+      // until media migrates to Supabase Storage.
+      {
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+        pathname: "/s/files/**",
+      },
+    ],
   },
 
   async headers() {
