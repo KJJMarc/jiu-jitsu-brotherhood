@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import AdminWordmark from "@/components/admin/AdminWordmark";
 import { ADMIN_RESET_PASSWORD_PATH } from "@/lib/admin/paths";
 import { safeAdminRedirectPath } from "@/lib/admin/site-url.server";
 import ConfirmSessionClient from "../confirm/ConfirmSessionClient";
@@ -32,14 +32,7 @@ export default async function AdminAuthCallbackPage({
     <div className={styles.loginPage}>
       <div className={styles.loginCard}>
         <div className={styles.loginBrand}>
-          <Image
-            src="/images/logo.png"
-            alt="Kingston Jiu Jitsu"
-            width={220}
-            height={56}
-            className={styles.loginLogo}
-            priority
-          />
+          <AdminWordmark className={styles.loginLogo} />
           <h1>Admin account</h1>
           <p>Finishing your invite or password reset…</p>
         </div>

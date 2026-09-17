@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import AdminWordmark from "@/components/admin/AdminWordmark";
 import { redirect } from "next/navigation";
 import { signOutAdminAction } from "@/app/admin/actions";
 import {
@@ -31,14 +31,7 @@ export default async function AdminMfaSetupPage() {
       <div className={styles.loginPage}>
         <div className={styles.loginCard}>
           <div className={styles.loginBrand}>
-            <Image
-              src="/images/logo.png"
-              alt="Kingston Jiu Jitsu"
-              width={220}
-              height={56}
-              className={styles.loginLogo}
-              priority
-            />
+            <AdminWordmark className={styles.loginLogo} />
             <h1>Set up authenticator</h1>
             <p>
               Authenticator setup could not be started. Sign out and try again,
@@ -59,14 +52,7 @@ export default async function AdminMfaSetupPage() {
     <div className={styles.loginPage}>
       <div className={`${styles.loginCard} ${styles.mfaCard}`}>
         <div className={styles.loginBrand}>
-          <Image
-            src="/images/logo.png"
-            alt="Kingston Jiu Jitsu"
-            width={220}
-            height={56}
-            className={styles.loginLogo}
-            priority
-          />
+          <AdminWordmark className={styles.loginLogo} />
           <h1>Set up authenticator</h1>
           <p>
             Scan the QR code with an authenticator app (Google Authenticator,

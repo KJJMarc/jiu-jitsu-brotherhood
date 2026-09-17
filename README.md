@@ -1,2 +1,3 @@
-# kingston-jiu-jitsu
-Kingston Jiu Jitsu website
+# jiu-jitsu-brotherhood
+
+Jiu Jitsu Brotherhood website.

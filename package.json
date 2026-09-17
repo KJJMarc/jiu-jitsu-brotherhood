@@ -1,14 +1,16 @@
 {
-  "name": "kingston-jiu-jitsu",
+  "name": "jiu-jitsu-brotherhood",
   "version": "0.1.0",
   "private": true,
-  "description": "Kingston Jiu Jitsu website (Next.js rebuild)",
+  "description": "Jiu Jitsu Brotherhood website (Next.js)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "generate:migration-ledger": "node scripts/generate-migration-ledger.mjs",
+    "test:routing": "tsx scripts/test-phase-2b-routing.ts",
     "import:articles": "node --env-file=.env.local scripts/import-articles.mjs",
     "import:articles:dry-run": "node --env-file=.env.local scripts/import-articles.mjs --dry-run",
     "import:shopify": "node scripts/import-shopify-catalogue.mjs --apply",

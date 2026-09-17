@@ -23,7 +23,7 @@ export default async function AdminDashboardPage() {
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <p className={styles.eyebrow}>Dashboard</p>
-        <h1>Welcome to KJJ Admin</h1>
+        <h1>Welcome to JJB Admin</h1>
       </header>
 
       <section className={styles.statGrid} aria-label="Dashboard stats">

@@ -66,10 +66,10 @@ function channelConfig(channel: StoreCartChannel): ChannelConfig {
   if (channel === "public") {
     return {
       cookieName: PUBLIC_CART_COOKIE,
-      cookiePath: "/shop",
+      cookiePath: "/",
       requireAdminSession: false,
       allowDraft: false,
-      productHref: (product) => `/shop/${product.slug}/`,
+      productHref: (product) => `/products/${product.slug}`,
     };
   }
   return {

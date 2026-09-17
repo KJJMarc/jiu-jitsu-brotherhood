@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 import { getDefaultSiteSettings } from "@/lib/site-settings";
 import { getSiteSettings } from "@/lib/site-settings.server";
 
-// Single, highly-readable typeface — matches the existing KJJ site (Divi/Poppins).
+// Keep Poppins during Phase 1 (approved).
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const title =
     settings.default_seo_title?.trim() ||
     defaults.default_seo_title ||
-    `${site.name} | Brazilian Jiu Jitsu in Kingston upon Thames`;
+    site.name;
   const description =
     settings.default_seo_description?.trim() ||
     defaults.default_seo_description ||
@@ -52,23 +52,14 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: site.name,
       title,
       description,
-      images: [
-        {
-          url: "/images/og-share.jpg",
-          width: 1200,
-          height: 630,
-          alt: "Kingston Jiu Jitsu — class on the mats with the academy logo",
-        },
-      ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title,
       description,
-      images: ["/images/og-share.jpg"],
     },
     robots: { index: true, follow: true },
-    // Icons are provided by app/icon.png and app/apple-icon.png (circular KJJ "K").
+    // Icons remain the inherited app/icon.png until a JJB mark is supplied.
   };
 }
 

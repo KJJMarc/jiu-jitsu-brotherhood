@@ -50,6 +50,14 @@ export function formatDate(d: string): string {
   return formatArticleDate(d);
 }
 
+/**
+ * Phase 1: do not publish the cloned KJJ club-news JSON as JJB articles.
+ * Supabase remains available when ARTICLES_SOURCE=supabase.
+ */
+function publicJsonPosts(): NewsPost[] {
+  return [];
+}
+
 export async function listPublishedPosts(): Promise<NewsPost[]> {
   if (getArticlesSource() === "supabase") {
     const { listPublishedArticlesFromSupabase } = await import(
@@ -57,7 +65,7 @@ export async function listPublishedPosts(): Promise<NewsPost[]> {
     );
     return listPublishedArticlesFromSupabase();
   }
-  return postsFromJson;
+  return publicJsonPosts();
 }
 
 export async function getPublishedPost(
@@ -69,7 +77,7 @@ export async function getPublishedPost(
     );
     return getPublishedArticleFromSupabase(slug);
   }
-  return getPostFromJson(slug);
+  return publicJsonPosts().find((p) => p.slug === slug);
 }
 
 export async function listPublishedPostSlugs(): Promise<string[]> {
@@ -79,5 +87,5 @@ export async function listPublishedPostSlugs(): Promise<string[]> {
     );
     return listPublishedArticleSlugsFromSupabase();
   }
-  return postsFromJson.map((p) => p.slug);
+  return publicJsonPosts().map((p) => p.slug);
 }

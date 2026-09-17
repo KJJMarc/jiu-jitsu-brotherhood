@@ -1,54 +1,44 @@
 /**
- * Central site configuration and genuine Kingston Jiu Jitsu content.
+ * Central public site configuration for Jiu Jitsu Brotherhood (Phase 1).
  *
- * Copy, testimonials and links are taken from the existing WordPress site
- * (homepage id 1111476, Join Us id 1112368, How to Find Us id 21) and the live
- * public website. Image references point to locally-stored optimised copies
- * under /public/images.
+ * Academy-specific KJJ copy remains further down this file for retired routes
+ * and is not linked from the public shell.
  */
 
 export const site = {
-  name: "Kingston Jiu Jitsu",
-  shortName: "KJJ",
-  tagline: "Brazilian Jiu Jitsu in Kingston upon Thames",
-  description:
-    "Brazilian Jiu Jitsu classes for all ages and levels in Kingston upon Thames. A welcoming, family-friendly academy and proud members of the Mauricio Gomes Legacy Team.",
-  // Canonical production origin. The production domain is not attached in this
-  // phase; used for metadata/canonical planning only.
-  canonicalOrigin: "https://www.kingstonjiujitsu.com",
-  email: "admin@kingstonjiujitsu.com",
-  phone: "07584 131335",
-  phoneHref: "tel:+447584131335",
-  establishedYear: 2012,
+  name: "Jiu Jitsu Brotherhood",
+  shortName: "JJB",
+  tagline: "Brazilian Jiu Jitsu",
+  // Neutral placeholder until approved JJB marketing copy exists.
+  description: "Jiu Jitsu Brotherhood — articles, techniques and a small UK shop.",
+  canonicalOrigin: "https://www.jiujitsubrotherhood.com",
+  // Contact details are not approved for Phase 1 public display.
+  email: "",
+  phone: "",
+  phoneHref: "",
 } as const;
 
-/** External systems remain external links (Dojo Director, portal, shop, etc.). */
+/**
+ * Public shop path. Empty academy keys remain so retired pages still
+ * typecheck; they are not linked from the JJB shell and must not point at
+ * Dojo Director or KJJ services.
+ */
 export const externalLinks = {
-  freeTrial: "https://www.dojodirector.com/kingston-jiu-jitsu/trial-enquiry",
-  bookClass: "https://www.dojodirector.com/kingston-jiu-jitsu/book",
-  adultTimetable: "https://www.dojodirector.com/kingston-jiu-jitsu/timetable",
-  kidsTimetable: "https://www.dojodirector.com/kingston-jiu-jitsu-kids/timetable",
-  adultBeltRankings: "https://www.dojodirector.com/adult-belt-rankings",
-  juniorBeltRankings:
-    "https://www.dojodirector.com/kingston-jiu-jitsu-kids/junior-belt-rankings",
-  onlinePortal: "https://www.kingstonjiujitsuonline.com/",
-  /** Public storefront (cutover). Shopify rollback remains at https://store.kingstonjiujitsu.com/ */
-  shop: "/shop/",
-  membership: "https://www.fastdd.co.uk/platinum/start.php?c=Kingston-Jiu-Jitsu",
-  beginnersGuide:
-    "https://www.jiujitsubrotherhood.com/pages/beginners-guide-to-bjj-signup",
-  // The standalone masterclass has been retired; point to Mauricio's library.
-  library: "https://mauriciogomesbjj.com/library",
-  // Google reviews listing for the club's verified Place ID.
-  googleReviews:
-    "https://search.google.com/local/reviews?placeid=ChIJRSXmcegLdkgR5YMyOhEqRtA",
+  shop: "/collections/all",
+  freeTrial: "",
+  membership: "",
+  googleReviews: "",
+  beginnersGuide: "",
+  library: "",
+  onlinePortal: "",
 } as const;
 
+/** Social URLs are unset until JJB profiles are approved. */
 export const social = {
-  facebook: "https://www.facebook.com/kingstonjiujitsu/",
-  instagram: "https://www.instagram.com/kingstonjiujitsu/",
-  twitter: "https://twitter.com/KingstonJits",
-  youtube: "https://www.youtube.com/channel/UCjdHYMuxqEybo4Y_VlA55tQ",
+  facebook: "",
+  instagram: "",
+  twitter: "",
+  youtube: "",
 } as const;
 
 /** Training venues (from the live "How to Find Us" page). */
@@ -87,62 +77,12 @@ export type NavItem = {
 };
 
 /**
- * Primary navigation. Short single-line labels. Internal targets implemented in
- * this phase: Home, About, Classes, Join Us, Find Us, Contact, Shop. Timetable
- * and Online Portal are external. Individual class pages link to the Classes hub.
+ * Phase 2B public navigation: preserved Shopify destinations.
  */
 export const primaryNav: NavItem[] = [
-  {
-    label: "About",
-    href: "/about/",
-    children: [
-      { label: "Our Story", href: "/about/" },
-      { label: "Instructors", href: "/instructors/" },
-      {
-        label: "Adult Belt Rankings",
-        href: externalLinks.adultBeltRankings,
-        external: true,
-      },
-      {
-        label: "Junior Belt Rankings",
-        href: externalLinks.juniorBeltRankings,
-        external: true,
-      },
-      {
-        label: "Training Etiquette & Safety",
-        href: "/training-etiquette-safety/",
-      },
-    ],
-  },
-  {
-    label: "Classes",
-    href: "/classes/",
-    children: [
-      { label: "All Classes", href: "/classes/" },
-      { label: "Adult Classes", href: "/adult-classes/" },
-      { label: "Beginners' Classes", href: "/beginners-classes/" },
-      { label: "Kids' Classes", href: "/kids-classes/" },
-      { label: "Women's Classes", href: "/ladies-classes/" },
-      { label: "No-Gi Classes", href: "/no-gi-classes/" },
-      { label: "TNT: Takedowns 'n' Transitions", href: "/tnt-takedowns-n-transitions/" },
-      { label: "Muay Thai", href: "/muay-thai-classes/" },
-    ],
-  },
-  {
-    label: "Timetable",
-    href: "",
-    nolink: true,
-    children: [
-      { label: "Adult Timetable", href: "/timetable/" },
-      { label: "Kids Timetable", href: "/kids-timetable/" },
-      { label: "Book a Class", href: externalLinks.bookClass, external: true },
-    ],
-  },
-  { label: "Membership", href: "/join-us/" },
-  { label: "Online Portal", href: externalLinks.onlinePortal, external: true },
+  { label: "Home", href: "/" },
+  { label: "Articles", href: "/blogs/blog" },
   { label: "Shop", href: externalLinks.shop },
-  { label: "Find Us", href: "/locations/" },
-  { label: "Contact", href: "/contact/" },
 ];
 
 export type ClassCard = {

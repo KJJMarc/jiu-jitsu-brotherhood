@@ -11,8 +11,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: cms?.seoTitle || cms?.title || "Cookie Policy",
     description:
       cms?.seoDescription ||
-      "How Kingston Jiu Jitsu uses cookies and similar technologies, the categories of cookies we use, and how to manage your cookie preferences.",
-    alternates: { canonical: "/cookie-policy/" },
+      "How Jiu Jitsu Brotherhood uses cookies and similar technologies, the categories of cookies we use, and how to manage your cookie preferences.",
+    alternates: { canonical: "/cookie-policy" },
   };
 }
 
@@ -29,7 +29,7 @@ function StaticCookiePolicyPage() {
         <div className="container">
           <div className={`${styles.prose} ${styles.legal}`}>
             <p>
-              This policy explains how Kingston Jiu Jitsu uses cookies and
+              This policy explains how Jiu Jitsu Brotherhood uses cookies and
               similar technologies on this website, and how you can manage your
               choices.
             </p>
@@ -72,7 +72,7 @@ function StaticCookiePolicyPage() {
                   <td>
                     <code>{cookieConsent.cookieName}</code>
                   </td>
-                  <td>Kingston Jiu Jitsu</td>
+                  <td>Jiu Jitsu Brotherhood</td>
                   <td>
                     Stores your cookie preferences so we can remember your
                     choices.
@@ -171,11 +171,8 @@ function StaticCookiePolicyPage() {
             <h2>Contact</h2>
             <p>
               If you have any questions about our use of cookies or similar
-              technologies, please contact us at{" "}
-              <a href="mailto:admin@kingstonjiujitsu.com">
-                admin@kingstonjiujitsu.com
-              </a>
-              .
+              technologies, please use the contact details published on this
+              site once they are available.
             </p>
           </div>
         </div>

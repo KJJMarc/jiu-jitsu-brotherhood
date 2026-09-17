@@ -13,7 +13,7 @@ import type {
 } from "@/lib/storefront/types";
 
 function publicProductHref(slug: string): string {
-  return `/shop/${slug}/`;
+  return `/products/${slug}`;
 }
 
 /**

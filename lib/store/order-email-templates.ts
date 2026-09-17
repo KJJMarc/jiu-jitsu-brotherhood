@@ -171,7 +171,7 @@ export function buildCustomerConfirmationEmail(ctx: OrderEmailContext): {
     if (order.fulfilment_method === "collection") {
       const instructions =
         collectionInstructions?.trim() ||
-        "Collect your order at Kingston Jiu Jitsu. We will confirm collection details after purchase.";
+        "Collection details will be confirmed after purchase.";
       fulfilmentBlocks.push(
         `<p style="margin:0 0 12px;font-size:14px;line-height:1.5;color:${MUTED};">${escapeHtml(instructions)}</p>`,
       );
@@ -253,7 +253,7 @@ ${
     ...(customerOrderUrl ? ["", `View your order: ${customerOrderUrl}`] : []),
     "",
     `Thanks again for supporting ${site.name}.`,
-    `Questions? Contact ${site.email}.`,
+    ...(site.email ? [`Questions? Contact ${site.email}.`] : []),
   ].join("\n");
 
   return { subject, html: wrapHtml(subject, body), text };
@@ -267,7 +267,7 @@ export function buildAdminNewOrderEmail(ctx: OrderEmailContext): {
   const { order, adminOrderUrl } = ctx;
   const physical = orderHasPhysical(order);
   const total = formatGbpFromPence(order.total_pence);
-  const subject = `New KJJ order ${order.order_number} – ${total}`;
+  const subject = `New ${site.shortName} order ${order.order_number} – ${total}`;
 
   const fulfilmentLabel = physical
     ? fulfilmentMethodLabel(order.fulfilment_method)
@@ -301,7 +301,7 @@ ${
 </p>`;
 
   const text = [
-    `New KJJ order ${order.order_number} – ${total}`,
+    `New ${site.shortName} order ${order.order_number} – ${total}`,
     "",
     `Customer: ${order.customer_name}`,
     `Email: ${order.customer_email}`,

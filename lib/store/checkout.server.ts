@@ -42,6 +42,7 @@ import {
 } from "@/lib/store/mollie.server";
 import { sendPaidOrderEmailsIfNeeded } from "@/lib/store/order-emails.server";
 import { storeCustomerError } from "@/lib/store/customer-errors";
+import { site } from "@/lib/site";
 import {
   cartFingerprint,
   checkoutIntentIdempotencyKey,
@@ -361,9 +362,17 @@ async function createCheckoutOrder(
       !input.fulfilmentMethod ||
       !isStoreFulfilmentMethod(input.fulfilmentMethod)
     ) {
-      throw new Error("Choose collection or UK delivery.");
+      throw new Error(
+        settings.collectionEnabled
+          ? "Choose collection or UK delivery."
+          : "Choose UK delivery.",
+      );
     }
     fulfilmentMethod = input.fulfilmentMethod;
+
+    if (channel === "public" && fulfilmentMethod === "collection") {
+      throw new Error("Collection is not available.");
+    }
 
     if (fulfilmentMethod === "collection") {
       const quote = quoteCollection(settings);
@@ -512,7 +521,7 @@ async function createCheckoutOrder(
   const origin = siteOrigin();
   const redirectUrl =
     channel === "public"
-      ? `${origin}/shop/checkout/return/?order=${encodeURIComponent(order.id)}&t=${encodeURIComponent(accessToken)}`
+      ? `${origin}/shop/checkout/return?order=${encodeURIComponent(order.id)}&t=${encodeURIComponent(accessToken)}`
       : `${origin}/admin/store/preview/checkout/return/?order=${encodeURIComponent(order.id)}`;
   const webhookUrl = `${origin}/api/store/mollie/webhook/`;
 
@@ -520,7 +529,7 @@ async function createCheckoutOrder(
   try {
     payment = await createMolliePayment({
       amountPence: totalPence,
-      description: `Kingston Jiu Jitsu order ${orderNumber}`,
+      description: `${site.name} order ${orderNumber}`,
       redirectUrl,
       webhookUrl,
       metadata: {
@@ -793,7 +802,7 @@ export async function syncStoreOrderPayment(input: {
           if (stockError) {
             console.error("[store] paid stock retry failed", stockError);
             throw storeCustomerError(
-              "This order is paid but stock could not be updated yet. Please try syncing again or contact Kingston Jiu Jitsu.",
+              `This order is paid but stock could not be updated yet. Please try syncing again or contact ${site.name}.`,
             );
           }
         }
@@ -854,7 +863,7 @@ export async function syncStoreOrderPayment(input: {
         })
         .eq("idempotency_key", idempotencyKey);
       throw storeCustomerError(
-        "This order is paid but stock could not be updated yet. Please try again or contact Kingston Jiu Jitsu.",
+        `This order is paid but stock could not be updated yet. Please try again or contact ${site.name}.`,
       );
     }
   }

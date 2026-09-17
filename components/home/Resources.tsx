@@ -37,7 +37,7 @@ const resources = [
     image: "/images/resources/club-news.jpg",
     alt: "Kingston Jiu Jitsu members training together",
     cta: "Read club news",
-    href: "/news/",
+    href: "/blogs/blog",
     external: false,
   },
 ];

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import AdminWordmark from "@/components/admin/AdminWordmark";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import ResetPasswordForm from "./ResetPasswordForm";
@@ -31,16 +31,9 @@ export default async function AdminResetPasswordPage() {
     <div className={styles.loginPage}>
       <div className={styles.loginCard}>
         <div className={styles.loginBrand}>
-          <Image
-            src="/images/logo.png"
-            alt="Kingston Jiu Jitsu"
-            width={220}
-            height={56}
-            className={styles.loginLogo}
-            priority
-          />
+          <AdminWordmark className={styles.loginLogo} />
           <h1>Set new password</h1>
-          <p>Choose a new password for your Kingston Jiu Jitsu admin account.</p>
+          <p>Choose a new password for your Jiu Jitsu Brotherhood admin account.</p>
         </div>
         <ResetPasswordForm hasSession={hasSession} />
       </div>

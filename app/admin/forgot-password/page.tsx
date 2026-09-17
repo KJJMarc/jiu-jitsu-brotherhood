@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import AdminWordmark from "@/components/admin/AdminWordmark";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 import styles from "../admin.module.css";
@@ -20,14 +20,7 @@ export default function AdminForgotPasswordPage() {
     <div className={styles.loginPage}>
       <div className={styles.loginCard}>
         <div className={styles.loginBrand}>
-          <Image
-            src="/images/logo.png"
-            alt="Kingston Jiu Jitsu"
-            width={220}
-            height={56}
-            className={styles.loginLogo}
-            priority
-          />
+          <AdminWordmark className={styles.loginLogo} />
           <h1>Forgot password</h1>
           <p>
             Enter your admin email and we&apos;ll send reset instructions if an

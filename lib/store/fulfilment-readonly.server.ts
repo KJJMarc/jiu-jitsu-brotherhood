@@ -30,16 +30,15 @@ type ShippingBandRow = {
 };
 
 const DEFAULT_SETTINGS: FulfilmentSettings = {
-  collectionEnabled: true,
-  collectionLabel: "Collect at Kingston Jiu Jitsu",
-  collectionInstructions:
-    "Collect your order at Kingston Jiu Jitsu. We will confirm collection details after purchase.",
+  collectionEnabled: false,
+  collectionLabel: "Collection",
+  collectionInstructions: "",
   ukShippingEnabled: true,
 };
 
 function toSettings(row: FulfilmentSettingsRow): FulfilmentSettings {
   return {
-    collectionEnabled: row.collection_enabled,
+    collectionEnabled: false,
     collectionLabel: row.collection_label,
     collectionInstructions: row.collection_instructions,
     ukShippingEnabled: row.uk_shipping_enabled,

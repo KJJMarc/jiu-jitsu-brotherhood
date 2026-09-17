@@ -87,7 +87,7 @@ export async function enrollAdminTotpFactor(): Promise<{
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.mfa.enroll({
     factorType: "totp",
-    friendlyName: "KJJ Admin Authenticator",
+    friendlyName: "JJB Admin Authenticator",
   });
 
   if (error || !data?.id || !data.totp?.qr_code || !data.totp?.secret) {

@@ -2,37 +2,27 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/middleware";
 import { isAdminLoginPath, isAdminPath } from "@/lib/admin/paths";
+import { redirectLocation, resolveMigration } from "@/lib/migration/resolve";
 
-/**
- * Obsolete live URLs that no longer have an equivalent page. We return
- * 410 Gone (rather than 404 or a homepage redirect) so search engines drop
- * them promptly. Matching is independent of trailing slash.
- *
- * Matching is case-sensitive by design: the genuine historic and indexed URLs
- * all use the recorded lowercase forms below, so this is an intentional
- * simplification for those known URLs — NOT an attempt to reproduce
- * WordPress's case-insensitive URL handling. This is consistent with the
- * (also case-sensitive) redirect rules in next.config.mjs.
- */
-const GONE_PATHS = new Set([
-  "/thank-you",
-  "/thank-you-free-class",
-  "/home-2",
-  "/1305-2",
-  "/electrician",
-]);
+function gone(): NextResponse {
+  return new NextResponse("410 Gone", {
+    status: 410,
+    headers: { "content-type": "text/plain; charset=utf-8" },
+  });
+}
 
 export async function middleware(req: NextRequest) {
-  const normalised = req.nextUrl.pathname.replace(/\/+$/, "") || "/";
+  const decision = resolveMigration(req.nextUrl.pathname, req.nextUrl.searchParams);
 
-  if (GONE_PATHS.has(normalised)) {
-    return new NextResponse("410 Gone", {
-      status: 410,
-      headers: { "content-type": "text/plain; charset=utf-8" },
-    });
+  if (decision.kind === "gone") {
+    return gone();
   }
 
-  // Refresh Supabase cookies on admin routes; page-level requireAdmin() enforces access.
+  if (decision.kind === "redirect") {
+    const location = redirectLocation(decision.location, req.nextUrl.origin);
+    return NextResponse.redirect(location, 301);
+  }
+
   if (isAdminPath(req.nextUrl.pathname) || isAdminLoginPath(req.nextUrl.pathname)) {
     return updateSupabaseSession(req);
   }
@@ -41,19 +31,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/thank-you",
-    "/thank-you/",
-    "/thank-you-free-class",
-    "/thank-you-free-class/",
-    "/home-2",
-    "/home-2/",
-    "/1305-2",
-    "/1305-2/",
-    "/electrician",
-    "/electrician/",
-    "/admin",
-    "/admin/",
-    "/admin/:path*",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };

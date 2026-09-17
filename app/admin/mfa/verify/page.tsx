@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import AdminWordmark from "@/components/admin/AdminWordmark";
 import { redirect } from "next/navigation";
 import { signOutAdminAction } from "@/app/admin/actions";
 import { resolveAdminMfaStatus } from "@/lib/admin/mfa.server";
@@ -24,14 +24,7 @@ export default async function AdminMfaVerifyPage() {
     <div className={styles.loginPage}>
       <div className={styles.loginCard}>
         <div className={styles.loginBrand}>
-          <Image
-            src="/images/logo.png"
-            alt="Kingston Jiu Jitsu"
-            width={220}
-            height={56}
-            className={styles.loginLogo}
-            priority
-          />
+          <AdminWordmark className={styles.loginLogo} />
           <h1>Enter authenticator code</h1>
           <p>
             Open your authenticator app and enter the current 6-digit code to

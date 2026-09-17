@@ -95,8 +95,7 @@ export default async function AdminStorePreviewOrderPage({
           </p>
           {!allNonPhysical && order.fulfilment_method === "collection" ? (
             <p>
-              Collection: Collect at Kingston Jiu Jitsu. We will confirm collection
-              details after purchase.
+              Collection: Collection details will be confirmed after purchase.
             </p>
           ) : null}
           {!allNonPhysical && order.fulfilment_method === "uk_shipping" ? (

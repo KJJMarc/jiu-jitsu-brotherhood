@@ -143,7 +143,7 @@ export function fulfilmentStatusLabel(status: StoreFulfilmentStatus): string {
 export function fulfilmentMethodLabel(
   method: StoreFulfilmentMethod | null,
 ): string {
-  if (method === "collection") return "Collect at Kingston Jiu Jitsu";
+  if (method === "collection") return "Collection";
   if (method === "uk_shipping") return "UK delivery";
   return "Not required";
 }

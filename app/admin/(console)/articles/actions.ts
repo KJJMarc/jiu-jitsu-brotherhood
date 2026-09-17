@@ -75,7 +75,7 @@ function parseArticleFormData(formData: FormData): ArticleWriteInput {
 
 function revalidateArticlePaths(slug: string) {
   revalidatePath(ADMIN_ARTICLES_PATH);
-  revalidatePath("/news/");
+  revalidatePath("/blogs/blog");
   revalidatePath(`/${slug}/`);
 }
 

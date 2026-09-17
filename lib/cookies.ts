@@ -11,12 +11,12 @@
 
 export const cookieConsent = {
   /** First-party cookie that stores the visitor's choice (proof of consent). */
-  cookieName: "kjj_cookie_consent",
+  cookieName: "jjb_cookie_consent",
   /**
    * Bump when the cookie policy materially changes — existing visitors are then
    * re-prompted because their stored version no longer matches.
    */
-  version: 2,
+  version: 3,
   /** How long the consent choice is remembered (PECR-friendly ~6 months). */
   maxAgeDays: 182,
 } as const;
@@ -55,7 +55,7 @@ export const cookieCategories: CookieCategory[] = [
     cookies: [
       {
         name: cookieConsent.cookieName,
-        provider: "Kingston Jiu Jitsu",
+        provider: "Jiu Jitsu Brotherhood",
         purpose: "Stores your cookie preferences so we don't ask again.",
         duration: "6 months",
       },

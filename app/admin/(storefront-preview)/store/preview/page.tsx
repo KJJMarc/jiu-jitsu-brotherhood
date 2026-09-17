@@ -54,8 +54,8 @@ export default async function AdminStoreCataloguePreviewPage({
     >
       <StorefrontHeader
         eyebrow="Shop"
-        title="Kingston Jiu Jitsu Shop"
-        lead="Club merchandise, courses and events."
+        title="Shop"
+        lead="Physical products for UK delivery."
       />
       <StorefrontSection>
         <CatalogueControls

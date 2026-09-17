@@ -3,9 +3,9 @@
  * Client may only send variant IDs + quantities — never prices.
  */
 
-export const PREVIEW_CART_COOKIE = "kjj_store_preview_cart";
-export const PUBLIC_CART_COOKIE = "kjj_store_public_cart";
-export const PUBLIC_GUEST_ID_COOKIE = "kjj_store_guest_id";
+export const PREVIEW_CART_COOKIE = "jjb_store_preview_cart";
+export const PUBLIC_CART_COOKIE = "jjb_store_public_cart";
+export const PUBLIC_GUEST_ID_COOKIE = "jjb_store_guest_id";
 
 export type StoreCartChannel = "preview" | "public";
 

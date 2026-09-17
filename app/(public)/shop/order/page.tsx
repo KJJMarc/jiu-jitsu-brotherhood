@@ -93,8 +93,7 @@ export default async function PublicShopOrderPage({
           </p>
           {!allNonPhysical && order.fulfilmentMethod === "collection" ? (
             <p>
-              Collection: Collect at Kingston Jiu Jitsu. We will confirm collection
-              details after purchase.
+              Collection: Collection details will be confirmed after purchase.
             </p>
           ) : null}
           {!allNonPhysical && order.fulfilmentMethod === "uk_shipping" ? (

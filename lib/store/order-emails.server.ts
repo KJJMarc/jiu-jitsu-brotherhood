@@ -9,7 +9,7 @@ import type { StoreOrderDetail } from "@/lib/store/orders";
 import {
   resendApiKeyConfigured,
   sendStoreEmail,
-  STORE_ADMIN_ORDER_NOTIFY_TO,
+  getStoreAdminOrderNotifyTo,
 } from "@/lib/store/resend.server";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getMolliePayment } from "@/lib/store/mollie.server";
@@ -179,6 +179,9 @@ async function sendAdminNotification(
   order: StoreOrderDetail,
   collectionInstructions: string | null,
 ): Promise<void> {
+  const notifyTo = getStoreAdminOrderNotifyTo();
+  if (!notifyTo) return;
+
   const claimed = await claimEmailSlot(order.id, "admin_notification_sent_at");
   if (!claimed) return;
 
@@ -189,7 +192,7 @@ async function sendAdminNotification(
       adminOrderUrl: `${siteOrigin()}${adminStoreOrderPath(order.id)}`,
     });
     await sendStoreEmail({
-      to: STORE_ADMIN_ORDER_NOTIFY_TO,
+      to: notifyTo,
       subject: content.subject,
       html: content.html,
       text: content.text,

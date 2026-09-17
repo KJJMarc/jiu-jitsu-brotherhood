@@ -22,7 +22,7 @@ export type UploadProductImageResult =
   | { ok: false; error: string };
 
 /**
- * Upload a product image to the KJJ `product-images` Storage bucket (public).
+ * Upload a product image to the `product-images` Storage bucket (public).
  * Uses the cookie-backed anon client + requireAdmin (AAL2) — never the service role.
  * Images are not linked from the public site until a later launch phase.
  */

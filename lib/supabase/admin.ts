@@ -8,7 +8,7 @@ import {
 } from "@/lib/supabase/env";
 
 export const MISSING_SERVICE_ROLE_KEY_MESSAGE =
-  "SUPABASE_SERVICE_ROLE_KEY is missing. Add the KJJ project service_role secret " +
+  "SUPABASE_SERVICE_ROLE_KEY is missing. Add the JJB project service_role secret " +
   "(server-only, never NEXT_PUBLIC_). Find it in Supabase → Project Settings → API.";
 
 const INVALID_SERVICE_ROLE_KEY_MESSAGE =

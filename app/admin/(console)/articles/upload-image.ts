@@ -15,7 +15,7 @@ export type UploadArticleImageResult =
   | { ok: false; error: string };
 
 /**
- * Upload a featured image to the KJJ `article-images` Storage bucket (public).
+ * Upload a featured image to the `article-images` Storage bucket (public).
  * Uploaded objects are publicly addressable by URL (including draft articles).
  * Uses the cookie-backed anon client + requireAdmin (AAL2) — never the service role.
  */

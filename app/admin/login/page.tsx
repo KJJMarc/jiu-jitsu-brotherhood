@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import AdminWordmark from "@/components/admin/AdminWordmark";
 import { redirectAuthenticatedAdminToNextStep } from "@/lib/admin/auth.server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import AdminLoginForm from "./LoginForm";
@@ -17,7 +17,7 @@ function messageForError(code: string | undefined): string | null {
     return "You do not have access to the admin area.";
   }
   if (code === "config") {
-    return "Admin sign-in is not configured yet. Add the KJJ Supabase environment variables.";
+    return "Admin sign-in is not configured yet. Add the Supabase environment variables.";
   }
   if (code === "reset_link") {
     return "That password reset link is invalid or has expired. Request a new one below.";
@@ -50,16 +50,9 @@ export default async function AdminLoginPage({
     <div className={styles.loginPage}>
       <div className={styles.loginCard}>
         <div className={styles.loginBrand}>
-          <Image
-            src="/images/logo.png"
-            alt="Kingston Jiu Jitsu"
-            width={220}
-            height={56}
-            className={styles.loginLogo}
-            priority
-          />
+          <AdminWordmark className={styles.loginLogo} />
           <h1>Admin</h1>
-          <p>Sign in with your authorised Kingston Jiu Jitsu account.</p>
+          <p>Sign in with your authorised Jiu Jitsu Brotherhood account.</p>
         </div>
         {configHint ? (
           <p className={styles.formError} role="status">

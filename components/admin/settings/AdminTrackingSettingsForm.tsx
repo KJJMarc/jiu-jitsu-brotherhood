@@ -62,8 +62,8 @@ export default function AdminTrackingSettingsForm({
     <>
       <form className={styles.articleForm} action={formAction}>
         <AdminFormSection
-          title="Academy tracking pixels"
-          description="Configure Meta Pixel and Google tags for public Kingston Jiu Jitsu marketing pages. Scripts only load after cookie consent."
+          title="Tracking pixels"
+          description="Configure Meta Pixel and Google tags for public Jiu Jitsu Brotherhood pages. Scripts only load after cookie consent."
         >
           <div className={styles.trackingBlock}>
             <label className={styles.checkRow}>
@@ -265,7 +265,7 @@ export default function AdminTrackingSettingsForm({
                 <strong>Submit lead form</strong> (or Contact).
               </li>
               <li>
-                Name it clearly (e.g. “Trial Enquiry - Kingston Jiu Jitsu”).
+                Name it clearly (e.g. “Purchase - Jiu Jitsu Brotherhood”).
               </li>
               <li>
                 Choose <strong>Use Google tag</strong>, then create the action.

@@ -1,4 +1,4 @@
-import { site, social, venues } from "@/lib/site";
+import { site, social } from "@/lib/site";
 
 /** Singleton row id for public.site_settings. */
 export const SITE_SETTINGS_ID = "site" as const;
@@ -34,11 +34,9 @@ export type SiteSettingsWriteInput = {
   default_seo_description: string | null;
 };
 
-const DEFAULT_ADDRESS = venues
-  .map((v) => `${v.name}, ${v.street}, ${v.locality} ${v.postcode}`)
-  .join("\n");
+const DEFAULT_ADDRESS = "";
 
-const DEFAULT_SEO_TITLE = `${site.name} | Brazilian Jiu Jitsu in Kingston upon Thames`;
+const DEFAULT_SEO_TITLE = site.name;
 
 /** Static fallbacks when Supabase is unavailable or the row is missing. */
 export function getDefaultSiteSettings(): SiteSettings {

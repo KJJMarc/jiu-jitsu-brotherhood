@@ -17,6 +17,14 @@ function toError(error: unknown): string {
   return toCustomerFacingStoreError(error);
 }
 
+function revalidatePublicCartSurfaces() {
+  revalidatePath("/shop", "layout");
+  revalidatePath("/cart");
+  revalidatePath("/shop/bag");
+  revalidatePath("/shop/checkout");
+  revalidatePath("/collections/all");
+}
+
 export async function addToPublicCartAction(
   _prev: CartActionState,
   formData: FormData,
@@ -30,10 +38,7 @@ export async function addToPublicCartAction(
     await addVariantToPublicCart({ variantId, quantity });
     await resolvePublicCart();
     const cart = await readPublicCart();
-    revalidatePath("/shop", "layout");
-    revalidatePath("/shop");
-    revalidatePath("/shop/bag");
-    revalidatePath("/shop/checkout");
+    revalidatePublicCartSurfaces();
     return {
       ok: true,
       error: null,
@@ -54,10 +59,7 @@ export async function updatePublicCartQuantityAction(
     const quantity = Math.floor(Number(formData.get("quantity") || 0));
     await updatePublicCartQuantity({ variantId, quantity });
     await resolvePublicCart();
-    revalidatePath("/shop", "layout");
-    revalidatePath("/shop");
-    revalidatePath("/shop/bag");
-    revalidatePath("/shop/checkout");
+    revalidatePublicCartSurfaces();
     return { ok: true, error: null };
   } catch (error) {
     return { ok: false, error: toError(error) };
@@ -71,10 +73,7 @@ export async function removePublicCartLineAction(
   try {
     const variantId = String(formData.get("variantId") || "").trim();
     await removePublicCartItem(variantId);
-    revalidatePath("/shop", "layout");
-    revalidatePath("/shop");
-    revalidatePath("/shop/bag");
-    revalidatePath("/shop/checkout");
+    revalidatePublicCartSurfaces();
     return { ok: true, error: null };
   } catch (error) {
     return { ok: false, error: toError(error) };
@@ -84,10 +83,7 @@ export async function removePublicCartLineAction(
 export async function clearPublicCartAction(): Promise<CartActionState> {
   try {
     await clearPublicCart();
-    revalidatePath("/shop", "layout");
-    revalidatePath("/shop");
-    revalidatePath("/shop/bag");
-    revalidatePath("/shop/checkout");
+    revalidatePublicCartSurfaces();
     return { ok: true, error: null };
   } catch (error) {
     return { ok: false, error: toError(error) };

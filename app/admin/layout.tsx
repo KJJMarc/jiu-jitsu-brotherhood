@@ -4,7 +4,7 @@ import styles from "./admin.module.css";
 export const metadata: Metadata = {
   title: {
     default: "Admin",
-    template: "%s · KJJ Admin",
+    template: "%s · JJB Admin",
   },
   robots: { index: false, follow: false, nocache: true },
 };

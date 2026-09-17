@@ -2,28 +2,22 @@
 
 // Canonical production host. NOTE: the production domain is intentionally NOT
 // configured/attached in this phase. These rules describe the intended
-// behaviour for when kingstonjiujitsu.com is pointed at this deployment; they
+// behaviour for when jiujitsubrotherhood.com is pointed at this deployment; they
 // are scoped by host so they never fire on Vercel preview URLs or localhost.
-const CANONICAL_HOST = "www.kingstonjiujitsu.com";
-const APEX_HOST = "kingstonjiujitsu.com";
-const TRIAL_URL = "https://www.dojodirector.com/kingston-jiu-jitsu/trial-enquiry";
-// Existing external belt-ranking pages (kept on Dojo Director).
-const ADULT_BELT_RANKINGS_URL = "https://www.dojodirector.com/adult-belt-rankings";
-const JUNIOR_BELT_RANKINGS_URL =
-  "https://www.dojodirector.com/kingston-jiu-jitsu-kids/junior-belt-rankings";
+const CANONICAL_HOST = "www.jiujitsubrotherhood.com";
+const APEX_HOST = "jiujitsubrotherhood.com";
 
 // Content-Security-Policy (report-only for now). Minimum sources needed for:
 //  - local scripts/styles/fonts/images (Next self-hosts next/font + next/image)
 //  - YouTube privacy-enhanced embeds (frame-src youtube-nocookie.com)
-//  - Google Maps embeds (frame-src google.com)
-//  - PayPal form submissions (form-action paypal.com)
+//  - Google Maps embeds (frame-src google.com) — unused on the Phase 1 public
+//    shell; left until Club Network mapping is decided
+//  - PayPal form submissions on leftover legal page markup (form-action)
 //  - Consent-gated GA4 via gtag.js (script/connect/img only — Ads/remarketing
 //    endpoints are omitted until those features are enabled)
-// Dojo Director trial/booking/timetable are full-page links or server-side
-// fetches, so they need no CSP allowance. 'unsafe-inline' is required for
-// Next's inline bootstrap/hydration scripts and styled-jsx/inline styles.
-// CSP allowlisting does not load GA4; TrackingScripts still mounts only after
-// analytics (or marketing for AW-) consent.
+// 'unsafe-inline' is required for Next's inline bootstrap/hydration scripts
+// and styled-jsx/inline styles. CSP allowlisting does not load GA4;
+// TrackingScripts still mounts only after analytics (or marketing for AW-) consent.
 const CSP_REPORT_ONLY = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -85,8 +79,8 @@ function supabaseImageRemotePatterns() {
 
 const nextConfig = {
   reactStrictMode: true,
-  // Preserve the WordPress trailing-slash URL behaviour.
-  trailingSlash: true,
+  // Live JJB Shopify canonicals omit the trailing slash (Phase 2A/2B).
+  trailingSlash: false,
   poweredByHeader: false,
 
   // Product/article image uploads go through Server Actions. Next defaults to
@@ -114,62 +108,6 @@ const nextConfig = {
         source: "/:path*",
         has: [{ type: "host", value: APEX_HOST }],
         destination: `https://${CANONICAL_HOST}/:path*`,
-        permanent: true,
-      },
-
-      // --- R2: authoritative custom redirects (corrected targets) ---
-      {
-        source: "/category/events",
-        destination: "/seminars-and-events/",
-        permanent: true,
-      },
-      {
-        source: "/category/news",
-        destination: "/news/",
-        permanent: true,
-      },
-      {
-        source: "/category/adults_classes",
-        destination: "/adult-classes/",
-        permanent: true,
-      },
-      {
-        source: "/category/kids_classes",
-        destination: "/kids-classes/",
-        permanent: true,
-      },
-      {
-        source: "/book-a-class",
-        destination: TRIAL_URL,
-        permanent: true,
-      },
-
-      // --- R3: convenience redirects (from 404-log analysis) ---
-      { source: "/contact-us", destination: "/contact/", permanent: true },
-      { source: "/about-us", destination: "/about/", permanent: true },
-      { source: "/blog", destination: "/news/", permanent: true },
-
-      // --- R4: removed/renamed live pages -> closest equivalent (preserve SEO
-      // and inbound links). Trailing-slash handling matches the rules above.
-      // Matching is case-sensitive by design: the known historic/indexed URLs
-      // use these lowercase forms — an intentional simplification, not a
-      // reproduction of WordPress's case-insensitive URLs. ---
-      {
-        source: "/judo-for-bjj-classes",
-        destination: "/tnt-takedowns-n-transitions/",
-        permanent: true,
-      },
-      { source: "/yoga-classes", destination: "/classes/", permanent: true },
-      { source: "/class-timetable", destination: "/timetable/", permanent: true },
-      { source: "/zelim-tatarashvili", destination: "/instructors/", permanent: true },
-      {
-        source: "/adult-belt-rankings",
-        destination: ADULT_BELT_RANKINGS_URL,
-        permanent: true,
-      },
-      {
-        source: "/junior-belt-rankings",
-        destination: JUNIOR_BELT_RANKINGS_URL,
         permanent: true,
       },
     ];

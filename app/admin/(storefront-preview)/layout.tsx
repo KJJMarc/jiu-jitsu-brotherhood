@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * Authenticated storefront preview with the same public Header/Footer as the
- * rest of kingstonjiujitsu.com so the shop feels part of the site.
+ * rest of jiujitsubrotherhood.com so the shop feels part of the site.
  * Omits AdminShell, CookieBanner, and public tracking scripts.
  */
 export default async function AdminStorefrontPreviewLayout({

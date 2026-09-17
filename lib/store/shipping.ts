@@ -160,8 +160,8 @@ export function quoteUkShipping(
       ok: false,
       code: "no_matching_band",
       message: overAutomaticLimit
-        ? `This order weighs over ${(maxCoveredGrams / 1000).toFixed(0)} kg (${weight.totalGrams} g) and cannot be shipped automatically. Please choose collection at Kingston Jiu Jitsu, or contact us on 07584 131335 / admin@kingstonjiujitsu.com to arrange delivery or collection.`
-        : "No UK delivery rate covers this shipment weight. Please contact Kingston Jiu Jitsu on 07584 131335 or admin@kingstonjiujitsu.com.",
+        ? `This order weighs over ${(maxCoveredGrams / 1000).toFixed(0)} kg (${weight.totalGrams} g) and cannot be shipped automatically.`
+        : "No UK delivery rate covers this shipment weight.",
     };
   }
 

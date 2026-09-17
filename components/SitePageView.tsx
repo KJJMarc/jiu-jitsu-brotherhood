@@ -25,7 +25,7 @@ function NecessaryCookiesTable() {
           <td>
             <code>{cookieConsent.cookieName}</code>
           </td>
-          <td>Kingston Jiu Jitsu</td>
+          <td>Jiu Jitsu Brotherhood</td>
           <td>
             Stores your cookie preferences so we can remember your choices.
           </td>

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { signOutAdminAction } from "@/app/admin/actions";
+import AdminWordmark from "@/components/admin/AdminWordmark";
 import styles from "@/app/admin/admin.module.css";
 
 export type AdminNavItem = {
@@ -73,16 +73,10 @@ export default function AdminShell({
     <div className={styles.shell}>
       <aside className={styles.sidebar} aria-label="Admin">
         <div className={styles.sidebarBrand}>
-          <Image
-            src="/images/logo-mark.png"
-            alt=""
-            width={36}
-            height={36}
-            className={styles.sidebarMark}
-          />
+          <AdminWordmark className={styles.sidebarMark} />
           <div>
-            <p className={styles.sidebarTitle}>KJJ Admin</p>
-            <p className={styles.sidebarSub}>Kingston Jiu Jitsu</p>
+            <p className={styles.sidebarTitle}>JJB Admin</p>
+            <p className={styles.sidebarSub}>Jiu Jitsu Brotherhood</p>
           </div>
         </div>
 
@@ -135,7 +129,7 @@ export default function AdminShell({
 
       <div className={styles.mainColumn}>
         <header className={styles.topbar}>
-          <p className={styles.topbarLabel}>KJJ Admin</p>
+          <p className={styles.topbarLabel}>JJB Admin</p>
           <div className={styles.topbarActions}>
             <a
               className={styles.topbarLink}

@@ -88,7 +88,7 @@ function blocksToHtml(blocks: LegalBlock[]): string {
 
 function cookiePolicyStaticHtml(): string {
   return [
-    "<p>This policy explains how Kingston Jiu Jitsu uses cookies and similar technologies on this website, and how you can manage your choices.</p>",
+    "<p>This policy explains how Jiu Jitsu Brotherhood uses cookies and similar technologies on this website, and how you can manage your choices.</p>",
     "<p>Cookies are small text files stored on your device when you visit a website. Some cookies are necessary for the website to work properly. Others, such as analytics or marketing cookies, are only used with your consent.</p>",
     `<p>You can choose which categories of optional cookies you allow. You can change or withdraw your consent at any time using the <strong>Manage Cookie Preferences</strong> button below.</p>`,
     `<p>${MANAGE_COOKIES_MARKER}</p>`,
@@ -119,7 +119,7 @@ function cookiePolicyStaticHtml(): string {
     "<p>If we make a change that materially affects the consent you have previously given, we may ask you to review your cookie choices again.</p>",
     `<p><strong>Current policy version: ${escapeHtml(String(cookieConsent.version))}</strong></p>`,
     "<h2>Contact</h2>",
-    `<p>If you have any questions about our use of cookies or similar technologies, please contact us at <a href="mailto:admin@kingstonjiujitsu.com">admin@kingstonjiujitsu.com</a>.</p>`,
+    "<p>If you have any questions about our use of cookies or similar technologies, please use the contact details published on this site once they are available.</p>",
   ].join("");
 }
 
@@ -201,7 +201,7 @@ export function getStaticSitePageMeta(slug: SitePageSlug): {
       eyebrow: null,
       heroLead: null,
       seoDescription:
-        "How Kingston Jiu Jitsu uses cookies and similar technologies, and how to manage your preferences.",
+        "How Jiu Jitsu Brotherhood uses cookies and similar technologies, and how to manage your preferences.",
     };
   }
   if (slug === "kids-class-information") {

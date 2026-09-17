@@ -29,5 +29,5 @@ export function publicCustomerOrderPath(
   orderId: string,
   accessToken: string,
 ): string {
-  return `/shop/order/?order=${encodeURIComponent(orderId)}&t=${encodeURIComponent(accessToken)}`;
+  return `/shop/order?order=${encodeURIComponent(orderId)}&t=${encodeURIComponent(accessToken)}`;
 }

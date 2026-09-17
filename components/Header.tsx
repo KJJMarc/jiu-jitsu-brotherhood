@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { primaryNav, externalLinks, type NavItem } from "@/lib/site";
+import { primaryNav, site, type NavItem } from "@/lib/site";
+import { headerLogo } from "@/lib/brand";
 import styles from "./Header.module.css";
 
 function NavLink({ item, onNavigate }: { item: NavItem; onNavigate?: () => void }) {
@@ -48,9 +49,6 @@ export default function Header() {
     };
   }, [open]);
 
-  // iOS Safari can keep body scroll-lock and stale layout widths across
-  // orientation changes. Close the drawer, clear overflow, then nudge a
-  // reflow after the layout viewport has updated (no overflow clipping).
   useEffect(() => {
     const onOrient = () => {
       setOpen(false);
@@ -77,12 +75,12 @@ export default function Header() {
     <>
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
         <div className={`container ${styles.bar}`}>
-        <Link href="/" className={styles.brand} onClick={close} aria-label="Kingston Jiu Jitsu home">
+        <Link href="/" className={styles.brand} onClick={close} aria-label={`${site.name} home`}>
           <Image
-            src="/images/logo.png"
-            alt="Kingston Jiu Jitsu"
-            width={720}
-            height={187}
+            src={headerLogo.src}
+            alt={headerLogo.alt}
+            width={headerLogo.width}
+            height={headerLogo.height}
             priority
             className={styles.logo}
           />
@@ -124,14 +122,9 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <a
-            className={`btn btn--primary ${styles.cta}`}
-            href={externalLinks.freeTrial}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Book a Free Trial
-          </a>
+          <Link className={styles.bagLink} href="/cart" onClick={close}>
+            Bag
+          </Link>
           <button
             className={styles.burger}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -147,8 +140,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile drawer (rendered outside <header> so position:fixed is
-          relative to the viewport, not the backdrop-filtered header) */}
       <div
         className={`${styles.overlay} ${open ? styles.overlayOpen : ""}`}
         onClick={close}
@@ -202,15 +193,9 @@ export default function Header() {
               );
             })}
           </ul>
-          <a
-            className="btn btn--primary btn--block"
-            href={externalLinks.freeTrial}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={close}
-          >
-            Book a Free Trial
-          </a>
+          <Link className="btn btn--primary btn--block" href="/cart" onClick={close}>
+            Bag
+          </Link>
         </nav>
       </div>
     </>

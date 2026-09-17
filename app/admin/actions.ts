@@ -34,7 +34,7 @@ export async function signInAdminAction(
   if (!isSupabaseConfigured()) {
     return {
       error:
-        "Admin sign-in is not configured yet. Add Supabase environment variables for the KJJ project.",
+        "Admin sign-in is not configured yet. Add Supabase environment variables for the JJB project.",
     };
   }
 

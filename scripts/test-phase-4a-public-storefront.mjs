@@ -35,18 +35,18 @@ assert.equal(verifyCustomerAccessToken("", hash), false);
 assert.notEqual(hashCustomerAccessToken(token + "x"), hash);
 assert.equal(
   publicCustomerOrderPath("abc", "tok"),
-  "/shop/order/?order=abc&t=tok",
+  "/shop/order?order=abc&t=tok",
 );
 
 // --- Cart cookie / channel isolation constants ---
-assert.equal(PREVIEW_CART_COOKIE, "kjj_store_preview_cart");
-assert.equal(PUBLIC_CART_COOKIE, "kjj_store_public_cart");
-assert.equal(PUBLIC_GUEST_ID_COOKIE, "kjj_store_guest_id");
+assert.equal(PREVIEW_CART_COOKIE, "jjb_store_preview_cart");
+assert.equal(PUBLIC_CART_COOKIE, "jjb_store_public_cart");
+assert.equal(PUBLIC_GUEST_ID_COOKIE, "jjb_store_guest_id");
 assert.notEqual(PREVIEW_CART_COOKIE, PUBLIC_CART_COOKIE);
 
 const CHANNELS = {
   preview: { cookie: PREVIEW_CART_COOKIE, path: "/admin", allowDraft: true },
-  public: { cookie: PUBLIC_CART_COOKIE, path: "/shop", allowDraft: false },
+  public: { cookie: PUBLIC_CART_COOKIE, path: "/", allowDraft: false },
 };
 assert.notEqual(CHANNELS.preview.path, CHANNELS.public.path);
 assert.equal(CHANNELS.preview.allowDraft, true);
@@ -65,7 +65,7 @@ function filterPublicCatalogue(products) {
     .filter((p) => p.status === "active")
     .map((p) => ({
       ...p,
-      href: `/shop/${p.slug}/`,
+      href: `/products/${p.slug}`,
     }));
 }
 
@@ -85,7 +85,7 @@ const sample = [
 const catalogue = filterPublicCatalogue(sample);
 assert.equal(catalogue.length, 1);
 assert.equal(catalogue[0].slug, "gi");
-assert.equal(catalogue[0].href, "/shop/gi/");
+assert.equal(catalogue[0].href, "/products/gi");
 assert.equal(getPublicBySlug(sample, "gi")?.id, "1");
 assert.equal(getPublicBySlug(sample, "draft-tee"), null);
 assert.equal(getPublicBySlug(sample, "old-rash"), null);

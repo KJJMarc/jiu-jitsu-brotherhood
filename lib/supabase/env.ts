@@ -1,5 +1,5 @@
 /**
- * Shared Supabase environment helpers for the dedicated Kingston Jiu Jitsu
+ * Shared Supabase environment helpers for the dedicated Jiu Jitsu Brotherhood
  * project. Never put SUPABASE_SERVICE_ROLE_KEY behind a NEXT_PUBLIC_ prefix.
  */
 
@@ -36,7 +36,7 @@ export function requireSupabaseUrl(): string {
   const url = getSupabaseUrl();
   if (!url) {
     throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL. Add the KJJ Supabase project URL.",
+      "Missing NEXT_PUBLIC_SUPABASE_URL. Add the JJB Supabase project URL.",
     );
   }
   return url;
@@ -46,7 +46,7 @@ export function requireSupabaseAnonKey(): string {
   const key = getSupabaseAnonKey();
   if (!key) {
     throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_ANON_KEY. Add the KJJ Supabase anon key.",
+      "Missing NEXT_PUBLIC_SUPABASE_ANON_KEY. Add the JJB Supabase anon key.",
     );
   }
   return key;

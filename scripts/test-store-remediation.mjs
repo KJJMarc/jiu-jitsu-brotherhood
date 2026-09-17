@@ -64,9 +64,8 @@ const heavy = quoteUkShipping(
 assert.equal(heavy.ok, false);
 assert.equal(heavy.code, "no_matching_band");
 assert.match(heavy.message, /cannot be shipped automatically/i);
-assert.match(heavy.message, /collection/i);
-assert.match(heavy.message, /07584 131335/);
-assert.match(heavy.message, /admin@kingstonjiujitsu\.com/);
+assert.doesNotMatch(heavy.message, /Kingston/);
+assert.doesNotMatch(heavy.message, /07584/);
 
 const okBand = quoteUkShipping(
   [{ weightGrams: 20000, quantity: 1, isPhysical: true }],

@@ -8,8 +8,8 @@ import { site } from "@/lib/site";
  * into production emails when misconfigured.
  *
  * Supabase Dashboard → Authentication → URL Configuration must allow:
- * - https://www.kingstonjiujitsu.com/admin/auth/confirm/
- * - https://www.kingstonjiujitsu.com/admin/auth/callback/
+ * - https://www.jiujitsubrotherhood.com/admin/auth/confirm/
+ * - https://www.jiujitsubrotherhood.com/admin/auth/callback/
  * If redirectTo is not allowlisted, Auth falls back to Site URL (homepage)
  * with tokens in the hash — AuthHashRedirect then forwards to confirm.
  */

@@ -38,10 +38,9 @@ export default async function AdminStoreFulfilmentPage() {
         ? error.message
         : "Fulfilment tables are not available yet.";
     settings = {
-      collectionEnabled: true,
-      collectionLabel: "Collect at Kingston Jiu Jitsu",
-      collectionInstructions:
-        "Collect your order at Kingston Jiu Jitsu. We will confirm collection details after purchase.",
+      collectionEnabled: false,
+      collectionLabel: "Collection",
+      collectionInstructions: "",
       ukShippingEnabled: true,
     };
     bands = [];

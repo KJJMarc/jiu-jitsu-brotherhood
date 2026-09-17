@@ -57,10 +57,9 @@ export async function getAdminFulfilmentSettings(): Promise<FulfilmentSettings> 
   if (error) throw new Error(error.message);
   if (!data) {
     return {
-      collectionEnabled: true,
-      collectionLabel: "Collect at Kingston Jiu Jitsu",
-      collectionInstructions:
-        "Collect your order at Kingston Jiu Jitsu. We will confirm collection details after purchase.",
+      collectionEnabled: false,
+      collectionLabel: "Collection",
+      collectionInstructions: "",
       ukShippingEnabled: true,
     };
   }
@@ -89,7 +88,7 @@ export async function updateAdminFulfilmentSettings(input: {
   const { error } = await supabase.from("store_fulfilment_settings").upsert({
     id: 1,
     collection_enabled: input.collectionEnabled,
-    collection_label: input.collectionLabel.trim() || "Collect at Kingston Jiu Jitsu",
+    collection_label: input.collectionLabel.trim() || "Collection",
     collection_instructions: input.collectionInstructions.trim(),
     uk_shipping_enabled: input.ukShippingEnabled,
     updated_at: new Date().toISOString(),
