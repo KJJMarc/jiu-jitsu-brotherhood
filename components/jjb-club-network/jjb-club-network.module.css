@@ -343,7 +343,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #ff6b73;
+  color: var(--red);
 }
 
 .closingTitle {
@@ -372,7 +372,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #f2a0a5;
+  color: var(--red);
 }
 
 .closingEventsLink {

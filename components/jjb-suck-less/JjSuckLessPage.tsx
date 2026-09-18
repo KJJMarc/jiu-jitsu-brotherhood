@@ -31,7 +31,7 @@ const THEMES = [
   },
   {
     title: "Keep progressing",
-    body: "Mindset, plateaus, motivation, injuries and burnout — without losing the thread.",
+    body: "Mindset, plateaus, motivation, injuries and burnout — while maintaining momentum.",
   },
   {
     title: "Build for the long term",
