@@ -6,8 +6,8 @@
   color: var(--ink);
 }
 
-.intro {
-  padding-block: clamp(2.75rem, 6vw, 4.5rem) clamp(1.5rem, 3vw, 2.25rem);
+.introSection {
+  padding-top: clamp(2.75rem, 6vw, 4.5rem);
 }
 
 .eyebrow {
@@ -59,6 +59,10 @@
   align-items: center;
 }
 
+/*
+ * DOM order is always copy → media so mobile stacks text then photo.
+ * On desktop, media-first rows pull the photo to the left via order.
+ */
 @media (min-width: 900px) {
   .split {
     grid-template-columns: 1.05fr 0.95fr;
@@ -66,6 +70,10 @@
 
   .splitMediaFirst {
     grid-template-columns: 0.95fr 1.05fr;
+  }
+
+  .splitMediaFirst .media {
+    order: -1;
   }
 }
 
@@ -198,10 +206,4 @@
   font-weight: 700 !important;
   letter-spacing: -0.02em;
   color: var(--ink) !important;
-}
-
-@media (max-width: 899px) {
-  .splitMediaFirst .media {
-    order: -1;
-  }
 }
