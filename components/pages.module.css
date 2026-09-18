@@ -44,8 +44,8 @@
   text-align: left;
 }
 
-.docHero .container > :global(h1),
-.docHero .container > :global(p) {
+.docHero :global(.container) > :global(h1),
+.docHero :global(.container) > :global(p) {
   text-align: left;
   margin-inline: 0;
   max-width: 40rem;
@@ -55,10 +55,12 @@
   text-align: left;
 }
 
-.docCopy .container {
+.docCopy :global(.container) {
   text-align: left;
 }
 
+/* Reading column inside .container — do not combine with .container or
+   max-width + margin-inline:0 will pull content off the shared left edge. */
 .docCopyColumn {
   max-width: 40rem;
   margin-inline: 0;

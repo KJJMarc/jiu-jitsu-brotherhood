@@ -105,10 +105,12 @@ export default function ContentDocument({
           <section
             className={`${posterSrc ? styles.docBodyAfterMedia : "section"} ${styles.docCopy}`}
           >
-            <div className={`container ${styles.docCopyColumn}`}>
-              <ContentBody
-                html={networkHistoryHtml || content.body_html}
-              />
+            <div className="container">
+              <div className={styles.docCopyColumn}>
+                <ContentBody
+                  html={networkHistoryHtml || content.body_html}
+                />
+              </div>
             </div>
           </section>
         </>
