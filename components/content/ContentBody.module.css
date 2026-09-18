@@ -29,29 +29,22 @@
   margin-inline: auto;
 }
 
-/* Shopify often wraps body images in a lone <div> */
-.prose :global(div:has(> img:only-child)) {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0 0.85rem;
-}
-
-.prose :global(div:has(> img:only-child) img) {
-  margin: 0;
-}
-
-.prose :global(p:has(> img:only-child)) {
+/* Shopify wraps images in <div>, <p>, or <p><span>… */
+.prose :global(div:has(> img:only-child)),
+.prose :global(p:has(img)) {
   text-align: center;
-  margin: 1.5rem 0 0.85rem;
+  margin: 2.35rem 0 1.1rem;
 }
 
-.prose :global(p:has(> img:only-child) img) {
+.prose :global(div:has(> img:only-child) img),
+.prose :global(p:has(img) img) {
   display: inline-block;
   margin: 0;
+  vertical-align: middle;
 }
 
 .prose :global(figure) {
-  margin: 1.5rem 0 0.85rem;
+  margin: 2.35rem 0 1.1rem;
   text-align: center;
 }
 
@@ -60,17 +53,20 @@
 }
 
 .prose :global(figcaption) {
-  margin: 0.85rem 0 1.5rem;
+  margin: 1.1rem 0 1.85rem;
   text-align: center;
   color: var(--grey-600);
   font-size: 0.98rem;
   line-height: 1.5;
 }
 
-/* Italic-only caption under an image */
-.prose :global(div:has(> img:only-child) + p:has(> em:only-child)),
-.prose :global(p:has(> img:only-child) + p:has(> em:only-child)) {
-  margin: 0.85rem 0 1.5rem;
+/*
+ * Italic captions under images — Shopify uses <em> or <i>, sometimes with
+ * nested <span> and empty trailing italic nodes.
+ */
+.prose :global(div:has(> img:only-child) + p:has(:is(em, i))),
+.prose :global(p:has(img) + p:has(:is(em, i))) {
+  margin: 1.1rem 0 1.85rem;
   text-align: center;
   color: var(--grey-600);
   font-size: 0.98rem;
