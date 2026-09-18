@@ -67,9 +67,10 @@
 
 /*
  * Italic captions — Shopify often uses <div><em>…</em></div> (not <p>).
- * Sanitise drops the original text-align:center, so we re-center here.
- * Prefer div captions so guest “About the author” <p><i> bios stay left-aligned.
+ * Sanitise drops the original text-align:center. ContentBody also tags these
+ * with .imgCaption for a reliable hashed class.
  */
+.imgCaption,
 .prose :global(div:has(> em)),
 .prose :global(div:has(> i)) {
   margin: 1.1rem 0 1.85rem;
