@@ -50,7 +50,9 @@ export default function ContentDocument({
 
   return (
     <>
-      <section className="pagehero">
+      <section
+        className={`pagehero${isNetworkHistory ? ` ${styles.docHero}` : ""}`}
+      >
         <div className="container">
           <p className="eyebrow">{eyebrow}</p>
           <h1>{title}</h1>
@@ -95,15 +97,15 @@ export default function ContentDocument({
                 <img
                   src={posterSrc}
                   alt={posterAlt}
-                  className={styles.docFeaturedImg}
+                  className={styles.networkHistoryImg}
                 />
               </div>
             </section>
           ) : null}
           <section
-            className={posterSrc ? styles.docBodyAfterMedia : "section"}
+            className={`${posterSrc ? styles.docBodyAfterMedia : "section"} ${styles.docCopy}`}
           >
-            <div className="container">
+            <div className={`container ${styles.docCopyColumn}`}>
               <ContentBody
                 html={networkHistoryHtml || content.body_html}
               />

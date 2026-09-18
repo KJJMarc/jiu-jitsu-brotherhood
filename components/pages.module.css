@@ -15,6 +15,14 @@
   display: block;
 }
 
+.networkHistoryImg {
+  width: 100%;
+  height: auto;
+  max-width: 40rem;
+  display: block;
+  margin-inline: 0;
+}
+
 .pastEventPoster {
   width: 100%;
   height: auto;
@@ -29,6 +37,32 @@
   color: var(--grey-700);
   font-size: 1.08rem;
   line-height: 1.55;
+}
+
+/* Network-history / editorial detail: keep copy flush left in a reading column */
+.docHero {
+  text-align: left;
+}
+
+.docHero .container > :global(h1),
+.docHero .container > :global(p) {
+  text-align: left;
+  margin-inline: 0;
+  max-width: 40rem;
+}
+
+.docCopy {
+  text-align: left;
+}
+
+.docCopy .container {
+  text-align: left;
+}
+
+.docCopyColumn {
+  max-width: 40rem;
+  margin-inline: 0;
+  text-align: left;
 }
 
 .docBodyAfterMedia {
