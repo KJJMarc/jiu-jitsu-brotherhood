@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { localAssets } from "@/lib/home/prototype";
 import styles from "./jjb-about.module.css";
 
 const introTeaching = {
@@ -9,6 +8,24 @@ const introTeaching = {
   width: 1024,
   height: 683,
   position: "center 40%",
+} as const;
+
+/** Attached sparring photo — Built around (right). */
+const builtAround = {
+  src: "/images/jjb/about-built-around.jpg",
+  alt: "Two Jiu Jitsu practitioners sparring on the mats",
+  width: 1024,
+  height: 683,
+  position: "center 45%",
+} as const;
+
+/** Former Built around photo — Brotherhood continues (right). */
+const brotherhoodContinues = {
+  src: "/images/jjb/about-mixed-levels.jpg",
+  alt: "Jiu Jitsu practitioners training together",
+  width: 4184,
+  height: 2792,
+  position: "center 35%",
 } as const;
 
 const adultClasses = {
@@ -38,12 +55,10 @@ const ouroboros = {
  * Dedicated JJB About page — continuous white editorial layout.
  * Routed only from /pages/about — does not alter ContentDocument.
  *
- * Desktop: photos alternate left / right / left.
+ * Desktop: photos alternate left / right / left / right.
  * DOM always keeps copy before media so mobile stacks text → photo.
  */
 export default function JjAboutPage() {
-  const history = localAssets.historyPhoto;
-
   return (
     <div className={styles.page}>
       <section
@@ -106,12 +121,15 @@ export default function JjAboutPage() {
           </div>
           <div className={styles.media}>
             <Image
-              src={history.src}
-              alt={history.alt}
+              src={builtAround.src}
+              alt={builtAround.alt}
               fill
               sizes="(max-width: 899px) 100vw, 48vw"
               className={styles.mediaImgBright}
-              style={{ objectFit: "cover", objectPosition: history.position }}
+              style={{
+                objectFit: "cover",
+                objectPosition: builtAround.position,
+              }}
             />
           </div>
         </div>
@@ -240,26 +258,41 @@ export default function JjAboutPage() {
         className={`${styles.section} ${styles.closingSection}`}
         aria-labelledby="about-today-heading"
       >
-        <div className={`container ${styles.narrowInner}`}>
-          <p className={styles.kicker}>Today</p>
-          <h2 id="about-today-heading">The Brotherhood continues</h2>
-          <p>
-            JJB continues to publish new articles and techniques while
-            preserving material accumulated over nearly two decades.
-          </p>
-          <p>
-            Alongside that are free resources for people beginning and
-            developing their Jiu Jitsu, occasional events and projects, and the
-            club network.
-          </p>
-          <p className={styles.closing}>Learn. Share. Pass it on.</p>
-          <div className={styles.actions}>
-            <Link className={styles.btnPrimary} href="/blogs/blog">
-              Explore Articles
-            </Link>
-            <Link className={styles.btnOutline} href="/#free-stuff">
-              Free Stuff
-            </Link>
+        <div className={`container ${styles.split}`}>
+          <div className={styles.copy}>
+            <p className={styles.kicker}>Today</p>
+            <h2 id="about-today-heading">The Brotherhood continues</h2>
+            <p>
+              JJB continues to publish new articles and techniques while
+              preserving material accumulated over nearly two decades.
+            </p>
+            <p>
+              Alongside that are free resources for people beginning and
+              developing their Jiu Jitsu, occasional events and projects, and the
+              club network.
+            </p>
+            <p className={styles.closing}>Learn. Share. Pass it on.</p>
+            <div className={styles.actions}>
+              <Link className={styles.btnPrimary} href="/blogs/blog">
+                Explore Articles
+              </Link>
+              <Link className={styles.btnOutline} href="/#free-stuff">
+                Free Stuff
+              </Link>
+            </div>
+          </div>
+          <div className={styles.media}>
+            <Image
+              src={brotherhoodContinues.src}
+              alt={brotherhoodContinues.alt}
+              fill
+              sizes="(max-width: 899px) 100vw, 48vw"
+              className={styles.mediaImgBright}
+              style={{
+                objectFit: "cover",
+                objectPosition: brotherhoodContinues.position,
+              }}
+            />
           </div>
         </div>
       </section>
