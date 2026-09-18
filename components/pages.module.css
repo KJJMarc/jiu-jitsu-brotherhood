@@ -72,8 +72,9 @@
   padding-bottom: clamp(3rem, 7vw, 5.5rem);
 }
 
-.docPublished {
-  margin: 1.15rem 0 0;
+/* Beat .pagehero p { margin: 0 } so the date sits clear of the excerpt. */
+:global(.pagehero) .docPublished {
+  margin: 1.35rem 0 0;
   color: var(--grey-600);
   font-size: 0.98rem;
 }

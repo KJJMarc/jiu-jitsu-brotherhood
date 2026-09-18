@@ -11,7 +11,7 @@
 .prose :global(h2),
 .prose :global(h3),
 .prose :global(h4) {
-  margin: 2.25rem 0 0.75rem;
+  margin: 2.25rem 0 1.25rem;
   line-height: 1.25;
   letter-spacing: -0.02em;
 }
