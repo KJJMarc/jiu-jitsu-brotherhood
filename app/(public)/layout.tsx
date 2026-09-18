@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
 import TrackingScripts from "@/components/TrackingScripts";
 import { OrganizationJsonLd } from "@/components/JsonLd";
+import EnsureStorefrontStyles from "@/components/storefront/EnsureStorefrontStyles";
 import { getTrackingSettings } from "@/lib/tracking-settings.server";
 
 /**
@@ -18,6 +19,7 @@ export default async function PublicLayout({
 
   return (
     <>
+      <EnsureStorefrontStyles />
       <a className="skip-link" href="#main">
         Skip to content
       </a>

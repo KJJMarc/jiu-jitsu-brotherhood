@@ -42,6 +42,7 @@ import {
 } from "@/lib/store/mollie.server";
 import { sendPaidOrderEmailsIfNeeded } from "@/lib/store/order-emails.server";
 import { storeCustomerError } from "@/lib/store/customer-errors";
+import { assertPublicCheckoutEnabled } from "@/lib/store/shop-gates.server";
 import { site } from "@/lib/site";
 import {
   cartFingerprint,
@@ -224,6 +225,9 @@ async function createCheckoutOrder(
   channel: StoreCartChannel,
   input: CheckoutCustomerInput,
 ): Promise<CheckoutOrderResult> {
+  // Hard block until JJB_CHECKOUT_ENABLED=true (covers public + admin preview).
+  assertPublicCheckoutEnabled();
+
   let createdBy: string | null = null;
   let subjectId: string;
 

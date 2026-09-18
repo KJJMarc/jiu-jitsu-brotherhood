@@ -6,6 +6,14 @@ import {
   homeProducts,
   homeTechniques,
 } from "@/lib/home/prototype";
+import {
+  BELT_SYSTEM_SEO_DESCRIPTION,
+  contentToHomeArticle,
+} from "@/lib/home/from-contents";
+import {
+  listLatestPublishedArticles,
+  listLatestPublishedTechniques,
+} from "@/lib/content/public.server";
 import HomeHero from "@/components/jjb-home/HomeHero";
 import LatestArticles from "@/components/jjb-home/LatestArticles";
 import Since2007 from "@/components/jjb-home/Since2007";
@@ -26,13 +34,39 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [liveArticles, liveTechniques] = await Promise.all([
+    listLatestPublishedArticles(5),
+    listLatestPublishedTechniques(3),
+  ]);
+
+  const articles =
+    liveArticles.length > 0
+      ? liveArticles.map((row) => {
+          const mapped = contentToHomeArticle(row);
+          if (row.handle === "progression-the-belt-system") {
+            return {
+              ...mapped,
+              excerpt: BELT_SYSTEM_SEO_DESCRIPTION,
+            };
+          }
+          return mapped;
+        })
+      : homeArticles;
+
+  const techniques =
+    liveTechniques.length > 0
+      ? liveTechniques.map(contentToHomeArticle)
+      : homeTechniques;
+
   return (
     <div className={styles.homePage}>
       <HomeHero />
-      <LatestArticles articles={homeArticles} />
+      <LatestArticles articles={articles} />
       <Since2007 />
-      <HomeTechniques techniques={homeTechniques} />
+      <HomeTechniques techniques={techniques} />
       <FreeStuff resources={homeFreeResources} />
       <OliverGeddes />
       <SummersJourney />

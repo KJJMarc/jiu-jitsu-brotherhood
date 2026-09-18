@@ -51,7 +51,7 @@ export const STOREFRONT_SORT_LABELS: Record<StorefrontSortOption, string> = {
 export const STOREFRONT_TYPE_LABELS: Record<StorefrontTypeFilter, string> = {
   all: "All",
   merchandise: "Merchandise",
-  courses_events: "Classes, courses & events",
+  courses_events: "Courses & events",
 };
 
 export function isStorefrontSortOption(value: string): value is StorefrontSortOption {

@@ -1,0 +1,197 @@
+.page {
+  min-width: 0;
+}
+
+.hero {
+  padding-block: clamp(2.25rem, 5vw, 3.5rem) 0.35rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(228, 6, 19, 0.08), transparent 55%),
+    linear-gradient(180deg, #fafafa 0%, #fff 100%);
+}
+
+.heroInner {
+  max-width: 40rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.title {
+  margin: 0 0 0.85rem;
+  font-size: clamp(2rem, 4.2vw, 2.85rem);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.lead {
+  margin: 0;
+  color: var(--grey-600);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  max-width: 36rem;
+}
+
+.section {
+  padding-block: clamp(1.5rem, 3vw, 2.25rem) clamp(3rem, 6vw, 4.5rem);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.item {
+  margin: 0;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+  padding-block: 0.25rem;
+  border-bottom: 1px solid var(--grey-200);
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+  transition: opacity 0.2s ease;
+}
+
+.card:hover {
+  opacity: 0.92;
+}
+
+.card:hover .cta {
+  color: var(--red-dark);
+}
+
+@media (min-width: 720px) {
+  .card {
+    grid-template-columns: minmax(9rem, 12.5rem) minmax(0, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    align-items: start;
+  }
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #12141a;
+  border-radius: 4px;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mediaFallback {
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(135deg, #1a1c22 0%, #2a2d36 50%, #12141a 100%);
+}
+
+.body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding-top: 0.15rem;
+}
+
+.kind {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.meta {
+  margin: 0.15rem 0 0;
+  color: var(--grey-600);
+  font-size: 0.95rem;
+}
+
+.blurb {
+  margin: 0.35rem 0 0;
+  color: var(--grey-700);
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 38rem;
+}
+
+.cta {
+  margin-top: 0.55rem;
+  font-weight: 600;
+  color: var(--red);
+  font-size: 0.95rem;
+}
+
+/* Club Network CTA band */
+.ctaBand {
+  border-block: 1px solid var(--grey-200);
+  background:
+    linear-gradient(180deg, #0f1014 0%, #16181e 100%);
+  color: #fff;
+  padding-block: clamp(2.5rem, 5vw, 3.75rem);
+}
+
+.ctaBandInner {
+  max-width: 36rem;
+}
+
+.ctaEyebrow {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f2a0a5;
+}
+
+.ctaHeading {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.ctaLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.2rem;
+  background: var(--red);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.ctaLink:hover {
+  background: var(--red-dark);
+}

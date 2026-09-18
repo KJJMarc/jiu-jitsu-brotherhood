@@ -5,26 +5,29 @@ import StorefrontShell, {
   StorefrontSection,
 } from "@/components/storefront/StorefrontShell";
 import { recoverPublicCart } from "@/lib/store/cart.server";
-import { getPublicShopMollieMode } from "@/lib/store/mollie.server";
 import {
   removePublicCartLineAction,
   updatePublicCartQuantityAction,
 } from "@/lib/store/public-cart-actions.server";
+import {
+  CHECKOUT_BLOCKED_MESSAGE,
+  isPublicCheckoutEnabled,
+} from "@/lib/store/shop-gates.server";
 import {
   PUBLIC_SHOP_CHECKOUT_PATH,
   PUBLIC_SHOP_PATH,
 } from "@/lib/storefront/paths";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const mode = getPublicShopMollieMode();
   return {
-    title: mode === "live" ? "Your bag" : "Your bag (test)",
+    title: "Your bag",
     robots: { index: false, follow: false, nocache: true },
   };
 }
 
+/** Legacy /shop/bag — same bag as /cart. */
 export default async function PublicShopBagPage() {
-  const mode = getPublicShopMollieMode();
+  const checkoutEnabled = isPublicCheckoutEnabled();
   const { cart, notices } = await recoverPublicCart();
 
   return (
@@ -33,9 +36,9 @@ export default async function PublicShopBagPage() {
         eyebrow="Shop"
         title="Your bag"
         lead={
-          mode === "live"
+          checkoutEnabled
             ? "Review your items before checkout."
-            : "Mollie TEST checkout only."
+            : "Review your items. Checkout is not available yet."
         }
       />
       <StorefrontSection>
@@ -43,7 +46,10 @@ export default async function PublicShopBagPage() {
           cart={cart}
           notices={notices}
           catalogueHref={PUBLIC_SHOP_PATH}
-          checkoutHref={PUBLIC_SHOP_CHECKOUT_PATH}
+          checkoutHref={checkoutEnabled ? PUBLIC_SHOP_CHECKOUT_PATH : undefined}
+          checkoutDisabledMessage={
+            checkoutEnabled ? undefined : CHECKOUT_BLOCKED_MESSAGE
+          }
           updateQuantityAction={updatePublicCartQuantityAction}
           removeLineAction={removePublicCartLineAction}
         />

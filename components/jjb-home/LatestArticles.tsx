@@ -33,8 +33,7 @@ export default function LatestArticles({ articles }: Props) {
               <Image
                 src={lead.image.src}
                 alt={lead.image.alt}
-                width={lead.image.width}
-                height={lead.image.height}
+                fill
                 className={styles.artFrameImg}
                 sizes="(max-width: 959px) 100vw, 55vw"
                 priority

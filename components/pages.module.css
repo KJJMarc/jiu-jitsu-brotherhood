@@ -2,6 +2,40 @@
   max-width: 720px;
 }
 
+/* Featured image → body: avoid stacking two full .section paddings */
+.docMedia {
+  padding-top: clamp(1rem, 2.5vw, 1.75rem);
+  padding-bottom: 0;
+}
+
+.docFeaturedImg {
+  width: 100%;
+  height: auto;
+  max-width: 56rem;
+  display: block;
+}
+
+.pastEventPoster {
+  width: 100%;
+  height: auto;
+  max-width: 28rem;
+  display: block;
+  border-radius: 4px;
+}
+
+.pastEventBlurb {
+  margin: 0;
+  max-width: 36rem;
+  color: var(--grey-700);
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
+.docBodyAfterMedia {
+  padding-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-bottom: clamp(3rem, 7vw, 5.5rem);
+}
+
 .prose p {
   color: var(--grey-700);
   font-size: 1.08rem;

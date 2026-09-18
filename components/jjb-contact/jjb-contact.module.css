@@ -1,0 +1,275 @@
+/* JJB Contact — white editorial form + charcoal collection band. */
+
+.page {
+  min-width: 0;
+  background: #fff;
+  color: var(--ink);
+}
+
+.intro {
+  padding-block: clamp(2.75rem, 6vw, 4.5rem) clamp(2rem, 4vw, 3rem);
+}
+
+.introInner {
+  max-width: 40rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 3.4vw, 2.45rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+.lead {
+  margin: 0 0 1.75rem;
+  max-width: 36rem;
+  font-size: clamp(1.04rem, 1.4vw, 1.12rem);
+  line-height: 1.65;
+  color: var(--grey-700);
+}
+
+/* ---------- Form ---------- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 9rem;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(228, 6, 19, 0.18);
+}
+
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"] {
+  border-color: var(--red);
+}
+
+.fieldError {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--red);
+}
+
+.formError {
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+  border-radius: 10px;
+  background: #fff5f5;
+  border: 1px solid #f5c2c2;
+  color: var(--red-dark);
+  font-size: 0.95rem;
+}
+
+.submit {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  min-height: 2.75rem;
+  padding: 0.75rem 1.35rem;
+  border: 0;
+  border-radius: 10px;
+  background: var(--red);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--red-dark);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.success {
+  padding: 1.25rem 1.35rem;
+  border-radius: 12px;
+  background: var(--grey-100);
+  border: 1px solid var(--grey-200);
+}
+
+.successTitle {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.success p {
+  margin: 0;
+  color: var(--grey-700);
+  line-height: 1.55;
+}
+
+/* ---------- Collection band ---------- */
+
+.collection {
+  background: #0d0e10;
+  color: #fff;
+  padding-block: clamp(2.75rem, 6vw, 4.5rem);
+}
+
+.collectionInner {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .collectionInner {
+    grid-template-columns: 1fr 1.05fr;
+  }
+}
+
+.collectionKicker {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ff6b73;
+}
+
+.collectionCopy h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.collectionTitleLink {
+  color: var(--red);
+  text-decoration: none;
+}
+
+.collectionTitleLink:hover {
+  color: #ff6b73;
+  text-decoration: underline;
+}
+
+.collectionCopy > p {
+  margin: 0 0 0.95rem;
+  font-size: clamp(1.02rem, 1.35vw, 1.1rem);
+  line-height: 1.65;
+  color: #c5cad3;
+  max-width: 36rem;
+}
+
+.address {
+  display: block;
+  margin: 0.85rem 0 1.25rem;
+  font-style: normal;
+  line-height: 1.65;
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.address strong {
+  font-weight: 700;
+}
+
+.directions {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 2px solid var(--red);
+  padding-bottom: 0.15rem;
+}
+
+.directions:hover {
+  color: #ffb3b8;
+  text-decoration: none;
+  border-bottom-color: #ffb3b8;
+}
+
+.directionsNote {
+  margin: 1rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #9aa1ad;
+  font-weight: 400;
+  max-width: 22rem;
+}
+
+.mapWrap {
+  min-width: 0;
+}
+
+.mapFrame {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1a1c20;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mapFrame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

@@ -12,6 +12,7 @@ export default function OliverGeddes() {
 
   return (
     <section
+      id="community"
       className={`${styles.band} ${styles.bandBlack}`}
       aria-labelledby="oli-heading"
     >

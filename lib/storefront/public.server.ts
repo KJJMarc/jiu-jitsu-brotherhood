@@ -2,7 +2,9 @@ import "server-only";
 
 import type { AdminProductDetail, AdminProductListItem } from "@/lib/admin/store";
 import { STORE_LOW_STOCK_THRESHOLD } from "@/lib/admin/store";
+import { includeDraftsInPublicShop } from "@/lib/store/shop-gates.server";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { resolveVariantAvailability } from "@/lib/storefront/availability";
 import {
   mapAdminProductDetailToStorefront,
   mapAdminProductListItemToCard,
@@ -16,13 +18,38 @@ function publicProductHref(slug: string): string {
   return `/products/${slug}`;
 }
 
+function allowedPublicStatuses(): Array<"active" | "draft"> {
+  return includeDraftsInPublicShop() ? ["active", "draft"] : ["active"];
+}
+
+function relaxDetailStockReviewForPreview(
+  detail: StorefrontProductDetail,
+): StorefrontProductDetail {
+  if (!includeDraftsInPublicShop()) return detail;
+  const variants = detail.variants.map((variant) => {
+    if (variant.availability !== "pending_review") return variant;
+    return {
+      ...variant,
+      availability: resolveVariantAvailability({
+        is_active: variant.isActive,
+        track_inventory: variant.trackInventory,
+        stock_qty: variant.stockQty,
+        stock_review_required: false,
+      }),
+    };
+  });
+  return { ...detail, variants };
+}
+
 /**
- * Public catalogue — active products only.
- * Uses service-role client because product RLS is admin-only.
+ * Public catalogue — active products by default.
+ * When JJB_SHOP_INCLUDE_DRAFTS / development draft preview is on, drafts
+ * are included so the storefront can be inspected before publication.
  */
 export async function listPublicStorefrontCatalogue(): Promise<
   StorefrontProductCard[]
 > {
+  const statuses = allowedPublicStatuses();
   const admin = getSupabaseAdminClient();
   const { data, error } = await admin
     .from("products")
@@ -33,7 +60,7 @@ export async function listPublicStorefrontCatalogue(): Promise<
       product_images ( public_url, is_primary, sort_order )
     `,
     )
-    .eq("status", "active")
+    .in("status", statuses)
     .order("sort_order", { ascending: true })
     .order("title", { ascending: true });
 
@@ -58,8 +85,12 @@ export async function listPublicStorefrontCatalogue(): Promise<
       const activeVariants = variants.filter((v) => v.is_active);
       const prices = activeVariants.map((v) => v.price_pence);
       const tracked = activeVariants.filter((v) => v.track_inventory);
-      const needsStockReview = tracked.some((v) => v.stock_review_required);
-      const verifiedTracked = tracked.filter((v) => !v.stock_review_required);
+      const relaxReview = includeDraftsInPublicShop();
+      const needsStockReview =
+        !relaxReview && tracked.some((v) => v.stock_review_required);
+      const verifiedTracked = relaxReview
+        ? tracked
+        : tracked.filter((v) => !v.stock_review_required);
       const primary =
         images.find((img) => img.is_primary) ??
         [...images].sort((a, b) => a.sort_order - b.sort_order)[0] ??
@@ -103,11 +134,12 @@ export async function listPublicStorefrontCatalogue(): Promise<
         href: publicProductHref(item.slug),
       });
     })
-    .filter((card) => card.status === "active");
+    .filter((card) => statuses.includes(card.status as "active" | "draft"));
 }
 
 /**
- * Public PDP by slug — active only. Draft/archived/missing → null (caller notFound).
+ * Public PDP by slug — active only by default.
+ * Drafts are reachable when draft preview is enabled (local inspection).
  */
 export async function getPublicStorefrontProductBySlug(
   slug: string,
@@ -124,7 +156,8 @@ export async function getPublicStorefrontProductBySlug(
 
   if (error) throw new Error(error.message);
   if (!product) return null;
-  if (product.status !== "active") return null;
+  const statuses = allowedPublicStatuses();
+  if (!statuses.includes(product.status as "active" | "draft")) return null;
 
   const productId = product.id as string;
   const [
@@ -156,5 +189,7 @@ export async function getPublicStorefrontProductBySlug(
     can_hard_delete: false,
   };
 
-  return mapAdminProductDetailToStorefront(detail);
+  return relaxDetailStockReviewForPreview(
+    mapAdminProductDetailToStorefront(detail),
+  );
 }

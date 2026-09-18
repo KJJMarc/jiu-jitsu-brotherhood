@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import PreviewBagLink from "@/components/storefront/PreviewBagLink";
 import PreviewCheckoutForm from "@/components/storefront/PreviewCheckoutForm";
 import StorefrontShell, {
@@ -14,6 +13,11 @@ import {
   ADMIN_STORE_PREVIEW_PATH,
 } from "@/lib/admin/store";
 import { quotePreviewCheckout } from "@/lib/store/checkout.server";
+import {
+  CHECKOUT_BLOCKED_MESSAGE,
+  isPublicCheckoutEnabled,
+} from "@/lib/store/shop-gates.server";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Checkout (preview)",
@@ -21,6 +25,35 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminStorePreviewCheckoutPage() {
+  if (!isPublicCheckoutEnabled()) {
+    return (
+      <StorefrontShell
+        banner={
+          <StorefrontPreviewBanner>
+            <span>
+              <strong>Admin preview</strong> — checkout blocked.
+            </span>
+            <nav className={styles.previewBannerNav} aria-label="Preview">
+              <Link href={ADMIN_STORE_PREVIEW_PATH}>Catalogue</Link>
+              <PreviewBagLink />
+            </nav>
+          </StorefrontPreviewBanner>
+        }
+      >
+        <StorefrontHeader
+          eyebrow="Shop"
+          title="Checkout unavailable"
+          lead={CHECKOUT_BLOCKED_MESSAGE}
+        />
+        <StorefrontSection>
+          <Link href={ADMIN_STORE_BAG_PATH} className={styles.backLink}>
+            ← Back to bag
+          </Link>
+        </StorefrontSection>
+      </StorefrontShell>
+    );
+  }
+
   let quote;
   try {
     quote = await quotePreviewCheckout({});

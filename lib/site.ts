@@ -34,12 +34,12 @@ export const externalLinks = {
   onlinePortal: "",
 } as const;
 
-/** Social URLs are unset until JJB profiles are approved. */
+/** Public social profiles. Twitter/X left blank — JJB does not use it. */
 export const social = {
-  facebook: "",
-  instagram: "",
+  facebook: "https://www.facebook.com/Jiujitsubrotherhood",
+  instagram: "https://www.instagram.com/jiu_jitsu_brotherhood/",
   twitter: "",
-  youtube: "",
+  youtube: "https://www.youtube.com/user/jjitsubrotherhood",
 } as const;
 
 /** Training venues (from the live "How to Find Us" page). */
@@ -89,6 +89,7 @@ export const primaryNav: NavItem[] = [
     label: "Club Network",
     href: "/pages/jiu-jitsu-brotherhood-club-network",
   },
+  { label: "Community", href: "/#community" },
   { label: "Shop", href: externalLinks.shop },
   { label: "Contact", href: "/pages/contact" },
 ];

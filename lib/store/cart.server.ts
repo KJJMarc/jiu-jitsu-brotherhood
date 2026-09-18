@@ -22,6 +22,7 @@ import {
   type StoreCartChannel,
 } from "@/lib/store/cart";
 import { storeCustomerError } from "@/lib/store/customer-errors";
+import { includeDraftsInPublicShop } from "@/lib/store/shop-gates.server";
 
 const CART_MAX_AGE_SECONDS = 60 * 60 * 24 * 14;
 
@@ -68,7 +69,8 @@ function channelConfig(channel: StoreCartChannel): ChannelConfig {
       cookieName: PUBLIC_CART_COOKIE,
       cookiePath: "/",
       requireAdminSession: false,
-      allowDraft: false,
+      // Local draft preview lets unpublished KEEP products into the bag.
+      allowDraft: includeDraftsInPublicShop(),
       productHref: (product) => `/products/${product.slug}`,
     };
   }
@@ -216,7 +218,12 @@ function assertVariantQtyAllowed(
       `A size/option for "${product.title}" is inactive and cannot be purchased.`,
     );
   }
-  if (row.stock_review_required) {
+  // Draft-preview mode relaxes the review gate so bag UX can be inspected
+  // before admin clears stock_review_required for publication.
+  if (
+    row.stock_review_required &&
+    !(channel === "public" && includeDraftsInPublicShop())
+  ) {
     throw storeCustomerError(
       `"${product.title}" still needs a stock review and cannot be purchased yet.`,
     );
@@ -426,7 +433,10 @@ async function recoverCart(
       didChangeCookie = true;
       continue;
     }
-    if (row.stock_review_required) {
+    if (
+      row.stock_review_required &&
+      !(channel === "public" && includeDraftsInPublicShop())
+    ) {
       notices.push(
         `“${product.title}” still needs a stock review and was removed from your bag.`,
       );

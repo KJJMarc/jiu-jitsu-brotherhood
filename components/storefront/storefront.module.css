@@ -73,6 +73,9 @@
 /* Live shop navigation bar (Shop | Bag) */
 .shopNavBanner {
   background: #1c1c1c;
+  color: #fff;
+  padding: 0.7rem 0;
+  font-size: 0.92rem;
 }
 
 .shopNavBannerInner {

@@ -1,0 +1,394 @@
+/* JJB Club Network — white editorial + major map feature. */
+
+.page {
+  min-width: 0;
+  background: #fff;
+  color: var(--ink);
+}
+
+/*
+ * Matching bookends — intro (above map) and closing (below academies)
+ * share the same container, grid, margins and padding conventions.
+ */
+.bookend {
+  padding-block: clamp(1.35rem, 2.8vw, 2rem);
+}
+
+.bookendDark {
+  background: #0d0e10;
+  color: #fff;
+}
+
+.bookendGrid {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .bookendGrid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.75fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: end;
+  }
+}
+
+.bookendMain {
+  min-width: 0;
+  max-width: 38rem;
+}
+
+.bookendAside {
+  min-width: 0;
+}
+
+/* Hide empty intro aside on mobile; keep it on desktop for matching columns */
+.bookendAside:empty {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .bookendAside:empty {
+    display: block;
+  }
+
+  .bookendAside:not(:empty) {
+    justify-self: end;
+    text-align: right;
+    padding-bottom: 0.15rem;
+  }
+}
+
+.eyebrow,
+.kicker {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.kicker {
+  margin-bottom: 0.55rem;
+}
+
+.introTitle {
+  margin: 0 0 0.7rem;
+  max-width: 18ch;
+  font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.introLead {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1rem, 1.3vw, 1.08rem);
+  line-height: 1.55;
+  color: var(--grey-700);
+}
+
+.introHint {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--grey-600);
+  font-weight: 500;
+}
+
+.sectionTitle {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.sectionLead {
+  margin: 0 0 1.5rem;
+  max-width: 36rem;
+  color: var(--grey-700);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+/* ---------- Map ---------- */
+
+.mapSection {
+  padding-top: 0;
+}
+
+.mapBand {
+  background: #0d0e10;
+}
+
+.mapShell,
+.mapSkeleton {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  width: 100%;
+  height: clamp(22rem, 58vh, 40rem);
+  background: #12141a;
+}
+
+.mapCanvas {
+  width: 100%;
+  height: 100%;
+  background: #12141a;
+  font: inherit;
+}
+
+.mapCanvas:global(.leaflet-container) {
+  font: inherit;
+  background: #12141a;
+  border: 0;
+  outline: 0;
+}
+
+.mapPin,
+.mapPinActive {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 8px auto 0;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--red);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.mapPinActive {
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(228, 6, 19, 0.35), 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 10rem;
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+.popup strong {
+  font-size: 0.95rem;
+  color: #111;
+}
+
+.popup span {
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.popup a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--red);
+}
+
+/* ---------- Academies grid ---------- */
+
+.academiesSection {
+  padding-block: clamp(2.5rem, 5.5vw, 4.25rem);
+}
+
+.grid {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(1.1rem, 2.5vw, 1.5rem);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  border: 1px solid var(--grey-200);
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardSelected {
+  border-color: var(--red);
+  box-shadow: 0 0 0 1px var(--red);
+}
+
+.cardHit {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.9rem;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1rem 0.65rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.cardHit:hover .cardTitle {
+  color: var(--red);
+}
+
+.cardLogo {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 12px;
+  background: var(--grey-100);
+  overflow: hidden;
+}
+
+.cardLogoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cardTitle {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  transition: color 0.15s ease;
+}
+
+.cardCity {
+  margin: 0;
+  color: var(--grey-600);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.cardDetails {
+  padding: 0 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.venueBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.venueLabel {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.address {
+  margin: 0;
+  font-style: normal;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--grey-700);
+}
+
+.directions,
+.website {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--red);
+  text-decoration: none;
+  width: fit-content;
+}
+
+.directions:hover,
+.website:hover {
+  text-decoration: underline;
+}
+
+.website {
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
+/* ---------- Closing bookend (dark) ---------- */
+
+.closingKicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ff6b73;
+}
+
+.closingTitle {
+  margin: 0 0 0.85rem;
+  font-size: clamp(1.45rem, 2.8vw, 1.95rem);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  font-weight: 700;
+  color: #fff;
+}
+
+.closingBody {
+  margin: 0 0 0.75rem;
+  font-size: clamp(0.98rem, 1.2vw, 1.05rem);
+  line-height: 1.55;
+  color: #c5cad3;
+}
+
+.closingBody:last-child {
+  margin-bottom: 0;
+}
+
+.closingEventsLabel {
+  margin: 0 0 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f2a0a5;
+}
+
+.closingEventsLink {
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  padding-bottom: 0.12rem;
+}
+
+.closingEventsLink:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+  text-decoration: none;
+}

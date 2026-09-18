@@ -41,7 +41,14 @@ assert.equal(
 );
 assert.equal(normalizeCanonicalPath("/blogs/blog/foo/"), "/blogs/blog/foo");
 assert.ok(isValidCanonicalPath("/pages/past-events"));
+assert.ok(isValidCanonicalPath("/pages/progression-the-belt-system"));
 assert.equal(isValidCanonicalPath("/Pages/Nope"), false);
+
+// Articles may keep a /pages/… canonical (belt system) while type remains article.
+assert.equal(
+  defaultCanonicalPath({ type: "article", handle: "progression-the-belt-system" }),
+  "/blogs/blog/progression-the-belt-system",
+);
 
 // --- Sanitisation ---
 const dirty = `
@@ -67,6 +74,28 @@ assert.ok(cleaned.html.includes('href="/blogs/blog/safe"'));
 
 const parts = splitContentHtmlForRender(cleaned.html);
 assert.ok(parts.some((p) => p.type === "youtube" && p.id === "bmtZrIzxKPc"));
+
+const withClubPromo = `
+<p>Event recap stays.</p>
+<div data-jjb-youtube="Jhy0NRNyT70" class="jjb-youtube"></div>
+<div>--------------------------</div>
+<div>You can learn more about the Jiu Jitsu Brotherhood Club Network <a href="/pages/jiu-jitsu-brotherhood-club-network">here</a>:</div>
+<div><a href="/pages/jiu-jitsu-brotherhood-club-network"><img src="https://cdn.shopify.com/s/files/1/0363/5125/files/Screenshot_2022-10-17_at_10.11.10_480x480.png?v=1665997906" alt=""></a></div>
+`;
+const strippedPromo = sanitizeContentHtml(withClubPromo);
+assert.ok(strippedPromo.html.includes("Event recap stays."));
+assert.ok(!strippedPromo.html.includes("learn more about the Jiu Jitsu Brotherhood Club Network"));
+assert.ok(!strippedPromo.html.includes("Screenshot_2022-10-17"));
+assert.ok(!strippedPromo.html.includes("--------------------------"));
+const renderParts = splitContentHtmlForRender(withClubPromo);
+assert.ok(
+  renderParts.every(
+    (p) =>
+      p.type === "youtube" ||
+      (!p.html.includes("learn more about the Jiu Jitsu Brotherhood Club Network") &&
+        !p.html.includes("Screenshot_2022-10-17")),
+  ),
+);
 
 assert.deepEqual(
   extractYoutubeIdsFromHtml(

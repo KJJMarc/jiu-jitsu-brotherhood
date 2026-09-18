@@ -201,7 +201,7 @@ old_shopify_url,content_type,current_handle_slug,proposed_nextjs_url,action,note
 /pages/about,page,about,/pages/about,PRESERVE,Published=True. Body length 2735. Keep Shopify slug.
 /pages/armed-forces,page,armed-forces,/pages/armed-forces,PRESERVE,Live 200 in sitemap. Keep URL; unpublish (404) until military discount ships. Do not 410.
 /pages/beginners-guide-to-bjj-signup,page-pagefly,beginners-guide-to-bjj-signup,/pages/beginners-guide-to-bjj-signup,PRESERVE,PageFly body empty in export. Preserve URL; recreate natively.
-/pages/bjj-in-kingston-upon-thames,page,bjj-in-kingston-upon-thames,https://www.kingstonjiujitsu.com/,301,Approved Phase 0 Kingston off-site redirect.
+/pages/bjj-in-kingston-upon-thames,page,bjj-in-kingston-upon-thames,/pages/bjj-in-kingston-upon-thames,PRESERVE,OVERRIDE Sep 2026: keep on JJB as oldest Past Events / network-history archive entry. Do NOT redirect to kingstonjiujitsu.com.
 /pages/blog,page,blog,/pages/blog,PRESERVE,Empty body but live 200 canonical. Distinct from /blogs/blog. Do not 301 merely to tidy.
 /pages/cant-find-that,page-retired,cant-find-that,(gone),410,Retired course/form/digital page. Published=True. Do not homepage-dump.
 /pages/ccpa-opt-out,page,ccpa-opt-out,/pages/privacy-policy,301,Fold US opt-out copy into the privacy policy; do not invent /privacy.
@@ -216,6 +216,7 @@ old_shopify_url,content_type,current_handle_slug,proposed_nextjs_url,action,note
 /pages/jiu-jitsu-brotherhood-club-network,page-pagefly,jiu-jitsu-brotherhood-club-network,/pages/jiu-jitsu-brotherhood-club-network,PRESERVE,PageFly body empty in export. Preserve URL; recreate natively.
 /pages/jiu-jitsu-training-secrets,page-retired,jiu-jitsu-training-secrets,(gone),410,Retired course/form/digital page. Published=False. Do not homepage-dump.
 /pages/oli-geddes-foundation-charity-event-kingston-jiu-jitsu,page,oli-geddes-foundation-charity-event-kingston-jiu-jitsu,/pages/oli-geddes-foundation-charity-event-kingston-jiu-jitsu,PRESERVE,Published=True. Body length 3384. Keep Shopify slug.
+/pages/past-events,page,past-events,/pages/past-events,PRESERVE,Past Events archive index (JJB-native; not in Shopify). Newest→oldest chronological list.
 /pages/privacy-policy,page,privacy-policy,/pages/privacy-policy,PRESERVE,Published=True. Body length 15845. Keep Shopify slug.
 /pages/progression-the-belt-system,page,progression-the-belt-system,/pages/progression-the-belt-system,PRESERVE,Published=True. Body length 11944. Keep Shopify slug.
 /pages/sign-up-thank-you,page-retired,sign-up-thank-you,(gone),410,Retired course/form/digital page. Published=True. Do not homepage-dump.
@@ -228,7 +229,7 @@ old_shopify_url,content_type,current_handle_slug,proposed_nextjs_url,action,note
 /pages/the-oliver-geddes-foundation,page,the-oliver-geddes-foundation,/pages/the-oliver-geddes-foundation,PRESERVE,Published=True. Body length 3438. Keep Shopify slug.
 /pages/welsh-winter-special,page,welsh-winter-special,/pages/welsh-winter-special,PRESERVE,Published=True. Body length 3309. Keep Shopify slug.
 /pages/your-discount-coupon,page-retired,your-discount-coupon,(gone),410,Retired course/form/digital page. Published=True. Do not homepage-dump.
-/products/2nd-summer-seaside-special-super-seminar,product-event-draft,2nd-summer-seaside-special-super-seminar,/products/2nd-summer-seaside-special-super-seminar,PRESERVE,Keep admin record unpublished. Public 404 (kids competition is currently ACTIVE/in sitemap; force draft). Do not convert to /events/archive/.
+/products/2nd-summer-seaside-special-super-seminar,product-event-draft,2nd-summer-seaside-special-super-seminar,/products/2nd-summer-seaside-special-super-seminar,PRESERVE,Past Events Sep 2026: serve as past_event editorial at this URL (no shop UI). Not in live catalogue.
 /products/astrum-gi,product-physical,astrum-gi,/products/astrum-gi,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
 /products/astrum-rashguard,product-removed,astrum-rashguard,(gone),410,Stage 4 discontinued. Shopify DRAFT. Live 404 for drafts. Do not homepage-dump.
 /products/beast-mode-rashguard,product-physical,beast-mode-rashguard,/products/beast-mode-rashguard,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
@@ -242,9 +243,9 @@ old_shopify_url,content_type,current_handle_slug,proposed_nextjs_url,action,note
 /products/fight-shorts,product-physical,fight-shorts,/products/fight-shorts,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
 /products/future-stars-gi-blue,product-physical,future-stars-gi-blue,/products/future-stars-gi-blue,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
 /products/history-on-fire-t-shirt,product-physical,history-on-fire-t-shirt,/products/history-on-fire-t-shirt,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
-/products/jiu-jitsu-brotherhood-club-network-adults-competition,product-event-draft,jiu-jitsu-brotherhood-club-network-adults-competition,/products/jiu-jitsu-brotherhood-club-network-adults-competition,PRESERVE,Keep admin record unpublished. Public 404 (kids competition is currently ACTIVE/in sitemap; force draft). Do not convert to /events/archive/.
+/products/jiu-jitsu-brotherhood-club-network-adults-competition,product-event-draft,jiu-jitsu-brotherhood-club-network-adults-competition,/products/jiu-jitsu-brotherhood-club-network-adults-competition,PRESERVE,Past Events Sep 2026: serve as past_event editorial at this URL (no shop UI). Not in live catalogue.
 /products/journey-bjj-belt,product-physical,journey-bjj-belt,/products/journey-bjj-belt,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
-/products/kids-club-network-interclub-competition-2026,product-event-draft,kids-club-network-interclub-competition-2026,/products/kids-club-network-interclub-competition-2026,PRESERVE,Keep admin record unpublished. Public 404 (kids competition is currently ACTIVE/in sitemap; force draft). Do not convert to /events/archive/.
+/products/kids-club-network-interclub-competition-2026,product-event-draft,kids-club-network-interclub-competition-2026,/products/kids-club-network-interclub-competition-2026,PRESERVE,Past Events Sep 2026: serve as past_event editorial at this URL (no shop UI). Not in live catalogue.
 /products/musashi-limited-edition,product-removed,musashi-limited-edition,(gone),410,Stage 4 discontinued. Shopify DRAFT. Live 404 for drafts. Do not homepage-dump.
 /products/open-source-jiu-jitsu-hooded-sweatshirt-gray,product-physical,open-source-jiu-jitsu-hooded-sweatshirt-gray,/products/open-source-jiu-jitsu-hooded-sweatshirt-gray,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
 /products/open-source-jiu-jitsu-hooded-sweatshirt-red,product-physical,open-source-jiu-jitsu-hooded-sweatshirt-red,/products/open-source-jiu-jitsu-hooded-sweatshirt-red,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
@@ -253,7 +254,7 @@ old_shopify_url,content_type,current_handle_slug,proposed_nextjs_url,action,note
 /products/sisterhood-rashguard,product-physical,sisterhood-rashguard,/products/sisterhood-rashguard,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
 /products/stand-up-eight-t-shirt-black,product-physical,stand-up-eight-t-shirt-black,/products/stand-up-eight-t-shirt-black,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
 /products/sticker-pack,product-removed,sticker-pack,/collections/patches,301,"Stage 4 withdrawn; currently ACTIVE and in live sitemap. Closest equivalent /collections/patches, not /shop/patches."
-/products/summer-super-seminar-2025,product-event-draft,summer-super-seminar-2025,/products/summer-super-seminar-2025,PRESERVE,Keep admin record unpublished. Public 404 (kids competition is currently ACTIVE/in sitemap; force draft). Do not convert to /events/archive/.
+/products/summer-super-seminar-2025,product-event-draft,summer-super-seminar-2025,/products/summer-super-seminar-2025,PRESERVE,Past Events Sep 2026: serve as past_event editorial at this URL (no shop UI). Not in live catalogue.
 /products/tail-eater-back-pack,product-removed,tail-eater-back-pack,(gone),410,Stage 4 discontinued. Shopify DRAFT. Live 404 for drafts. Do not homepage-dump.
 /products/tail-eater-back-patch,product-physical,tail-eater-back-patch,/products/tail-eater-back-patch,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."
 /products/tail-eater-rashguard-blue-trim,product-physical,tail-eater-rashguard-blue-trim,/products/tail-eater-rashguard-blue-trim,PRESERVE,"Stage 4 retain. Shopify ACTIVE. Serve at /products/{handle}, not /shop/{handle}."

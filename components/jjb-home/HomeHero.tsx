@@ -21,27 +21,29 @@ export default function HomeHero() {
         <div className={styles.heroScrim} aria-hidden="true" />
       </div>
 
-      <div className={`container ${styles.heroInner}`}>
-        <p className={styles.heroEst}>Established 2007</p>
-        <h1 id="home-hero-heading" className={styles.heroTitle}>
-          Sharing knowledge.
-          <br />
-          Building community.
-          <br />
-          Honouring the art.
-        </h1>
-        <p className={styles.heroLead}>
-          Since 2007, Jiu Jitsu Brotherhood has been sharing techniques, ideas
-          and stories from the mats, bringing together people who believe there
-          is always more to learn.
-        </p>
-        <div className={styles.heroActions}>
-          <Link className={styles.heroPrimary} href="/blogs/blog">
-            Browse Articles
-          </Link>
-          <Link className={styles.heroSecondary} href="/blogs/techniques">
-            Explore Techniques
-          </Link>
+      <div className={styles.wide}>
+        <div className={styles.heroInner}>
+          <p className={styles.heroEst}>Established 2007</p>
+          <h1 id="home-hero-heading" className={styles.heroTitle}>
+            Sharing knowledge.
+            <br />
+            Building community.
+            <br />
+            Honouring the art.
+          </h1>
+          <p className={styles.heroLead}>
+            Since 2007, Jiu Jitsu Brotherhood has been sharing techniques, ideas
+            and stories from the mats, bringing together people who believe there
+            is always more to learn.
+          </p>
+          <div className={styles.heroActions}>
+            <Link className={styles.heroPrimary} href="/blogs/blog">
+              Browse Articles
+            </Link>
+            <Link className={styles.heroSecondary} href="/blogs/techniques">
+              Explore Techniques
+            </Link>
+          </div>
         </div>
       </div>
     </section>

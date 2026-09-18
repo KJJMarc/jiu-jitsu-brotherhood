@@ -1,5 +1,9 @@
 import ContentBody from "@/components/content/ContentBody";
 import type { ContentRecord } from "@/lib/content/types";
+import {
+  formatPastEventDate,
+  pastEventArchiveByPath,
+} from "@/lib/past-events/archive";
 import styles from "@/components/pages.module.css";
 
 /**
@@ -11,60 +15,133 @@ export default function ContentDocument({
 }: {
   content: ContentRecord;
 }) {
+  const archive = pastEventArchiveByPath(content.canonical_path);
+  const isPastEvent = content.type === "past_event";
+  const eyebrow =
+    archive?.eyebrow ??
+    (content.type === "technique"
+      ? "Technique"
+      : isPastEvent
+        ? "Past Event"
+        : content.type === "page"
+          ? "Page"
+          : "Article");
+
+  const title = archive?.title ?? content.title;
+  const eventDate =
+    archive?.eventDate ||
+    (content.event_starts_at
+      ? content.event_starts_at.slice(0, 10)
+      : null);
+  const location =
+    archive?.location || content.event_location_label || null;
+  const posterSrc =
+    archive?.imageSrc ?? content.featured_image_url ?? null;
+  const posterAlt = content.featured_image_alt || title;
+  /** Past events: curated blurb only — no long Shopify body. */
+  const pastEventBlurb = archive?.blurb || content.excerpt || null;
+
   return (
     <>
       <section className="pagehero">
         <div className="container">
-          <p className="eyebrow">
-            {content.type === "technique"
-              ? "Technique"
-              : content.type === "past_event"
-                ? "Past Event"
-                : content.type === "page"
-                  ? "Page"
-                  : "Article"}
-          </p>
-          <h1>{content.title}</h1>
-          {content.excerpt ? <p>{content.excerpt}</p> : null}
-          {content.published_at ? (
-            <p className={styles.backLink}>
-              <time dateTime={content.published_at}>
-                {new Date(content.published_at).toLocaleDateString("en-GB", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-            </p>
-          ) : null}
+          <p className="eyebrow">{eyebrow}</p>
+          <h1>{title}</h1>
+          {isPastEvent ? (
+            eventDate || location ? (
+              <p className={styles.backLink}>
+                {eventDate ? (
+                  <time dateTime={eventDate}>
+                    {formatPastEventDate(eventDate)}
+                  </time>
+                ) : null}
+                {eventDate && location ? " · " : null}
+                {location}
+              </p>
+            ) : null
+          ) : (
+            <>
+              {content.excerpt ? <p>{content.excerpt}</p> : null}
+              {content.published_at ? (
+                <p className={styles.backLink}>
+                  <time dateTime={content.published_at}>
+                    {new Date(content.published_at).toLocaleDateString(
+                      "en-GB",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      },
+                    )}
+                  </time>
+                </p>
+              ) : null}
+            </>
+          )}
         </div>
       </section>
 
-      {content.featured_image_url ? (
-        <section className="section">
-          <div className="container">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={content.featured_image_url}
-              alt={content.featured_image_alt || ""}
-              style={{ width: "100%", height: "auto", maxWidth: "56rem" }}
-            />
-          </div>
-        </section>
-      ) : null}
-
-      <section className="section">
-        <div className="container">
-          <ContentBody html={content.body_html} />
-          {content.template === "mailerlite_landing" &&
-          content.mailerlite_form_code ? (
-            <MailerLiteForm
-              formCode={content.mailerlite_form_code}
-              embedId={content.mailerlite_embed_id}
-            />
+      {isPastEvent ? (
+        <>
+          {posterSrc ? (
+            <section className={styles.docMedia}>
+              <div className="container">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={posterSrc}
+                  alt={posterAlt}
+                  className={styles.pastEventPoster}
+                />
+              </div>
+            </section>
           ) : null}
-        </div>
-      </section>
+          {pastEventBlurb ? (
+            <section
+              className={
+                posterSrc ? styles.docBodyAfterMedia : "section"
+              }
+            >
+              <div className="container">
+                <p className={styles.pastEventBlurb}>{pastEventBlurb}</p>
+              </div>
+            </section>
+          ) : null}
+        </>
+      ) : (
+        <>
+          {content.type !== "technique" && content.featured_image_url ? (
+            <section className={styles.docMedia}>
+              <div className="container">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={content.featured_image_url}
+                  alt={content.featured_image_alt || ""}
+                  className={styles.docFeaturedImg}
+                />
+              </div>
+            </section>
+          ) : null}
+
+          <section
+            className={
+              content.type !== "technique" && content.featured_image_url
+                ? styles.docBodyAfterMedia
+                : "section"
+            }
+          >
+            <div className="container">
+              <ContentBody html={content.body_html} />
+              {content.template === "mailerlite_landing" &&
+              content.mailerlite_form_code ? (
+                <MailerLiteForm
+                  formCode={content.mailerlite_form_code}
+                  embedId={content.mailerlite_embed_id}
+                />
+              ) : null}
+            </div>
+          </section>
+        </>
+      )}
     </>
   );
 }

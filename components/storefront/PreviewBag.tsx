@@ -139,6 +139,7 @@ export default function PreviewBag({
   notices = [],
   catalogueHref = ADMIN_STORE_PREVIEW_PATH,
   checkoutHref = ADMIN_STORE_CHECKOUT_PATH,
+  checkoutDisabledMessage,
   updateQuantityAction = updatePreviewCartQuantityAction,
   removeLineAction = removePreviewCartLineAction,
 }: {
@@ -146,6 +147,8 @@ export default function PreviewBag({
   notices?: string[];
   catalogueHref?: string;
   checkoutHref?: string;
+  /** When set, Checkout is replaced with a disabled notice (hard-blocked). */
+  checkoutDisabledMessage?: string;
   updateQuantityAction?: CartLineAction;
   removeLineAction?: CartLineAction;
 }) {
@@ -196,9 +199,15 @@ export default function PreviewBag({
         <p className={styles.shippingNote}>
           Shipping or collection is calculated at checkout for physical items.
         </p>
-        <Link href={checkoutHref} className={styles.purchaseButtonLive}>
-          Checkout
-        </Link>
+        {checkoutDisabledMessage ? (
+          <p className={styles.bagNotices} role="status">
+            {checkoutDisabledMessage}
+          </p>
+        ) : checkoutHref ? (
+          <Link href={checkoutHref} className={styles.purchaseButtonLive}>
+            Checkout
+          </Link>
+        ) : null}
         <div style={{ marginTop: "0.75rem" }}>
           <Link href={catalogueHref} className={styles.textButton}>
             Continue shopping

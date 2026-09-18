@@ -5,6 +5,7 @@ import {
   resolveMollieApiKey,
   type MollieKeyMode,
 } from "@/lib/store/mollie-key";
+import { assertPublicCheckoutEnabled } from "@/lib/store/shop-gates.server";
 
 /**
  * Mollie REST helpers.
@@ -110,6 +111,7 @@ export async function createMolliePayment(input: {
   metadata: Record<string, string>;
   idempotencyKey?: string;
 }): Promise<MolliePayment> {
+  assertPublicCheckoutEnabled();
   return mollieFetch<MolliePayment>("/payments", {
     method: "POST",
     headers: input.idempotencyKey

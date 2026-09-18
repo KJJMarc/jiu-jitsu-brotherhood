@@ -1,32 +1,60 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import PreviewCheckoutForm from "@/components/storefront/PreviewCheckoutForm";
 import StorefrontShell, {
   StorefrontHeader,
   StorefrontSection,
+  StorefrontShopNavBanner,
 } from "@/components/storefront/StorefrontShell";
 import styles from "@/components/storefront/storefront.module.css";
+import {
+  CHECKOUT_BLOCKED_MESSAGE,
+  isPublicCheckoutEnabled,
+} from "@/lib/store/shop-gates.server";
+import {
+  PUBLIC_SHOP_BAG_PATH,
+  PUBLIC_SHOP_PATH,
+} from "@/lib/storefront/paths";
+import { redirect } from "next/navigation";
+import PreviewCheckoutForm from "@/components/storefront/PreviewCheckoutForm";
 import { quotePublicCheckout } from "@/lib/store/checkout.server";
 import { getPublicShopMollieMode } from "@/lib/store/mollie.server";
 import {
   quotePublicCheckoutAction,
   submitPublicCheckoutAction,
 } from "@/lib/store/public-checkout-actions.server";
-import {
-  PUBLIC_SHOP_BAG_PATH,
-  PUBLIC_SHOP_PATH,
-} from "@/lib/storefront/paths";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const mode = getPublicShopMollieMode();
   return {
-    title: mode === "live" ? "Checkout" : "Checkout (test)",
+    title: "Checkout",
     robots: { index: false, follow: false, nocache: true },
   };
 }
 
 export default async function PublicShopCheckoutPage() {
+  if (!isPublicCheckoutEnabled()) {
+    return (
+      <StorefrontShell banner={<StorefrontShopNavBanner />}>
+        <StorefrontHeader
+          eyebrow="Shop"
+          title="Checkout unavailable"
+          lead={CHECKOUT_BLOCKED_MESSAGE}
+        />
+        <StorefrontSection>
+          <p>
+            <Link href={PUBLIC_SHOP_BAG_PATH} className={styles.backLink}>
+              ← Back to bag
+            </Link>
+          </p>
+          <p>
+            <Link href={PUBLIC_SHOP_PATH} className={styles.textButton}>
+              Continue shopping
+            </Link>
+          </p>
+        </StorefrontSection>
+      </StorefrontShell>
+    );
+  }
+
   const mode = getPublicShopMollieMode();
   let quote;
   try {

@@ -46,9 +46,6 @@ export default function HomeTechniques({ techniques }: Props) {
                 </span>
               </div>
               <h3 className={styles.techTitle}>{technique.title}</h3>
-              {technique.excerpt ? (
-                <p className={styles.techExcerpt}>{technique.excerpt}</p>
-              ) : null}
             </Link>
           ))}
         </div>

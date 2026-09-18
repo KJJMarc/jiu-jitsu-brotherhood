@@ -99,6 +99,23 @@ function sanitizeHref(href: string): string | null {
 }
 
 /**
+ * Strip legacy Shopify Club Network promo footers (dashed rule + “learn more”
+ * + map screenshot). Keeps in-body Club Network mentions intact.
+ */
+export function stripClubNetworkPromoFooter(html: string): string {
+  let out = html.replace(
+    /<(?:div|p)\b[^>]*>\s*-{10,}\s*<\/(?:div|p)>\s*<(?:div|p)\b[^>]*>\s*You can learn more about the Jiu Jitsu Brotherhood Club Network[\s\S]*$/i,
+    "",
+  );
+  // Fallback when the dashed rule was already lost but the promo + map remain.
+  out = out.replace(
+    /<(?:div|p)\b[^>]*>\s*You can learn more about the Jiu Jitsu Brotherhood Club Network[\s\S]*?Screenshot_2022-10-17[\s\S]*$/i,
+    "",
+  );
+  return out.trimEnd();
+}
+
+/**
  * Allowlist sanitiser. Strips scripts/styles/handlers; keeps editorial tags;
  * converts YouTube iframes to markers.
  */
@@ -106,7 +123,9 @@ export function sanitizeContentHtml(raw: string): {
   html: string;
   youtubeIds: string[];
 } {
-  const { html: withMarkers, youtubeIds } = replaceYoutubeIframesWithMarkers(raw);
+  const { html: withMarkers, youtubeIds } = replaceYoutubeIframesWithMarkers(
+    stripClubNetworkPromoFooter(raw),
+  );
 
   let out = withMarkers
     .replace(/<\s*(script|style|object|embed|link|meta)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, "")
@@ -188,21 +207,22 @@ function escapeAttr(value: string): string {
 export function splitContentHtmlForRender(
   html: string,
 ): Array<{ type: "html"; html: string } | { type: "youtube"; id: string }> {
+  const cleaned = stripClubNetworkPromoFooter(html);
   const parts: Array<
     { type: "html"; html: string } | { type: "youtube"; id: string }
   > = [];
   const re = /<div data-jjb-youtube="([A-Za-z0-9_-]{11})" class="jjb-youtube"><\/div>/g;
   let last = 0;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(html))) {
+  while ((m = re.exec(cleaned))) {
     if (m.index > last) {
-      parts.push({ type: "html", html: html.slice(last, m.index) });
+      parts.push({ type: "html", html: cleaned.slice(last, m.index) });
     }
     parts.push({ type: "youtube", id: m[1] });
     last = m.index + m[0].length;
   }
-  if (last < html.length) {
-    parts.push({ type: "html", html: html.slice(last) });
+  if (last < cleaned.length) {
+    parts.push({ type: "html", html: cleaned.slice(last) });
   }
   return parts;
 }

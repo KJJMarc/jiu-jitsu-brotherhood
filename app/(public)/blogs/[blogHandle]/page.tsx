@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import ArticlesIndex from "@/components/jjb-articles/ArticlesIndex";
+import TechniquesIndex from "@/components/jjb-articles/TechniquesIndex";
 import RoutePlaceholder from "@/components/RoutePlaceholder";
 import { canonicalAlternate } from "@/lib/canonical";
 import { isPreservedPath } from "@/lib/migration/resolve";
 import { BLOG_INDEX_TITLES } from "@/lib/migration/public-routes";
 import {
-  listPublishedArticles,
-  listPublishedTechniques,
+  listPublishedArticlesPage,
+  listPublishedTechniquesPage,
 } from "@/lib/content/public.server";
-import styles from "@/components/pages.module.css";
 
-type Props = { params: Promise<{ blogHandle: string }> };
+type Props = {
+  params: Promise<{ blogHandle: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { blogHandle } = await params;
@@ -26,51 +29,63 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function BlogIndexPage({ params }: Props) {
+function parsePage(raw: string | undefined): number {
+  const n = typeof raw === "string" ? Number(raw) : 1;
+  return Number.isFinite(n) ? Math.max(1, Math.floor(n)) : 1;
+}
+
+export default async function BlogIndexPage({ params, searchParams }: Props) {
   const { blogHandle } = await params;
   const copy = BLOG_INDEX_TITLES[blogHandle];
   if (!copy || !isPreservedPath(`/blogs/${blogHandle}`)) notFound();
 
-  const items =
-    blogHandle === "blog"
-      ? await listPublishedArticles()
-      : blogHandle === "techniques"
-        ? await listPublishedTechniques()
-        : [];
+  const sp = await searchParams;
+  const q = typeof sp.q === "string" ? sp.q : "";
+  const page = parsePage(sp.page);
 
-  if (items.length === 0) {
-    return (
-      <RoutePlaceholder
-        eyebrow={copy.eyebrow}
-        title={copy.title}
-        body="Entries will appear here after the Jiu Jitsu Brotherhood library is migrated. No placeholder articles are published."
-      />
-    );
+  if (blogHandle === "blog") {
+    const result = await listPublishedArticlesPage({
+      page,
+      pageSize: 12,
+      q,
+    });
+
+    if (result.total === 0 && !q) {
+      return (
+        <RoutePlaceholder
+          title={copy.title}
+          body="Entries will appear here after the Jiu Jitsu Brotherhood library is migrated. No placeholder articles are published."
+        />
+      );
+    }
+
+    return <ArticlesIndex result={result} />;
+  }
+
+  if (blogHandle === "techniques") {
+    const result = await listPublishedTechniquesPage({
+      page,
+      pageSize: 12,
+      q,
+    });
+
+    if (result.total === 0 && !q) {
+      return (
+        <RoutePlaceholder
+          title={copy.title}
+          body="Entries will appear here after the Jiu Jitsu Brotherhood library is migrated. No placeholder techniques are published."
+        />
+      );
+    }
+
+    return <TechniquesIndex result={result} />;
   }
 
   return (
-    <>
-      <section className="pagehero">
-        <div className="container">
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <h1>{copy.title}</h1>
-          <p>{copy.description}</p>
-        </div>
-      </section>
-      <section className="section">
-        <div className="container">
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "1.25rem" }}>
-            {items.map((item) => (
-              <li key={item.id}>
-                <Link href={item.canonical_path}>{item.title}</Link>
-                {item.excerpt ? (
-                  <p className={styles.backLink}>{item.excerpt}</p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    </>
+    <RoutePlaceholder
+      eyebrow={copy.eyebrow}
+      title={copy.title}
+      body="Entries will appear here after the Jiu Jitsu Brotherhood library is migrated. No placeholder articles are published."
+    />
   );
 }

@@ -1,0 +1,162 @@
+.hero {
+  padding-block: clamp(2.25rem, 5vw, 3.5rem) 0.5rem;
+  background: #fff;
+}
+
+.title {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 32rem;
+}
+
+.searchInput {
+  flex: 1 1 12rem;
+  min-height: 2.6rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--grey-200);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 1rem;
+  background: #fff;
+  color: var(--ink);
+}
+
+.searchInput:focus {
+  outline: 3px solid rgba(228, 6, 19, 0.25);
+  border-color: var(--red);
+}
+
+.searchBtn {
+  min-height: 2.6rem;
+  padding: 0.55rem 1.1rem;
+  border: 0;
+  border-radius: 10px;
+  background: var(--red);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.searchBtn:hover {
+  background: var(--red-dark);
+}
+
+.resultMeta {
+  margin: 0.85rem 0 0;
+  color: var(--grey-600);
+  font-size: 0.95rem;
+}
+
+.resultMeta a {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.section {
+  padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 6vw, 4.5rem);
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.1rem, 2.5vw, 1.75rem);
+}
+
+@media (min-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.card:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover .cardTitle {
+  color: var(--red);
+}
+
+.thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--grey-100);
+  margin-bottom: 0.7rem;
+}
+
+.thumbImg {
+  object-fit: cover;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  transition: color 0.15s ease;
+}
+
+.empty {
+  margin: 0;
+  color: var(--grey-600);
+  font-size: 1.05rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--grey-200);
+}
+
+.pageLink {
+  font-weight: 600;
+  color: var(--red);
+  text-decoration: none;
+}
+
+.pageLink:hover {
+  text-decoration: underline;
+}
+
+.pageDisabled {
+  color: var(--grey-400);
+  font-weight: 500;
+}
+
+.pageStatus {
+  color: var(--grey-600);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}

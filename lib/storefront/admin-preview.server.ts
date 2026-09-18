@@ -20,15 +20,20 @@ export {
 
 /**
  * Admin private storefront preview catalogue (the shop).
- * Active products only — drafts stay in admin product management and can
- * still be opened via product Preview, but are not listed in the shop.
+ * Includes drafts so unpublished KEEP imports can be inspected before publish.
+ * Archived stays excluded.
  */
 export async function listStorefrontPreviewCatalogue(): Promise<
   StorefrontProductCard[]
 > {
-  const products = await listAdminProducts({ status: "active" });
-  return products
-    .filter((product) => product.status === "active")
+  const [active, drafts] = await Promise.all([
+    listAdminProducts({ status: "active" }),
+    listAdminProducts({ status: "draft" }),
+  ]);
+  return [...active, ...drafts]
+    .filter(
+      (product) => product.status === "active" || product.status === "draft",
+    )
     .map((product) => mapAdminProductListItemToCard(product));
 }
 

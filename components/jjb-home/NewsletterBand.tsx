@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./jjb-home.module.css";
 import formStyles from "./newsletter-form.module.css";
 
@@ -47,7 +48,10 @@ export default function NewsletterBand() {
             </button>
           </div>
           <p className={formStyles.fine}>
-            No spam. Just Jiu Jitsu. Unsubscribe anytime.
+            No spam. Just Jiu Jitsu. Unsubscribe anytime.{" "}
+            <Link href="/pages/privacy-policy" className={formStyles.fineLink}>
+              Privacy Policy
+            </Link>
           </p>
         </form>
       </div>

@@ -33,7 +33,7 @@ const rows = parse(readFileSync(csvPath, "utf8"), {
   trim: true,
 }) as CsvRow[];
 
-assert.equal(rows.length, 587, "CSV row count drifted from the accepted 587-row inventory");
+assert.equal(rows.length, 588, "CSV row count drifted from the accepted 588-row inventory");
 
 const nextConfig = readFileSync(join(root, "next.config.mjs"), "utf8");
 assert.match(nextConfig, /trailingSlash:\s*false/);
@@ -135,10 +135,20 @@ assert.deepEqual(decision("/", "p=4942"), { kind: "gone" });
 assert.equal(decision("/blogs/blog", "page=2").kind, "pass");
 
 const Kingston = decision("/pages/bjj-in-kingston-upon-thames");
-assert.equal(Kingston.kind, "redirect");
-if (Kingston.kind === "redirect") {
-  assert.equal(Kingston.location, "https://www.kingstonjiujitsu.com/");
-}
+assert.equal(
+  Kingston.kind,
+  "pass",
+  "Kingston page must stay on JJB (Past Events network history) — not redirect off-site",
+);
+assert.equal(decision("/pages/past-events").kind, "pass");
+assert.equal(
+  decision("/products/summer-super-seminar-2025").kind,
+  "pass",
+);
+assert.equal(
+  decision("/products/kids-club-network-interclub-competition-2026").kind,
+  "pass",
+);
 
 // --- Full CSV audit (must match exactly; no unresolved discrepancies) ---
 const discrepancies: string[] = [];
