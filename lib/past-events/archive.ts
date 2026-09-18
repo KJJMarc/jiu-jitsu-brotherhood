@@ -25,6 +25,11 @@ export type PastEventArchiveEntry = {
   eyebrow: string;
   /** Optional local image override for the archive index card */
   imageSrc?: string;
+  /**
+   * Optional curated HTML for network-history detail pages.
+   * When set, replaces the slim past-event poster/blurb layout.
+   */
+  bodyHtml?: string;
 };
 
 /** Newest → oldest. Order is authoritative for /pages/past-events. */
@@ -114,12 +119,25 @@ export const PAST_EVENTS_ARCHIVE: PastEventArchiveEntry[] = [
   {
     handle: "bjj-in-kingston-upon-thames",
     canonicalPath: "/pages/bjj-in-kingston-upon-thames",
-    title: "BJJ in Kingston upon Thames",
+    title: "BJJ in Kingston-Upon-Thames",
     eventDate: "2015-09-20",
     location: "Kingston upon Thames",
-    blurb: "Training Brazilian Jiu Jitsu at Kingston Jiu Jitsu.",
+    blurb:
+      "High-quality Brazilian Jiu Jitsu classes in Kingston-upon-Thames — a thriving community of over 500 students.",
     kind: "network_history",
     eyebrow: "Network History",
+    /** Restored Shopify page copy; student count updated to 500. */
+    bodyHtml: `
+<p><strong>High-Quality Brazilian Jiu Jitsu Classes in Kingston-Upon-Thames</strong></p>
+<p>Kingston Jiu Jitsu is a Brazilian Jiu-Jitsu (BJJ) academy based in Kingston-upon-Thames.</p>
+<p>Starting with just a handful of students in 2012, Kingston Jiu Jitsu has blossomed into a thriving community of over 500 students. Experience the warmth of our extended family atmosphere, guided by head instructor Marc Barton, a black belt mentored by the legendary Mauricio Gomes. Start your journey of personal growth at Kingston Jiu Jitsu.</p>
+<p>Kingston Jiu Jitsu is renowned for its welcoming atmosphere and strong team spirit. As proud members of the Mauricio Gomes Legacy Team, we uphold the highest standards of excellence in our training.</p>
+<p>If you would like to find out more about any of our classes or to book a FREE TRIAL CLASS please:</p>
+<ul>
+<li>email us at: <a href="mailto:admin@kingstonjiujitsu.com">admin@kingstonjiujitsu.com</a></li>
+<li>or call us on: <a href="tel:+447584131335">07584 131335</a></li>
+</ul>
+`.trim(),
   },
 ];
 

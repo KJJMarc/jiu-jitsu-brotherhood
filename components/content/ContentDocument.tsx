@@ -40,6 +40,9 @@ export default function ContentDocument({
   const posterAlt = content.featured_image_alt || title;
   /** Past events: curated blurb only — no long Shopify body. */
   const pastEventBlurb = archive?.blurb || content.excerpt || null;
+  const networkHistoryHtml = archive?.bodyHtml?.trim() || null;
+  const isNetworkHistory =
+    isPastEvent && Boolean(networkHistoryHtml);
 
   return (
     <>
@@ -47,7 +50,7 @@ export default function ContentDocument({
         <div className="container">
           <p className="eyebrow">{eyebrow}</p>
           <h1>{title}</h1>
-          {isPastEvent ? (
+          {isPastEvent && !isNetworkHistory ? (
             eventDate || location ? (
               <p className={styles.backLink}>
                 {eventDate ? (
@@ -59,7 +62,7 @@ export default function ContentDocument({
                 {location}
               </p>
             ) : null
-          ) : (
+          ) : !isPastEvent ? (
             <>
               {content.excerpt ? <p>{content.excerpt}</p> : null}
               {content.published_at ? (
@@ -77,11 +80,33 @@ export default function ContentDocument({
                 </p>
               ) : null}
             </>
-          )}
+          ) : null}
         </div>
       </section>
 
-      {isPastEvent ? (
+      {isNetworkHistory && networkHistoryHtml ? (
+        <>
+          {posterSrc ? (
+            <section className={styles.docMedia}>
+              <div className="container">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={posterSrc}
+                  alt={posterAlt}
+                  className={styles.docFeaturedImg}
+                />
+              </div>
+            </section>
+          ) : null}
+          <section
+            className={posterSrc ? styles.docBodyAfterMedia : "section"}
+          >
+            <div className={`container ${styles.prose}`}>
+              <ContentBody html={networkHistoryHtml} />
+            </div>
+          </section>
+        </>
+      ) : isPastEvent ? (
         <>
           {posterSrc ? (
             <section className={styles.docMedia}>
