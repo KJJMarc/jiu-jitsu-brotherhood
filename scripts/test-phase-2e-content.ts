@@ -25,7 +25,6 @@ import { JJB_LEGAL_ENTITY } from "../lib/legal-entity";
 import {
   contentTokenOrFilter,
   isMarcBartonSearchQuery,
-  marcBartonArticlesOrFilter,
   tokenizeSearchQuery,
 } from "../lib/content/search";
 
@@ -164,6 +163,22 @@ assert.equal(
     source_shopify_author: "JJB Admin",
     body_html: "<p>No bio yet.</p>",
   } as never),
+  false,
+);
+assert.equal(
+  shouldAttachMarcBartonBio({
+    type: "article",
+    source_shopify_author: "Marc Barton",
+    body_html: "<p>No bio yet.</p>",
+  } as never),
+  true,
+);
+assert.equal(
+  shouldAttachMarcBartonBio({
+    type: "article",
+    source_shopify_author: "JJB Admin",
+    body_html: marcBody,
+  } as never),
   true,
 );
 assert.equal(
@@ -181,7 +196,6 @@ assert.equal(isMarcBartonSearchQuery(["marc", "barton"]), true);
 assert.equal(isMarcBartonSearchQuery(["marc"]), true);
 assert.equal(isMarcBartonSearchQuery(["tom", "renshaw"]), false);
 assert.ok(contentTokenOrFilter("guard").includes('title.ilike."%guard%"'));
-assert.ok(marcBartonArticlesOrFilter().includes("About the author"));
 
 const full = transformShopifyHtml(
   '<p>Hi</p><iframe src="https://www.youtube.com/embed/bmtZrIzxKPc"></iframe>',

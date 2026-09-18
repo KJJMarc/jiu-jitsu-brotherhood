@@ -51,19 +51,3 @@ export function contentTokenOrFilter(token: string): string {
   const quoted = quoteIlikePattern(token);
   return SEARCH_FIELDS.map((field) => `${field}.ilike.${quoted}`).join(",");
 }
-
-/**
- * Articles by Marc Barton: no guest “About the author” block, or an in-body
- * Marc bio signature. Guest bios (Tom Renshaw, etc.) are excluded.
- */
-export function marcBartonArticlesOrFilter(): string {
-  const about = quoteIlikePattern("About the author");
-  const signature = quoteIlikePattern(
-    "Marc Barton is a Brazilian Jiu Jitsu black belt",
-  );
-  return [
-    `body_html.is.null`,
-    `body_html.not.ilike.${about}`,
-    `body_html.ilike.${signature}`,
-  ].join(",");
-}

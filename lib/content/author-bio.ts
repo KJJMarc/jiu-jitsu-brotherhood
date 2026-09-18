@@ -38,14 +38,13 @@ export function hasNonMarcAboutAuthor(html: string | null | undefined): boolean 
 }
 
 /**
- * Attach the canonical Marc Barton bio on articles that are his (or that have
- * no guest about block). Guest-author about sections are left untouched.
+ * Attach the canonical Marc Barton bio only when we have a positive signal
+ * that the article is his — never by defaulting unmarked JJB Admin posts.
  */
 export function shouldAttachMarcBartonBio(content: ContentRecord): boolean {
   if (content.type !== "article") return false;
   const author = (content.source_shopify_author || "").trim().toLowerCase();
   if (author.includes("marc barton")) return true;
-  if (hasNonMarcAboutAuthor(content.body_html)) return false;
-  // JJB shopify author is usually “JJB Admin”; treat as Marc unless a guest bio exists.
-  return true;
+  if (MARC_BIO_SIGNATURE_RE.test(content.body_html || "")) return true;
+  return false;
 }

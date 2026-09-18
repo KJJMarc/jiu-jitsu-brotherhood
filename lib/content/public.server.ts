@@ -10,8 +10,6 @@ import {
 import { normalizeCanonicalPath } from "@/lib/content/paths";
 import {
   contentTokenOrFilter,
-  isMarcBartonSearchQuery,
-  marcBartonArticlesOrFilter,
   tokenizeSearchQuery,
 } from "@/lib/content/search";
 
@@ -194,16 +192,9 @@ async function listPublishedContentPage(
 
   if (q) {
     const tokens = tokenizeSearchQuery(q);
-    if (tokens.length > 0) {
-      if (type === "article" && isMarcBartonSearchQuery(tokens)) {
-        // Most JJB articles are Marc’s; guest-author pieces keep their own bios.
-        query = query.or(marcBartonArticlesOrFilter());
-      } else {
-        // Every token must match somewhere (AND of ORs across fields).
-        for (const token of tokens) {
-          query = query.or(contentTokenOrFilter(token));
-        }
-      }
+    // Every token must match somewhere (AND of ORs across fields).
+    for (const token of tokens) {
+      query = query.or(contentTokenOrFilter(token));
     }
   }
 
