@@ -70,7 +70,7 @@ export default function ContentDocument({
             <>
               {content.excerpt ? <p>{content.excerpt}</p> : null}
               {content.published_at ? (
-                <p className={styles.backLink}>
+                <p className={styles.docPublished}>
                   <time dateTime={content.published_at}>
                     {new Date(content.published_at).toLocaleDateString(
                       "en-GB",
@@ -142,7 +142,7 @@ export default function ContentDocument({
         </>
       ) : (
         <>
-          {content.type !== "technique" && content.featured_image_url ? (
+          {content.type === "page" && content.featured_image_url ? (
             <section className={styles.docMedia}>
               <div className="container">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -157,7 +157,7 @@ export default function ContentDocument({
 
           <section
             className={
-              content.type !== "technique" && content.featured_image_url
+              content.type === "page" && content.featured_image_url
                 ? styles.docBodyAfterMedia
                 : "section"
             }

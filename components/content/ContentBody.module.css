@@ -23,8 +23,58 @@
 }
 
 .prose :global(img) {
+  display: block;
   max-width: 100%;
   height: auto;
+  margin-inline: auto;
+}
+
+/* Shopify often wraps body images in a lone <div> */
+.prose :global(div:has(> img:only-child)) {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0 0.85rem;
+}
+
+.prose :global(div:has(> img:only-child) img) {
+  margin: 0;
+}
+
+.prose :global(p:has(> img:only-child)) {
+  text-align: center;
+  margin: 1.5rem 0 0.85rem;
+}
+
+.prose :global(p:has(> img:only-child) img) {
+  display: inline-block;
+  margin: 0;
+}
+
+.prose :global(figure) {
+  margin: 1.5rem 0 0.85rem;
+  text-align: center;
+}
+
+.prose :global(figure img) {
+  margin: 0 auto;
+}
+
+.prose :global(figcaption) {
+  margin: 0.85rem 0 1.5rem;
+  text-align: center;
+  color: var(--grey-600);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+/* Italic-only caption under an image */
+.prose :global(div:has(> img:only-child) + p:has(> em:only-child)),
+.prose :global(p:has(> img:only-child) + p:has(> em:only-child)) {
+  margin: 0.85rem 0 1.5rem;
+  text-align: center;
+  color: var(--grey-600);
+  font-size: 0.98rem;
+  line-height: 1.5;
 }
 
 .prose :global(ul),

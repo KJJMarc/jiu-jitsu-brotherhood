@@ -72,6 +72,12 @@
   padding-bottom: clamp(3rem, 7vw, 5.5rem);
 }
 
+.docPublished {
+  margin: 1.15rem 0 0;
+  color: var(--grey-600);
+  font-size: 0.98rem;
+}
+
 .prose p {
   color: var(--grey-700);
   font-size: 1.08rem;
