@@ -8,6 +8,12 @@ import {
   type ContentType,
 } from "@/lib/content/types";
 import { normalizeCanonicalPath } from "@/lib/content/paths";
+import {
+  contentTokenOrFilter,
+  isMarcBartonSearchQuery,
+  marcBartonArticlesOrFilter,
+  tokenizeSearchQuery,
+} from "@/lib/content/search";
 
 function mapRow(row: ContentRecord | null): ContentRecord | null {
   if (!row) return null;
@@ -187,12 +193,17 @@ async function listPublishedContentPage(
     .range(from, to);
 
   if (q) {
-    const safe = q.replace(/[%_,.()]/g, " ").replace(/\s+/g, " ").trim();
-    if (safe) {
-      const term = `%${safe}%`;
-      query = query.or(
-        `title.ilike.${term},excerpt.ilike.${term},seo_description.ilike.${term}`,
-      );
+    const tokens = tokenizeSearchQuery(q);
+    if (tokens.length > 0) {
+      if (type === "article" && isMarcBartonSearchQuery(tokens)) {
+        // Most JJB articles are Marc’s; guest-author pieces keep their own bios.
+        query = query.or(marcBartonArticlesOrFilter());
+      } else {
+        // Every token must match somewhere (AND of ORs across fields).
+        for (const token of tokens) {
+          query = query.or(contentTokenOrFilter(token));
+        }
+      }
     }
   }
 

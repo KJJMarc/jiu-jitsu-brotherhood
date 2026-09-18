@@ -22,6 +22,12 @@ import {
 } from "../lib/content/paths";
 import { assessJjbSupabaseProject } from "../lib/supabase/jjb-project";
 import { JJB_LEGAL_ENTITY } from "../lib/legal-entity";
+import {
+  contentTokenOrFilter,
+  isMarcBartonSearchQuery,
+  marcBartonArticlesOrFilter,
+  tokenizeSearchQuery,
+} from "../lib/content/search";
 
 // --- Paths / canonical ---
 assert.equal(
@@ -168,6 +174,14 @@ assert.equal(
   } as never),
   false,
 );
+
+// --- Content search helpers ---
+assert.deepEqual(tokenizeSearchQuery("  marc   barton "), ["marc", "barton"]);
+assert.equal(isMarcBartonSearchQuery(["marc", "barton"]), true);
+assert.equal(isMarcBartonSearchQuery(["marc"]), true);
+assert.equal(isMarcBartonSearchQuery(["tom", "renshaw"]), false);
+assert.ok(contentTokenOrFilter("guard").includes('title.ilike."%guard%"'));
+assert.ok(marcBartonArticlesOrFilter().includes("About the author"));
 
 const full = transformShopifyHtml(
   '<p>Hi</p><iframe src="https://www.youtube.com/embed/bmtZrIzxKPc"></iframe>',
