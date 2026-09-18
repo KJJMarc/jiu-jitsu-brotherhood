@@ -29,14 +29,19 @@
   margin-inline: auto;
 }
 
-/* Shopify wraps images in <div>, <p>, or <p><span>… */
+/*
+ * Shopify wraps images in <div>, <p>, <p><span>, or <div><span>.
+ * Inline text-align / margin styles are stripped by sanitise.
+ */
 .prose :global(div:has(> img:only-child)),
+.prose :global(div:has(> span:only-child > img:only-child)),
 .prose :global(p:has(img)) {
   text-align: center;
   margin: 2.35rem 0 1.1rem;
 }
 
 .prose :global(div:has(> img:only-child) img),
+.prose :global(div:has(> span:only-child > img:only-child) img),
 .prose :global(p:has(img) img) {
   display: inline-block;
   margin: 0;
@@ -61,16 +66,34 @@
 }
 
 /*
- * Italic captions under images — Shopify uses <em> or <i>, sometimes with
- * nested <span> and empty trailing italic nodes.
+ * Italic captions — Shopify often uses <div><em>…</em></div> (not <p>).
+ * Sanitise drops the original text-align:center, so we re-center here.
+ * Prefer div captions so guest “About the author” <p><i> bios stay left-aligned.
  */
-.prose :global(div:has(> img:only-child) + p:has(:is(em, i))),
-.prose :global(p:has(img) + p:has(:is(em, i))) {
+.prose :global(div:has(> :is(em, i):not(:empty))) {
   margin: 1.1rem 0 1.85rem;
   text-align: center;
   color: var(--grey-600);
   font-size: 0.98rem;
   line-height: 1.5;
+}
+
+.prose :global(p:has(img) + p:has(> :is(em, i):not(:empty))),
+.prose :global(div:has(img) + p:has(> :is(em, i):not(:empty))) {
+  margin: 1.1rem 0 1.85rem;
+  text-align: center;
+  color: var(--grey-600);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+/* Collapse empty Shopify caption placeholders between image and real caption */
+.prose :global(div:has(> :is(em, i):empty):not(:has(img))) {
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  line-height: 0;
+  font-size: 0;
 }
 
 .prose :global(ul),
