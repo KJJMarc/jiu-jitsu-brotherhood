@@ -1,5 +1,10 @@
 import ContentBody from "@/components/content/ContentBody";
+import MarcBartonAuthorBio from "@/components/content/MarcBartonAuthorBio";
 import type { ContentRecord } from "@/lib/content/types";
+import {
+  shouldAttachMarcBartonBio,
+  stripAboutAuthorSection,
+} from "@/lib/content/author-bio";
 import {
   formatPastEventDate,
   pastEventArchiveByPath,
@@ -49,6 +54,11 @@ export default function ContentDocument({
     isPastEvent && !isNetworkHistory && Boolean(eventDate || location);
   const isEditorial =
     content.type === "article" || content.type === "technique";
+  const showMarcBio = shouldAttachMarcBartonBio(content);
+  const bodyHtml =
+    showMarcBio && content.body_html
+      ? stripAboutAuthorSection(content.body_html)
+      : content.body_html;
 
   return (
     <>
@@ -169,7 +179,8 @@ export default function ContentDocument({
             }
           >
             <div className="container">
-              <ContentBody html={content.body_html} />
+              <ContentBody html={bodyHtml} />
+              {showMarcBio ? <MarcBartonAuthorBio /> : null}
               {content.template === "mailerlite_landing" &&
               content.mailerlite_form_code ? (
                 <MailerLiteForm

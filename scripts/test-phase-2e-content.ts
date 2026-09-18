@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
 import {
+  hasNonMarcAboutAuthor,
+  shouldAttachMarcBartonBio,
+  stripAboutAuthorSection,
+} from "../lib/content/author-bio";
+import {
   extractYoutubeIdsFromHtml,
   sanitizeContentHtml,
   splitContentHtmlForRender,
@@ -119,6 +124,50 @@ assert.ok(links.events.some((e) => e.code === "HTTPS_WWW"));
 assert.ok(links.events.some((e) => e.code === "STORE_HOST"));
 assert.ok(links.events.some((e) => e.code === "WP_UPLOAD"));
 assert.ok(links.events.some((e) => e.code === "BAD_HREF"));
+
+// --- Marc Barton author bio helpers ---
+const marcBody = `
+<p>Article copy.</p>
+<p><b>About the author</b></p>
+<p><em>Marc Barton is a Brazilian Jiu Jitsu black belt, educator, and former doctor with a background in human physiology and medicine.</em></p>
+<p><em>Now teaching…</em></p>
+`;
+assert.equal(
+  stripAboutAuthorSection(marcBody).includes("About the author"),
+  false,
+);
+assert.ok(stripAboutAuthorSection(marcBody).includes("Article copy."));
+
+const tomBody = `
+<p>Compete once.</p>
+<h3><strong>About the author</strong></h3>
+<p><i>This article was written by Tom Renshaw.</i></p>
+`;
+assert.equal(hasNonMarcAboutAuthor(tomBody), true);
+assert.equal(
+  shouldAttachMarcBartonBio({
+    type: "article",
+    source_shopify_author: "JJB Admin",
+    body_html: tomBody,
+  } as never),
+  false,
+);
+assert.equal(
+  shouldAttachMarcBartonBio({
+    type: "article",
+    source_shopify_author: "JJB Admin",
+    body_html: "<p>No bio yet.</p>",
+  } as never),
+  true,
+);
+assert.equal(
+  shouldAttachMarcBartonBio({
+    type: "technique",
+    source_shopify_author: null,
+    body_html: "<p>Technique.</p>",
+  } as never),
+  false,
+);
 
 const full = transformShopifyHtml(
   '<p>Hi</p><iframe src="https://www.youtube.com/embed/bmtZrIzxKPc"></iframe>',
