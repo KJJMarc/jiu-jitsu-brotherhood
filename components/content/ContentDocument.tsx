@@ -42,7 +42,11 @@ export default function ContentDocument({
   const pastEventBlurb = archive?.blurb || content.excerpt || null;
   const networkHistoryHtml = archive?.bodyHtml?.trim() || null;
   const isNetworkHistory =
-    isPastEvent && Boolean(networkHistoryHtml);
+    isPastEvent &&
+    (archive?.kind === "network_history" || Boolean(networkHistoryHtml));
+  /** Network-history pages: title + copy only — no event meta line. */
+  const showPastEventMeta =
+    isPastEvent && !isNetworkHistory && Boolean(eventDate || location);
 
   return (
     <>
@@ -50,18 +54,16 @@ export default function ContentDocument({
         <div className="container">
           <p className="eyebrow">{eyebrow}</p>
           <h1>{title}</h1>
-          {isPastEvent && !isNetworkHistory ? (
-            eventDate || location ? (
-              <p className={styles.backLink}>
-                {eventDate ? (
-                  <time dateTime={eventDate}>
-                    {formatPastEventDate(eventDate)}
-                  </time>
-                ) : null}
-                {eventDate && location ? " · " : null}
-                {location}
-              </p>
-            ) : null
+          {showPastEventMeta ? (
+            <p className={styles.backLink}>
+              {eventDate ? (
+                <time dateTime={eventDate}>
+                  {formatPastEventDate(eventDate)}
+                </time>
+              ) : null}
+              {eventDate && location ? " · " : null}
+              {location}
+            </p>
           ) : !isPastEvent ? (
             <>
               {content.excerpt ? <p>{content.excerpt}</p> : null}
@@ -84,7 +86,7 @@ export default function ContentDocument({
         </div>
       </section>
 
-      {isNetworkHistory && networkHistoryHtml ? (
+      {isNetworkHistory ? (
         <>
           {posterSrc ? (
             <section className={styles.docMedia}>
@@ -101,8 +103,10 @@ export default function ContentDocument({
           <section
             className={posterSrc ? styles.docBodyAfterMedia : "section"}
           >
-            <div className={`container ${styles.prose}`}>
-              <ContentBody html={networkHistoryHtml} />
+            <div className="container">
+              <ContentBody
+                html={networkHistoryHtml || content.body_html}
+              />
             </div>
           </section>
         </>
