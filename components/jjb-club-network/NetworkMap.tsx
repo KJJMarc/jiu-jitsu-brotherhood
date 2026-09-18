@@ -108,16 +108,32 @@ export default function NetworkMap({
       map.fitBounds(bounds.pad(0.22), { animate: false, maxZoom: 3 });
     }
 
-    const raf = window.requestAnimationFrame(() => {
+    const refit = () => {
       map.invalidateSize();
       if (currentPins.length > 0) {
         const bounds = L.latLngBounds(currentPins.map((p) => [p.lat, p.lng]));
         map.fitBounds(bounds.pad(0.22), { animate: false, maxZoom: 3 });
       }
-    });
+    };
+
+    const raf = window.requestAnimationFrame(refit);
+    const t1 = window.setTimeout(refit, 150);
+    const t2 = window.setTimeout(refit, 400);
+
+    const shell = container.parentElement;
+    const ro =
+      typeof ResizeObserver !== "undefined" && shell
+        ? new ResizeObserver(() => {
+            map.invalidateSize();
+          })
+        : null;
+    if (ro && shell) ro.observe(shell);
 
     return () => {
       window.cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      ro?.disconnect();
       markers.clear();
       destroyMap(container, map);
       mapRef.current = null;
