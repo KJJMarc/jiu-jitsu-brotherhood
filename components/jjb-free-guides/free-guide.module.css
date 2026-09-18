@@ -162,6 +162,7 @@
   object-fit: contain;
   object-position: center;
   display: block;
+  margin-inline: auto;
   filter: drop-shadow(0 22px 48px rgba(13, 14, 16, 0.28));
 }
 
@@ -202,6 +203,8 @@
 
   .heroCover {
     grid-area: cover;
+    width: 100%;
+    justify-content: center;
   }
 
   .heroCopy {
@@ -209,9 +212,15 @@
     max-width: none;
   }
 
+  .coverStack {
+    width: 100%;
+    align-items: center;
+  }
+
   .coverImg {
     width: min(78vw, 19rem);
     max-height: 48svh;
+    margin-inline: auto;
   }
 
   .title {
