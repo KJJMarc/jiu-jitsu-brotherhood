@@ -47,11 +47,15 @@ export default function ContentDocument({
   /** Network-history pages: title + copy only — no event meta line. */
   const showPastEventMeta =
     isPastEvent && !isNetworkHistory && Boolean(eventDate || location);
+  const isEditorial =
+    content.type === "article" || content.type === "technique";
 
   return (
     <>
       <section
-        className={`pagehero${isNetworkHistory ? ` ${styles.docHero}` : ""}`}
+        className={`pagehero${isNetworkHistory ? ` ${styles.docHero}` : ""}${
+          isEditorial ? ` ${styles.docHeroCompact}` : ""
+        }`}
       >
         <div className="container">
           <p className="eyebrow">{eyebrow}</p>
@@ -159,7 +163,9 @@ export default function ContentDocument({
             className={
               content.type === "page" && content.featured_image_url
                 ? styles.docBodyAfterMedia
-                : "section"
+                : isEditorial
+                  ? styles.docBodyTight
+                  : "section"
             }
           >
             <div className="container">

@@ -72,6 +72,16 @@
   padding-bottom: clamp(3rem, 7vw, 5.5rem);
 }
 
+/* Articles / techniques: less air around the hero rule. */
+.docHeroCompact {
+  padding-bottom: clamp(1.15rem, 2.2vw, 1.65rem);
+}
+
+.docBodyTight {
+  padding-top: clamp(1.15rem, 2.2vw, 1.65rem);
+  padding-bottom: clamp(3rem, 7vw, 5.5rem);
+}
+
 /* Beat .pagehero p { margin: 0 } so the date sits clear of the excerpt. */
 :global(.pagehero) .docPublished {
   margin: 1.35rem 0 0;
