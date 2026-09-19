@@ -1,6 +1,4 @@
-import FreeGuideLanding, {
-  FreeGuideSignupJump,
-} from "@/components/jjb-free-guides/FreeGuideLanding";
+import FreeGuideLanding from "@/components/jjb-free-guides/FreeGuideLanding";
 import { localAssets } from "@/lib/home/prototype";
 
 const cover = localAssets.beginnersGuide;
@@ -61,16 +59,7 @@ export default function JjBeginnersGuidePage() {
       themes={THEMES}
       finalHeading="Ready to get started?"
       finalHeadingId="ready-heading"
-      finalLead={
-        <>
-          Enter your email and we&apos;ll send the free Beginner&apos;s Guide —
-          or{" "}
-          <FreeGuideSignupJump href="#beginners-guide-signup">
-            return to the signup above
-          </FreeGuideSignupJump>
-          .
-        </>
-      }
+      finalLead="Enter your email and we'll send you the free Beginner's Guide."
       heroSignupId="beginners-guide-signup"
       footerSignupId="beginners-guide-signup-footer"
     />

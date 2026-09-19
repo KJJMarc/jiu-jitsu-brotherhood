@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { ReactNode } from "react";
 import FreeGuideSignupForm, {
   type FreeGuideLandingKey,
@@ -141,20 +140,5 @@ export default function FreeGuideLanding({
         </div>
       </section>
     </div>
-  );
-}
-
-/** Jump link used in final-CTA copy back to the hero signup. */
-export function FreeGuideSignupJump({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}) {
-  return (
-    <Link href={href} className={styles.finalJump}>
-      {children}
-    </Link>
   );
 }

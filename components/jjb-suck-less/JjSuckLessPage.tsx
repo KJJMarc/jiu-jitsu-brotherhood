@@ -1,6 +1,4 @@
-import FreeGuideLanding, {
-  FreeGuideSignupJump,
-} from "@/components/jjb-free-guides/FreeGuideLanding";
+import FreeGuideLanding from "@/components/jjb-free-guides/FreeGuideLanding";
 import { localAssets } from "@/lib/home/prototype";
 
 const cover = localAssets.suckLess;
@@ -61,15 +59,7 @@ export default function JjSuckLessPage() {
       themes={THEMES}
       finalHeading="Ready to suck less?"
       finalHeadingId="ready-suck-less"
-      finalLead={
-        <>
-          Enter your email and we&apos;ll send the free guide — or{" "}
-          <FreeGuideSignupJump href="#suck-less-signup">
-            return to the signup above
-          </FreeGuideSignupJump>
-          .
-        </>
-      }
+      finalLead="Enter your email and we'll send you the free guide."
       heroSignupId="suck-less-signup"
       footerSignupId="suck-less-signup-footer"
     />

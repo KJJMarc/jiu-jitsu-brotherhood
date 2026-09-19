@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ContentDocument from "@/components/content/ContentDocument";
 import JjAboutPage from "@/components/jjb-about/JjAboutPage";
 import JjBeginnersGuidePage from "@/components/jjb-beginners-guide/JjBeginnersGuidePage";
+import JjCheckYourInboxPage from "@/components/jjb-check-your-inbox/JjCheckYourInboxPage";
 import JjClubNetworkPage from "@/components/jjb-club-network/JjClubNetworkPage";
 import JjContactPage from "@/components/jjb-contact/JjContactPage";
 import JjLegalPageView from "@/components/jjb-legal/JjLegalPageView";
@@ -46,6 +47,11 @@ const SUCK_LESS_HANDLE = "how-to-suck-less-at-jiu-jitsu";
 const SUCK_LESS_TITLE = "How to Suck Less at Jiu Jitsu";
 const SUCK_LESS_DESCRIPTION =
   "Download our free guide How to Suck Less at Jiu Jitsu and get 101 practical tips to improve your training, mindset, and progress on the mats.";
+
+const CHECK_YOUR_INBOX_HANDLE = "check-your-inbox";
+const CHECK_YOUR_INBOX_TITLE = "Check your inbox";
+const CHECK_YOUR_INBOX_DESCRIPTION =
+  "Confirm your email address to complete your Jiu Jitsu Brotherhood signup.";
 
 const CLUB_NETWORK_HANDLE = "jiu-jitsu-brotherhood-club-network";
 const PAST_EVENTS_HANDLE = "past-events";
@@ -142,6 +148,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  if (handle === CHECK_YOUR_INBOX_HANDLE) {
+    return {
+      title: CHECK_YOUR_INBOX_TITLE,
+      description: CHECK_YOUR_INBOX_DESCRIPTION,
+      alternates: canonicalAlternate(`/pages/${CHECK_YOUR_INBOX_HANDLE}`),
+      robots: { index: false, follow: false },
+    };
+  }
+
   if (handle === BEGINNERS_GUIDE_HANDLE) {
     const content = await getPublishedPageByHandle(handle);
     return {
@@ -233,6 +248,10 @@ export default async function ShopifyPageRoute({ params }: Props) {
   if (handle === PAST_EVENTS_HANDLE) {
     const events = await listPublishedPastEvents();
     return <PastEventsIndex records={events} />;
+  }
+
+  if (handle === CHECK_YOUR_INBOX_HANDLE) {
+    return <JjCheckYourInboxPage />;
   }
 
   if (handle === BEGINNERS_GUIDE_HANDLE) {

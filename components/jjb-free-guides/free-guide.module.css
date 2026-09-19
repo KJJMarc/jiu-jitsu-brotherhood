@@ -528,19 +528,6 @@
   color: rgba(255, 255, 255, 0.92);
 }
 
-.finalJump {
-  color: inherit;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.14em;
-  text-decoration-thickness: 1px;
-  text-decoration-color: rgba(255, 255, 255, 0.55);
-}
-
-.finalJump:hover {
-  text-decoration-color: #fff;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .coverImg {
     filter: none;

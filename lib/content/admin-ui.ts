@@ -82,6 +82,12 @@ export const ADMIN_SYSTEM_PAGES = [
     source: "React free-guide landing (MailerLite)",
     editable: false as const,
   },
+  {
+    title: "Check your inbox",
+    path: "/pages/check-your-inbox",
+    source: "React: components/jjb-check-your-inbox/JjCheckYourInboxPage.tsx",
+    editable: false as const,
+  },
 ] as const;
 
 /**
