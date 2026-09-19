@@ -23,6 +23,8 @@
     "import:shopify:dry-run": "node scripts/import-shopify-catalogue.mjs",
     "import:jjb-keep": "node --env-file=.env.local scripts/import-jjb-keep-catalogue.mjs --apply",
     "import:jjb-keep:dry-run": "node --env-file=.env.local scripts/import-jjb-keep-catalogue.mjs",
+    "import:jjb-event-tickets": "node --env-file=.env.local scripts/import-jjb-event-ticket-drafts.mjs --apply",
+    "import:jjb-event-tickets:dry-run": "node --env-file=.env.local scripts/import-jjb-event-ticket-drafts.mjs",
     "import:inventory": "node scripts/apply-shopify-inventory.mjs --apply",
     "import:inventory:dry-run": "node scripts/apply-shopify-inventory.mjs",
     "import:physical-drafts": "node scripts/import-physical-inventory-drafts.mjs --apply",
