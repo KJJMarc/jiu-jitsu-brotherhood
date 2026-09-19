@@ -74,6 +74,20 @@ const BELT_SYSTEM_FEATURED_IMAGE = {
   alt: "The BJJ Belt System: From White to Black",
   sourceFile: "public/images/jjb/bjj-belt-system-thumbnail.png",
 } as const;
+/** Inline article diagram (replaces the legacy Shopify CDN graphic). */
+const BELT_SYSTEM_BODY_IMAGE = {
+  url: "/images/jjb/bjj-belt-system-thumbnail.png",
+  alt: "The Complete BJJ Belt System",
+  /** Matches the historical Shopify file in any size suffix / query. */
+  shopifySrcRe:
+    /https?:\/\/cdn\.shopify\.com\/s\/files\/1\/0363\/5125\/files\/brazilian-jiu-jitsu-belts-21[^"'>\s]*/gi,
+} as const;
+
+function rewriteBeltSystemBodyImage(html: string): string {
+  return html
+    .replace(BELT_SYSTEM_BODY_IMAGE.shopifySrcRe, BELT_SYSTEM_BODY_IMAGE.url)
+    .replaceAll("/images/jjb/bjj-belt-system.jpg", BELT_SYSTEM_BODY_IMAGE.url);
+}
 
 type ShopifyArticle = {
   id: string;
@@ -210,6 +224,7 @@ function planArticle(a: ShopifyArticle): PlannedRow | null {
 
 function planBeltSystemArticle(p: ShopifyPage): PlannedRow {
   const transformed = transformShopifyHtml(p.body || "");
+  const bodyHtml = rewriteBeltSystemBodyImage(transformed.html || "");
   return {
     type: "article",
     handle: p.handle,
@@ -218,7 +233,7 @@ function planBeltSystemArticle(p: ShopifyPage): PlannedRow {
     status: "published",
     published_at: BELT_SYSTEM_PUBLISHED_AT,
     excerpt: BELT_SYSTEM_SEO_DESCRIPTION,
-    body_html: transformed.html || null,
+    body_html: bodyHtml || null,
     seo_title: mf(p.metafields?.nodes, "title_tag"),
     seo_description: BELT_SYSTEM_SEO_DESCRIPTION,
     featured_image_url: BELT_SYSTEM_FEATURED_IMAGE.url,

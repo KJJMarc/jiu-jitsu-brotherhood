@@ -82,7 +82,11 @@ export default function ContentDocument({
             </p>
           ) : !isPastEvent ? (
             <>
-              {content.excerpt ? <p>{content.excerpt}</p> : null}
+              {content.excerpt ? (
+                <p className={isEditorial ? styles.docExcerpt : undefined}>
+                  {content.excerpt}
+                </p>
+              ) : null}
               {content.published_at ? (
                 <p className={styles.docPublished}>
                   <time dateTime={content.published_at}>

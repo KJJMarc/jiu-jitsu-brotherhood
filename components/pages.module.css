@@ -77,6 +77,12 @@
   padding-bottom: clamp(1.15rem, 2.2vw, 1.65rem);
 }
 
+/* Beat .pagehero p { max-width: 640px } so the SEO excerpt
+   shares the same full reading measure as ContentBody below. */
+:global(.pagehero) .docExcerpt {
+  max-width: none;
+}
+
 .docBodyTight {
   padding-top: clamp(1.15rem, 2.2vw, 1.65rem);
   padding-bottom: clamp(3rem, 7vw, 5.5rem);
@@ -84,7 +90,7 @@
 
 .authorBio {
   margin-top: clamp(2.5rem, 4vw, 3.25rem);
-  max-width: 40rem;
+  max-width: none;
 }
 
 .authorBioHeading {
@@ -99,7 +105,7 @@
 .authorBioCopy {
   margin: 0 0 1rem;
   font-style: italic;
-  font-size: 1.02rem;
+  font-size: inherit;
   line-height: 1.65;
   color: var(--grey-700);
 }

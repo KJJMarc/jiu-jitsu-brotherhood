@@ -207,7 +207,7 @@ function escapeAttr(value: string): string {
 export function splitContentHtmlForRender(
   html: string,
 ): Array<{ type: "html"; html: string } | { type: "youtube"; id: string }> {
-  const cleaned = stripClubNetworkPromoFooter(html);
+  const cleaned = rewriteKnownContentImages(stripClubNetworkPromoFooter(html));
   const parts: Array<
     { type: "html"; html: string } | { type: "youtube"; id: string }
   > = [];
@@ -225,4 +225,18 @@ export function splitContentHtmlForRender(
     parts.push({ type: "html", html: cleaned.slice(last) });
   }
   return parts;
+}
+
+/**
+ * Belt-system article: swap the legacy Shopify diagram for the local JJB asset.
+ * Idempotent if body_html already points at the local path.
+ */
+const BELT_SYSTEM_SHOPIFY_IMG_RE =
+  /https?:\/\/cdn\.shopify\.com\/s\/files\/1\/0363\/5125\/files\/brazilian-jiu-jitsu-belts-21[^"'>\s]*/gi;
+const BELT_SYSTEM_LOCAL_IMG = "/images/jjb/bjj-belt-system-thumbnail.png";
+
+export function rewriteKnownContentImages(html: string): string {
+  return html
+    .replace(BELT_SYSTEM_SHOPIFY_IMG_RE, BELT_SYSTEM_LOCAL_IMG)
+    .replaceAll("/images/jjb/bjj-belt-system.jpg", BELT_SYSTEM_LOCAL_IMG);
 }
