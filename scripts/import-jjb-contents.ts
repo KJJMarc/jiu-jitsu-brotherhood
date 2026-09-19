@@ -72,9 +72,9 @@ const onlyType = (() => {
 const BELT_SYSTEM_HANDLE = "progression-the-belt-system";
 const BELT_SYSTEM_PUBLISHED_AT = "2026-09-18T00:00:00.000Z";
 const BELT_SYSTEM_FEATURED_IMAGE = {
-  url: "/images/jjb/bjj-belt-system-thumbnail.png",
+  url: "/images/jjb/bjj-belt-system-card.png",
   alt: "The BJJ Belt System: From White to Black",
-  sourceFile: "public/images/jjb/bjj-belt-system-thumbnail.png",
+  sourceFile: "public/images/jjb/bjj-belt-system-card.png",
 } as const;
 /** Inline article diagram (replaces the legacy Shopify CDN graphic). */
 const BELT_SYSTEM_BODY_IMAGE = {

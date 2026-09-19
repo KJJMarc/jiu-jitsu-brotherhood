@@ -50,6 +50,13 @@ export default async function HomePage() {
             return {
               ...mapped,
               excerpt: BELT_SYSTEM_SEO_DESCRIPTION,
+              image: {
+                ...mapped.image,
+                src: "/images/jjb/bjj-belt-system-card.png",
+                alt: "The BJJ Belt System: From White to Black",
+                width: 1024,
+                height: 576,
+              },
             };
           }
           return mapped;
