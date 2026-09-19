@@ -103,7 +103,9 @@ assert(
     freeGuide.includes("consentId") &&
     freeGuide.includes(CONSENT_ERROR_SNIPPET) &&
     freeGuide.includes("I agree to receive occasional email updates") &&
-    freeGuide.includes("By submitting, we&apos;ll email you the requested guide.") &&
+    freeGuide.includes(
+      "We will email you the requested guide when you submit the form.",
+    ) &&
     !freeGuide.includes("By downloading this guide you also consent"),
   "Guide forms must require a front-end consent checkbox with the new copy",
 );

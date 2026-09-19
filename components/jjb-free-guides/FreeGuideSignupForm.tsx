@@ -159,7 +159,7 @@ export default function FreeGuideSignupForm({
         </p>
 
         <p id={fineId} className={styles.fine}>
-          By submitting, we&apos;ll email you the requested guide.{" "}
+          We will email you the requested guide when you submit the form.{" "}
           <Link href="/pages/terms-conditions" className={styles.fineLink}>
             Terms
           </Link>{" "}
