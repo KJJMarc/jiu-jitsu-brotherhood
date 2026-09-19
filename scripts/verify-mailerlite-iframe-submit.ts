@@ -15,6 +15,9 @@ function read(rel: string) {
 
 const failures: string[] = [];
 
+const CONSENT_ERROR_SNIPPET =
+  "Please confirm that you agree to receive email updates.";
+
 function assert(cond: boolean, message: string) {
   if (!cond) failures.push(message);
 }
@@ -94,6 +97,26 @@ assert(
     freeGuide.includes('name="ml-submit"') &&
     !freeGuide.includes('name="anticsrf"'),
   "Guide payload fields must remain unchanged (no anticsrf on guides)",
+);
+assert(
+  freeGuide.includes('type="checkbox"') &&
+    freeGuide.includes("consentId") &&
+    freeGuide.includes(CONSENT_ERROR_SNIPPET) &&
+    freeGuide.includes("I agree to receive occasional email updates") &&
+    freeGuide.includes("By submitting, we&apos;ll email you the requested guide.") &&
+    !freeGuide.includes("By downloading this guide you also consent"),
+  "Guide forms must require a front-end consent checkbox with the new copy",
+);
+assert(
+  !/type="checkbox"[^>]*name=/.test(freeGuide) &&
+    !freeGuide.includes("fields[gdpr]") &&
+    !freeGuide.includes("marketing_permissions"),
+  "Consent checkbox must not invent a MailerLite payload field",
+);
+assert(
+  newsletter.includes('type="checkbox"') &&
+    newsletter.includes("I consent to receive email updates from Jiu Jitsu Brotherhood"),
+  "Newsletter consent copy must remain unchanged",
 );
 assert(
   (landing.match(/<FreeGuideSignupForm/g) ?? []).length === 2,

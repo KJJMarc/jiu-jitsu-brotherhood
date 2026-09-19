@@ -252,15 +252,14 @@
   width: 100%;
 }
 
-.row {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.55rem;
-  align-items: stretch;
+.emailField {
+  min-width: 0;
+  width: 100%;
 }
 
 .input {
-  flex: 1 1 auto;
+  display: block;
+  width: 100%;
   min-width: 0;
   min-height: 3.25rem;
   padding: 0.75rem 1.05rem;
@@ -287,8 +286,39 @@
   border-color: var(--red);
 }
 
-.submit {
+.consent {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin: 0.55rem 0 0;
+}
+
+.consentInput {
   flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0.12rem 0 0;
+  accent-color: var(--red, #d01820);
+  cursor: pointer;
+}
+
+.consentInput:focus-visible {
+  outline: 3px solid rgba(208, 24, 32, 0.45);
+  outline-offset: 2px;
+}
+
+.consentLabel {
+  margin: 0;
+  color: var(--grey-700);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.submit {
+  display: block;
+  width: 100%;
+  margin-top: 0.7rem;
   min-height: 3.25rem;
   padding: 0.75rem 1.35rem;
   border: 0;
@@ -300,7 +330,13 @@
   font-weight: 650;
   letter-spacing: 0.01em;
   cursor: pointer;
-  white-space: nowrap;
+}
+
+@media (min-width: 800px) {
+  .submit {
+    width: auto;
+    min-width: 11.5rem;
+  }
 }
 
 .submit:hover:not(:disabled) {
@@ -318,7 +354,7 @@
 }
 
 .error {
-  margin: 0.65rem 0 0;
+  margin: 0.5rem 0 0;
   color: var(--red);
   font-size: 0.92rem;
   font-weight: 600;
@@ -334,10 +370,10 @@
 }
 
 .fine {
-  margin: 0.7rem 0 0;
+  margin: 0.45rem 0 0;
   color: var(--grey-600);
   font-size: 0.82rem;
-  line-height: 1.45;
+  line-height: 1.4;
   max-width: 36rem;
 }
 
@@ -362,6 +398,19 @@
 .formWrapFooter .input:focus {
   outline: 3px solid rgba(255, 255, 255, 0.95);
   outline-offset: 2px;
+}
+
+.formWrapFooter .consentInput {
+  accent-color: #0d0e10;
+}
+
+.formWrapFooter .consentInput:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.95);
+  outline-offset: 2px;
+}
+
+.formWrapFooter .consentLabel {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .formWrapFooter .submit {
@@ -399,23 +448,13 @@
 }
 
 @media (max-width: 799px) {
-  .row {
-    flex-direction: column;
-  }
-
-  .input,
-  .submit {
-    width: 100%;
-    flex: none;
-  }
-
-  .submit {
-    white-space: normal;
-  }
-
   .formWrap,
   .formWrapFooter {
     max-width: none;
+  }
+
+  .submit {
+    width: 100%;
   }
 }
 
