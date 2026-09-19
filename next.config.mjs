@@ -13,6 +13,8 @@ const APEX_HOST = "jiujitsubrotherhood.com";
 //  - Google Maps embeds (frame-src google.com) — unused on the Phase 1 public
 //    shell; left until Club Network mapping is decided
 //  - PayPal form submissions on leftover legal page markup (form-action)
+//  - MailerLite public webform POSTs for Free Stuff + homepage newsletter
+//    (form-action static.mailerlite.com only — no universal ML script)
 //  - Consent-gated GA4 via gtag.js (script/connect/img only — Ads/remarketing
 //    endpoints are omitted until those features are enabled)
 // 'unsafe-inline' is required for Next's inline bootstrap/hydration scripts
@@ -34,7 +36,7 @@ const CSP_REPORT_ONLY = [
   // GA4 collect / measurement endpoints (official non-Ads set).
   "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
   "frame-src https://www.youtube-nocookie.com https://www.google.com",
-  "form-action 'self' https://www.paypal.com",
+  "form-action 'self' https://www.paypal.com https://static.mailerlite.com",
 ].join("; ");
 
 // Globally-applicable security headers. HSTS is intentionally omitted — Vercel

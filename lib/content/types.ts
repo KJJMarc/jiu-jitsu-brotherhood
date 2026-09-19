@@ -108,6 +108,17 @@ export const MAILERLITE_LANDINGS = {
   },
 } as const;
 
+/**
+ * Homepage newsletter MailerLite public form (not a secret).
+ * Form ID 1006228 / code c4j4j4. Native HTML POST only — no universal script.
+ */
+export const MAILERLITE_NEWSLETTER = {
+  formId: "1006228",
+  formCode: "c4j4j4",
+  embedId: "mlb2-1006228",
+  submitUrl: "https://static.mailerlite.com/webforms/submit/c4j4j4",
+} as const;
+
 export const CONTENT_SELECT_COLUMNS = [
   "id",
   "type",
