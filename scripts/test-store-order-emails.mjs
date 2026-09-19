@@ -22,10 +22,13 @@ if (!MOLLIE_KEY.startsWith("test_")) {
   throw new Error("Refusing to run: MOLLIE_API_KEY is not TEST mode");
 }
 
-const FROM = "Kingston Jiu Jitsu <noreply@send.kingstonjiujitsu.com>";
-const REPLY_TO = "admin@kingstonjiujitsu.com";
+const FROM = process.env.EMAIL_FROM?.trim();
+const REPLY_TO = process.env.EMAIL_REPLY_TO?.trim();
 const ADMIN_TO = "admin@kingstonjiujitsu.com";
 const CUSTOMER_TO = "admin@kingstonjiujitsu.com";
+
+if (!FROM) throw new Error("Missing env EMAIL_FROM");
+if (!REPLY_TO) throw new Error("Missing env EMAIL_REPLY_TO");
 
 const sb = createClient(SUPABASE_URL, SERVICE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },

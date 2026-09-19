@@ -1,13 +1,23 @@
 import "server-only";
 
-import { Resend } from "resend";
+import {
+  getEmailFrom,
+  getEmailReplyTo,
+  getResendClient,
+  resendConfigured,
+  sendEmail,
+  type SendEmailInput,
+  type SendEmailResult,
+} from "@/lib/email/resend.server";
 
 /**
- * Resend helpers for store transactional email (server-only).
- * Never import this module from client components.
+ * Store / contact email helpers (server-only).
  *
- * From / Reply-To / notify addresses are env-driven. Do not invent a JJB
- * sending domain here.
+ * Thin wrappers over the central JJB Resend service
+ * (`EMAIL_FROM`, `EMAIL_REPLY_TO`, `RESEND_API_KEY`).
+ * Functional behaviour for contact and order emails is unchanged.
+ *
+ * Never import this module from client components.
  */
 
 function envTrim(name: string): string | undefined {
@@ -15,76 +25,30 @@ function envTrim(name: string): string | undefined {
   return value || undefined;
 }
 
+/** @deprecated Prefer getEmailFrom from @/lib/email/resend.server */
 export function getStoreEmailFrom(): string {
-  const from = envTrim("STORE_EMAIL_FROM");
-  if (!from) {
-    throw new Error(
-      "STORE_EMAIL_FROM is not configured. Add it as a server-side environment variable.",
-    );
-  }
-  return from;
+  return getEmailFrom();
 }
 
-export function getStoreEmailReplyTo(): string | undefined {
-  return envTrim("STORE_EMAIL_REPLY_TO");
+/** Default Reply-To from EMAIL_REPLY_TO (always required in central config). */
+export function getStoreEmailReplyTo(): string {
+  return getEmailReplyTo();
 }
 
 export function getStoreAdminOrderNotifyTo(): string | undefined {
   return envTrim("STORE_ADMIN_ORDER_NOTIFY_TO");
 }
 
-function requireResendApiKey(): string {
-  const key = process.env.RESEND_API_KEY?.trim();
-  if (!key) {
-    throw new Error(
-      "RESEND_API_KEY is not configured. Add it as a server-side environment variable.",
-    );
-  }
-  return key;
-}
-
 export function resendApiKeyConfigured(): boolean {
   return Boolean(process.env.RESEND_API_KEY?.trim());
 }
 
-let cached: Resend | null = null;
-
-export function getResendClient(): Resend {
-  if (!cached) {
-    cached = new Resend(requireResendApiKey());
-  }
-  return cached;
-}
-
-export type SendEmailInput = {
-  to: string | string[];
-  subject: string;
-  html: string;
-  text: string;
-  replyTo?: string;
-  tags?: Array<{ name: string; value: string }>;
-};
+export type { SendEmailInput, SendEmailResult };
 
 export async function sendStoreEmail(
   input: SendEmailInput,
-): Promise<{ id: string }> {
-  const resend = getResendClient();
-  const replyTo = input.replyTo ?? getStoreEmailReplyTo();
-  const { data, error } = await resend.emails.send({
-    from: getStoreEmailFrom(),
-    to: input.to,
-    subject: input.subject,
-    html: input.html,
-    text: input.text,
-    ...(replyTo ? { replyTo } : {}),
-    tags: input.tags,
-  });
-
-  if (error) {
-    throw new Error(error.message || "Resend email send failed.");
-  }
-  if (!data?.id) {
-    throw new Error("Resend email send returned no id.");
-  }
-  return { id: data.id };
+): Promise<SendEmailResult> {
+  return sendEmail(input);
 }
+
+export { getResendClient, resendConfigured, getEmailFrom, getEmailReplyTo };

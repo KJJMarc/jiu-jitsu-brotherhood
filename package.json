@@ -12,6 +12,7 @@
     "generate:migration-ledger": "node scripts/generate-migration-ledger.mjs",
     "test:routing": "tsx scripts/test-phase-2b-routing.ts",
     "test:content": "tsx scripts/test-phase-2e-content.ts",
+    "test:resend": "node --env-file=.env.local --import tsx scripts/test-resend-email.ts",
     "import:jjb-contents": "tsx scripts/import-jjb-contents.ts",
     "import:jjb-contents:write": "tsx scripts/import-jjb-contents.ts --write",
     "import:jjb-past-events": "node --env-file=.env.local --import tsx scripts/import-jjb-past-events.ts --write",

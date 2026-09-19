@@ -25,7 +25,9 @@ function escapeHtml(value: string): string {
 }
 
 export function contactEmailConfigured(): boolean {
-  return resendApiKeyConfigured() && Boolean(process.env.STORE_EMAIL_FROM?.trim());
+  return (
+    resendApiKeyConfigured() && Boolean(process.env.EMAIL_FROM?.trim())
+  );
 }
 
 /**
@@ -37,7 +39,7 @@ export async function sendContactFormEmail(
 ): Promise<{ id: string }> {
   if (!contactEmailConfigured()) {
     throw new Error(
-      "Contact email is not configured. RESEND_API_KEY and STORE_EMAIL_FROM are required.",
+      "Contact email is not configured. RESEND_API_KEY and EMAIL_FROM are required.",
     );
   }
 
