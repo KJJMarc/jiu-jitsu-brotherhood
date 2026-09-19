@@ -3,6 +3,7 @@
 import { useId, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { MAILERLITE_LANDINGS } from "@/lib/content/types";
+import { useMailerLiteIframeSubmit } from "@/lib/mailerlite/useMailerLiteIframeSubmit";
 import styles from "./free-guide.module.css";
 
 export type FreeGuideLandingKey = keyof typeof MAILERLITE_LANDINGS;
@@ -18,8 +19,8 @@ type Props = {
 
 /**
  * Free-guide signup — posts to the existing MailerLite public form for the
- * given landing. Does not use API keys. Keeps target=_blank so ML
- * confirmation/delivery behaviour is unchanged.
+ * given landing. Does not use API keys. Submits into a hidden iframe, then
+ * navigates to /pages/check-your-inbox once MailerLite responds.
  */
 export default function FreeGuideSignupForm({
   landing,
@@ -32,8 +33,10 @@ export default function FreeGuideSignupForm({
   const inputId = useId();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const { iframeName, statusId, submitting, onSubmit: onMlSubmit, iframeProps } =
+    useMailerLiteIframeSubmit({
+      instanceKey: `${landing}-${variant}-${anchorId}`,
+    });
 
   function validate(value: string): string | null {
     const trimmed = value.trim();
@@ -49,14 +52,10 @@ export default function FreeGuideSignupForm({
     if (message) {
       event.preventDefault();
       setError(message);
-      setPending(false);
-      setSubmitted(false);
       return;
     }
     setError(null);
-    setPending(true);
-    setSubmitted(true);
-    window.setTimeout(() => setPending(false), 2500);
+    onMlSubmit(event);
   }
 
   return (
@@ -69,10 +68,11 @@ export default function FreeGuideSignupForm({
         action={mlAction}
         data-code={formCode}
         method="post"
-        target="_blank"
+        target={iframeName}
         {...(primary ? { id: embedId } : {})}
         noValidate
         onSubmit={onSubmit}
+        aria-busy={submitting || undefined}
       >
         <div className={styles.row}>
           <label className="visually-hidden" htmlFor={inputId}>
@@ -94,10 +94,11 @@ export default function FreeGuideSignupForm({
             required
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? `${inputId}-error` : `${inputId}-fine`}
+            disabled={submitting}
           />
           <input type="hidden" name="ml-submit" value="1" />
-          <button className={styles.submit} type="submit" disabled={pending}>
-            {pending ? "Sending…" : "Send me the guide"}
+          <button className={styles.submit} type="submit" disabled={submitting}>
+            {submitting ? "Submitting…" : "Send me the guide"}
           </button>
         </div>
 
@@ -107,12 +108,14 @@ export default function FreeGuideSignupForm({
           </p>
         ) : null}
 
-        {submitted && !error ? (
-          <p className={styles.success} role="status" aria-live="polite">
-            Follow the confirmation in the new tab or your email — the guide is
-            delivered by MailerLite.
-          </p>
-        ) : null}
+        <p
+          id={statusId}
+          className="visually-hidden"
+          role="status"
+          aria-live="polite"
+        >
+          {submitting ? "Submitting your guide request." : ""}
+        </p>
 
         <p id={`${inputId}-fine`} className={styles.fine}>
           By downloading this guide you also consent to receive email updates
@@ -127,6 +130,8 @@ export default function FreeGuideSignupForm({
           .
         </p>
       </form>
+
+      <iframe {...iframeProps} />
     </div>
   );
 }

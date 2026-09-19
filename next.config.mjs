@@ -12,6 +12,9 @@ const APEX_HOST = "jiujitsubrotherhood.com";
 //  - YouTube privacy-enhanced embeds (frame-src youtube-nocookie.com)
 //  - Google Maps embeds (frame-src google.com) — unused on the Phase 1 public
 //    shell; left until Club Network mapping is decided
+//  - Hidden-iframe MailerLite webform responses (frame-src static.mailerlite.com
+//    + 'self' for the configured success URL hop; site X-Frame-Options still
+//    blocks framing our pages — onload still fires for top-level navigation)
 //  - PayPal form submissions on leftover legal page markup (form-action)
 //  - MailerLite public webform POSTs for Free Stuff + homepage newsletter
 //    (form-action static.mailerlite.com only — no universal ML script)
@@ -35,7 +38,7 @@ const CSP_REPORT_ONLY = [
   "font-src 'self'",
   // GA4 collect / measurement endpoints (official non-Ads set).
   "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
-  "frame-src https://www.youtube-nocookie.com https://www.google.com",
+  "frame-src 'self' https://www.youtube-nocookie.com https://www.google.com https://static.mailerlite.com",
   "form-action 'self' https://www.paypal.com https://static.mailerlite.com",
 ].join("; ");
 

@@ -3,6 +3,7 @@
 import { useId, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { MAILERLITE_NEWSLETTER } from "@/lib/content/types";
+import { useMailerLiteIframeSubmit } from "@/lib/mailerlite/useMailerLiteIframeSubmit";
 import styles from "./jjb-home.module.css";
 import formStyles from "./newsletter-form.module.css";
 
@@ -21,16 +22,8 @@ export default function NewsletterBand() {
   const consentId = useId();
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
-  const [pending, setPending] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  function onSubmit(_event: FormEvent<HTMLFormElement>) {
-    // Native HTML5 validation (required email + consent) runs first.
-    // This handler only fires when the form is valid.
-    setPending(true);
-    setSubmitted(true);
-    window.setTimeout(() => setPending(false), 2500);
-  }
+  const { iframeName, statusId, submitting, onSubmit, iframeProps } =
+    useMailerLiteIframeSubmit({ instanceKey: "newsletter-home" });
 
   return (
     <section
@@ -53,8 +46,9 @@ export default function NewsletterBand() {
           action={submitUrl}
           data-code={formCode}
           method="post"
-          target="_blank"
+          target={iframeName}
           onSubmit={onSubmit}
+          aria-busy={submitting || undefined}
         >
           <div className={formStyles.row}>
             <label className="visually-hidden" htmlFor={emailId}>
@@ -72,16 +66,15 @@ export default function NewsletterBand() {
               inputMode="email"
               required
               aria-required="true"
-              aria-describedby={
-                submitted ? `${emailId}-success` : `${emailId}-fine`
-              }
+              aria-describedby={`${emailId}-fine`}
+              disabled={submitting}
             />
             <button
               className={formStyles.submit}
               type="submit"
-              disabled={pending}
+              disabled={submitting}
             >
-              {pending ? "Sending…" : "Keep me updated"}
+              {submitting ? "Submitting…" : "Keep me updated"}
             </button>
           </div>
 
@@ -94,6 +87,7 @@ export default function NewsletterBand() {
               onChange={(e) => setConsent(e.target.checked)}
               required
               aria-required="true"
+              disabled={submitting}
             />
             <label className={formStyles.consentLabel} htmlFor={consentId}>
               I consent to receive email updates from Jiu Jitsu Brotherhood and
@@ -112,23 +106,21 @@ export default function NewsletterBand() {
           <input type="hidden" name="ml-submit" value="1" />
           <input type="hidden" name="anticsrf" value="true" />
 
-          {submitted ? (
-            <p
-              id={`${emailId}-success`}
-              className={formStyles.success}
-              role="status"
-              aria-live="polite"
-            >
-              Your subscription request was received. Check your inbox to
-              confirm if prompted — subscription is not complete until any
-              confirmation step is finished.
-            </p>
-          ) : null}
+          <p
+            id={statusId}
+            className="visually-hidden"
+            role="status"
+            aria-live="polite"
+          >
+            {submitting ? "Submitting your subscription request." : ""}
+          </p>
 
           <p id={`${emailId}-fine`} className={formStyles.fine}>
             No spam. Just Jiu Jitsu. Unsubscribe anytime.
           </p>
         </form>
+
+        <iframe {...iframeProps} />
       </div>
     </section>
   );
