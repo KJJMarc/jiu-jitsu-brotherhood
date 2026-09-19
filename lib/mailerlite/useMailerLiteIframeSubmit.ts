@@ -31,12 +31,11 @@ type Result = {
    * themselves before invoking this, or only call this when valid.
    */
   onSubmit: FormEventHandler<HTMLFormElement>;
-  /** Attach to the hidden iframe's onLoad. */
-  onIframeLoad: () => void;
   /** Props for the hidden iframe element. */
   iframeProps: {
     name: string;
     title: string;
+    src: string;
     "aria-hidden": true;
     tabIndex: -1;
     className: string;
@@ -47,7 +46,12 @@ type Result = {
 /**
  * Posts a MailerLite public webform into a uniquely named hidden iframe, then
  * navigates the visible page to the shared check-your-inbox confirmation once
- * MailerLite has responded. Ignores the iframe's initial empty load.
+ * MailerLite has responded.
+ *
+ * Initial about:blank loads are ignored because `awaitingResponseRef` is only
+ * set true on a valid submit — do not use a one-shot "ignore first load" flag,
+ * or the first real ML response is dropped when the blank iframe never fires
+ * an initial load event.
  */
 export function useMailerLiteIframeSubmit({ instanceKey }: Options): Result {
   const reactId = useId().replace(/:/g, "");
@@ -56,17 +60,12 @@ export function useMailerLiteIframeSubmit({ instanceKey }: Options): Result {
 
   const [submitting, setSubmitting] = useState(false);
   const awaitingResponseRef = useRef(false);
-  const ignoreInitialLoadRef = useRef(true);
 
   const navigateToInbox = useCallback(() => {
     window.location.assign(MAILERLITE_CHECK_YOUR_INBOX_PATH);
   }, []);
 
   const onIframeLoad = useCallback(() => {
-    if (ignoreInitialLoadRef.current) {
-      ignoreInitialLoadRef.current = false;
-      return;
-    }
     if (!awaitingResponseRef.current) return;
     awaitingResponseRef.current = false;
     navigateToInbox();
@@ -92,10 +91,10 @@ export function useMailerLiteIframeSubmit({ instanceKey }: Options): Result {
     statusId,
     submitting,
     onSubmit,
-    onIframeLoad,
     iframeProps: {
       name: iframeName,
       title: "MailerLite form submission",
+      src: "about:blank",
       "aria-hidden": true,
       tabIndex: -1,
       className: "visually-hidden",

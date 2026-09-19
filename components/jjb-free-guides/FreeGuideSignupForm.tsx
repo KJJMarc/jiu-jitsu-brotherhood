@@ -94,7 +94,6 @@ export default function FreeGuideSignupForm({
             required
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? `${inputId}-error` : `${inputId}-fine`}
-            disabled={submitting}
           />
           <input type="hidden" name="ml-submit" value="1" />
           <button className={styles.submit} type="submit" disabled={submitting}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
+import { useId, useState } from "react";
 import Link from "next/link";
 import { MAILERLITE_NEWSLETTER } from "@/lib/content/types";
 import { useMailerLiteIframeSubmit } from "@/lib/mailerlite/useMailerLiteIframeSubmit";
@@ -67,7 +67,6 @@ export default function NewsletterBand() {
               required
               aria-required="true"
               aria-describedby={`${emailId}-fine`}
-              disabled={submitting}
             />
             <button
               className={formStyles.submit}
@@ -87,7 +86,6 @@ export default function NewsletterBand() {
               onChange={(e) => setConsent(e.target.checked)}
               required
               aria-required="true"
-              disabled={submitting}
             />
             <label className={formStyles.consentLabel} htmlFor={consentId}>
               I consent to receive email updates from Jiu Jitsu Brotherhood and

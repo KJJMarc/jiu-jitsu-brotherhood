@@ -64,8 +64,8 @@ assert(
   "Shared constant must point at /pages/check-your-inbox",
 );
 assert(
-  hook.includes("ignoreInitialLoadRef"),
-  "Hook must ignore the iframe's initial empty load",
+  hook.includes("awaitingResponseRef") && hook.includes('src: "about:blank"'),
+  "Hook must gate navigation on post-submit loads and use about:blank",
 );
 assert(
   hook.includes("MAILERLITE_CHECK_YOUR_INBOX_PATH"),
