@@ -7,8 +7,10 @@ export const headerLogo = {
 } as const;
 
 /**
- * Compact circular ouroboros mark extracted from approved Circular 1.png
- * (text removed). For favicon / app icon / admin sidebar — not the public header.
+ * Compact circular ouroboros mark for favicon / app icon / admin sidebar.
+ * Cleaned transparent master derived from the approved Ouroboros artwork
+ * (white paper background and edge dirt removed; design unchanged).
+ * Not the public header wordmark.
  */
 export const compactMark = {
   src: "/brand/jjb-ouroboros-mark.png",

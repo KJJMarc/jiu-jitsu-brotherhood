@@ -145,23 +145,6 @@
   color: var(--grey-600);
 }
 
-.companyLine {
-  margin-top: 0.55rem !important;
-  max-width: 52rem;
-  line-height: 1.5;
-  font-size: 0.8rem !important;
-}
-
-.companyLine a {
-  color: var(--grey-600);
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
-}
-
-.companyLine a:hover {
-  color: var(--red);
-}
-
 /* Poppins subset can miss © — use a system face for the mark only */
 .copyMark {
   font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
