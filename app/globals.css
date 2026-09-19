@@ -313,3 +313,38 @@ ul {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Print: optional cancellation form only (Delivery & Returns). */
+@media print {
+  header,
+  footer,
+  .skip-link,
+  .no-print,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  main {
+    display: block;
+  }
+
+  .legal-print-form-page .pagehero,
+  .legal-print-form-page .no-print-when-form {
+    display: none !important;
+  }
+
+  .legal-print-form-page.section,
+  .legal-print-form-page {
+    padding: 0 !important;
+  }
+
+  .legal-print-form-page .container {
+    max-width: none;
+    padding: 0;
+  }
+}

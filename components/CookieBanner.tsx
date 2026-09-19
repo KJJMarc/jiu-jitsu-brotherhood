@@ -33,7 +33,7 @@ export default function CookieBanner() {
 
   return (
     <div
-      className={styles.banner}
+      className={`${styles.banner} no-print`}
       role="dialog"
       aria-modal="false"
       aria-label="Cookie consent"

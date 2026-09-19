@@ -504,7 +504,7 @@ For most goods bought online, you may cancel without giving a reason from the ti
 
 For an order delivered in separate parcels, the cancellation period generally ends 14 days after the day the final parcel is received.
 
-To cancel, tell us clearly before the cancellation period ends. Email admin@kingstonjiujitsu.com and include your name, order number, the goods concerned and a clear statement that you wish to cancel. You may use the model cancellation form below, but you do not have to.
+To cancel, tell us clearly before the cancellation period ends. Email admin@kingstonjiujitsu.com and include your name, order number, the goods concerned and a clear statement that you wish to cancel. You may use the optional cancellation form below, but you do not have to.
 
 ## 7. Returning cancelled goods
 
@@ -553,27 +553,9 @@ The Consumer Rights Act 2015 provides consumers with a short-term right to rejec
 
 We do not routinely offer direct exchanges. If you want a different size, colour or variant, you may return the original item under this Policy and place a new order. This does not affect your remedies for faulty, incorrect or misdescribed goods.
 
-## 12. Model cancellation form
+## 12. Optional cancellation form
 
-Complete and return this form only if you wish to cancel your contract. You may instead send us any other clear cancellation statement.
-
-> **To:** Kingston Jiu Jitsu Ltd trading as Jiu Jitsu Brotherhood, 56 Staunton Road, Kingston upon Thames, Surrey, England, KT2 5TL; admin@kingstonjiujitsu.com  
->  
-> I/We hereby give notice that I/We cancel my/our contract of sale of the following goods:  
->  
-> Goods:  
->  
-> Ordered on/received on:  
->  
-> Order number:  
->  
-> Name of consumer(s):  
->  
-> Address of consumer(s):  
->  
-> Signature of consumer(s), only if this form is sent on paper:  
->  
-> Date:
+{{JJB_OPTIONAL_CANCELLATION_FORM}}
 
 ## 13. Contact
 

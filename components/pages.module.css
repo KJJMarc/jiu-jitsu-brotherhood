@@ -1060,26 +1060,195 @@
   margin-bottom: 0;
 }
 
+/* Match KJJ legal pages (.prose h2 + .legalList).
+   Beat `.prose > div:first-child h2 { margin-top: 0 }` so markdown
+   sections keep the same heading rhythm as KJJ block-rendered pages. */
+.prose.legal .legalBody > h2,
 .legal h2 {
-  margin: 2rem 0 0.75rem;
-  font-size: clamp(1.2rem, 2.4vw, 1.45rem);
+  margin: 1.9rem 0 0.6rem;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
   letter-spacing: -0.015em;
+  line-height: 1.18;
 }
 
+.prose.legal .legalBody > h2:first-child,
 .legal h2:first-child {
   margin-top: 0;
 }
 
-.legal p,
-.legal li {
+.legal p {
+  max-width: 40rem;
+  color: var(--grey-700);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+
+.legal ul,
+.legal ol {
+  list-style: disc;
+  list-style-position: outside;
+  padding-left: 1.3rem;
+  margin: 0 0 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   max-width: 40rem;
 }
 
-.legal ul {
+.legal ol {
+  list-style: decimal;
+}
+
+.legal li {
+  max-width: 40rem;
+  color: var(--grey-700);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+/* ---------- Optional cancellation form (Delivery & Returns) ---------- */
+.cancelSection {
+  max-width: 42rem;
+  margin: 2rem 0 2.5rem;
+}
+
+.cancelSection > h2 {
+  margin: 1.9rem 0 0.6rem;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+}
+
+.cancelSection > p {
+  max-width: 40rem;
+  color: var(--grey-700);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  margin: 0 0 1.25rem;
+}
+
+.cancelSection > p a {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.cancelActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
+.cancelCard {
+  max-width: 40rem;
+  padding: 1.35rem 1.25rem 1.25rem;
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #fff 0%, #f7f8fa 100%);
+  box-shadow: var(--shadow-sm);
+}
+
+.cancelCardEyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+}
+
+.cancelCardRecipient {
+  margin: 0 0 1.25rem;
+  color: var(--ink);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.cancelCardRecipient a {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.cancelCardLead {
   margin: 0 0 1.1rem;
+  color: var(--grey-700);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.cancelFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cancelField label {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.cancelFieldHint {
+  font-weight: 400;
+  color: var(--grey-600);
+}
+
+.cancelLine,
+.cancelLineTall {
+  width: 100%;
+  border-bottom: 1px solid var(--grey-400);
+  background: transparent;
+}
+
+.cancelLine {
+  height: 1.65rem;
+}
+
+.cancelLineTall {
+  height: 3.1rem;
+  border-bottom-style: solid;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 1.5rem,
+    var(--grey-200) 1.5rem,
+    var(--grey-200) calc(1.5rem + 1px),
+    transparent calc(1.5rem + 1px)
+  );
+}
+
+@media print {
+  .cancelActions {
+    display: none !important;
+  }
+
+  .cancelCard {
+    box-shadow: none;
+    background: #fff;
+    border: 1px solid #333;
+    border-radius: 0;
+    max-width: none;
+    break-inside: avoid;
+  }
+
+  .cancelSection {
+    max-width: none;
+    margin: 0;
+  }
+
+  .cancelSection > p a {
+    color: #000;
+    text-decoration: underline;
+  }
 }
 
 @media (min-width: 640px) {
+  .cancelCard {
+    padding: 1.5rem 1.5rem 1.35rem;
+  }
+
   .licencePanel,
   .legal :global(.kjj-licence-panel) {
     padding: 1.5rem 1.5rem 1.25rem;

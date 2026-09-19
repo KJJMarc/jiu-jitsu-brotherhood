@@ -17,7 +17,12 @@ export type JjLegalPage = {
   description: string;
   lastUpdatedLabel: string;
   bodyHtml: string;
+  /** HTML after the optional cancellation form (delivery-returns only). */
+  bodyHtmlAfterForm?: string;
+  showOptionalCancellationForm?: boolean;
 };
+
+const CANCELLATION_FORM_MARKER = "{{JJB_OPTIONAL_CANCELLATION_FORM}}";
 
 const SOURCE = join(
   process.cwd(),
@@ -111,13 +116,36 @@ export function getJjLegalPages(): JjLegalPage[] {
       /\*\*Last updated:\s*([^*]+)\*\*/i.exec(markdown)?.[1]?.trim() ||
       "19 September 2026";
 
+    let bodyMarkdown = markdown;
+    let bodyHtmlAfterForm: string | undefined;
+    let showOptionalCancellationForm = false;
+
+    if (section.slug === "delivery-returns") {
+      const markerIndex = bodyMarkdown.indexOf(CANCELLATION_FORM_MARKER);
+      if (markerIndex >= 0) {
+        showOptionalCancellationForm = true;
+        // Drop the section-12 heading from markdown — the React form owns it.
+        const before = bodyMarkdown
+          .slice(0, markerIndex)
+          .replace(/##\s+12\.\s+Optional cancellation form\s*$/i, "")
+          .trimEnd();
+        const after = bodyMarkdown
+          .slice(markerIndex + CANCELLATION_FORM_MARKER.length)
+          .trimStart();
+        bodyMarkdown = before;
+        bodyHtmlAfterForm = markdownToHtml(after);
+      }
+    }
+
     return {
       slug: section.slug,
       title: section.title,
       path: section.path,
       description: section.description,
       lastUpdatedLabel: updated,
-      bodyHtml: markdownToHtml(markdown),
+      bodyHtml: markdownToHtml(bodyMarkdown),
+      bodyHtmlAfterForm,
+      showOptionalCancellationForm,
     };
   });
 
