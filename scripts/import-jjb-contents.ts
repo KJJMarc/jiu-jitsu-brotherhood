@@ -78,7 +78,7 @@ const BELT_SYSTEM_FEATURED_IMAGE = {
 } as const;
 /** Inline article diagram (replaces the legacy Shopify CDN graphic). */
 const BELT_SYSTEM_BODY_IMAGE = {
-  url: "/images/jjb/bjj-belt-system.jpg",
+  url: "/images/jjb/bjj-belt-system-chart.jpg",
   alt: "The Complete BJJ Belt System",
   /** Matches the historical Shopify file in any size suffix / query. */
   shopifySrcRe:
@@ -89,7 +89,7 @@ function rewriteBeltSystemBodyImage(html: string): string {
   return html
     .replace(BELT_SYSTEM_BODY_IMAGE.shopifySrcRe, BELT_SYSTEM_BODY_IMAGE.url)
     .replace(
-      /src=(["'])\/images\/jjb\/bjj-belt-system-thumbnail\.png\1/gi,
+      /src=(["'])\/images\/jjb\/bjj-belt-system(?:-thumbnail\.png|\.jpg)\1/gi,
       `src=$1${BELT_SYSTEM_BODY_IMAGE.url}$1`,
     );
 }
