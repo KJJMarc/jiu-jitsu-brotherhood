@@ -21,9 +21,10 @@ const NAV: AdminNavSection[] = [
   {
     title: "Content",
     items: [
-      { href: "/admin/content/", label: "Editorial", enabled: true },
-      { href: "/admin/articles/", label: "Articles (legacy)", enabled: true },
-      { href: "/admin/pages/", label: "Pages (legacy)", enabled: true },
+      { href: "/admin/articles/", label: "Articles", enabled: true },
+      { href: "/admin/techniques/", label: "Techniques", enabled: true },
+      { href: "/admin/pages/", label: "Pages", enabled: true },
+      { href: "/admin/past-events/", label: "Past Events", enabled: true },
     ],
   },
   {

@@ -8,6 +8,7 @@ import {
   createAdminContent,
   updateAdminContent,
 } from "@/lib/content/admin.server";
+import { adminContentListPathForType } from "@/lib/content/admin-ui";
 import type { ContentStatus, ContentType, ContentWriteInput } from "@/lib/content/types";
 import { defaultBlogHandle, defaultCanonicalPath } from "@/lib/content/paths";
 
@@ -65,14 +66,22 @@ function formToInput(formData: FormData): ContentWriteInput {
   };
 }
 
+function revalidateContentAdminPaths(type: ContentType, id?: string) {
+  revalidatePath(ADMIN_CONTENT_PATH);
+  revalidatePath(adminContentListPathForType(type));
+  if (id) revalidatePath(adminContentEditPath(id));
+}
+
 export async function createContentAction(
   _prev: ContentFormState,
   formData: FormData,
 ): Promise<ContentFormState> {
   try {
-    const created = await createAdminContent(formToInput(formData));
-    revalidatePath(ADMIN_CONTENT_PATH);
-    redirect(adminContentEditPath(created.id));
+    const input = formToInput(formData);
+    const created = await createAdminContent(input);
+    revalidateContentAdminPaths(created.type, created.id);
+    // Land on the typed section list so editors see the item in context.
+    redirect(adminContentListPathForType(created.type));
   } catch (error) {
     if (
       error &&
@@ -95,9 +104,8 @@ export async function updateContentAction(
   try {
     const id = String(formData.get("id") ?? "");
     if (!id) return { error: "Missing content id." };
-    await updateAdminContent(id, formToInput(formData));
-    revalidatePath(ADMIN_CONTENT_PATH);
-    revalidatePath(adminContentEditPath(id));
+    const updated = await updateAdminContent(id, formToInput(formData));
+    revalidateContentAdminPaths(updated.type, id);
     return { error: null };
   } catch (error) {
     return {

@@ -105,6 +105,17 @@ export const PAST_EVENTS_ARCHIVE: PastEventArchiveEntry[] = [
     imageSrc: "/images/jjb/spring-super-seminar.jpg",
   },
   {
+    handle: "welsh-winter-special",
+    canonicalPath: "/pages/welsh-winter-special",
+    title: "Welsh Winter Special",
+    eventDate: "2023-02-18",
+    location: null,
+    blurb:
+      "A Club Network winter super seminar — the Welsh Winter Special, held on 18 February 2023.",
+    kind: "seminar",
+    eyebrow: "Past Event",
+  },
+  {
     handle: "summer-seaside-special",
     canonicalPath: "/blogs/blog/summer-seaside-special",
     title: "Summer Seaside Special",

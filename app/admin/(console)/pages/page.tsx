@@ -1,107 +1,190 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import styles from "@/app/admin/admin.module.css";
+import AdminContentTypeList from "@/components/admin/content/AdminContentTypeList";
 import {
-  adminPageEditPath,
-  listAdminPages,
-} from "@/lib/admin/pages.server";
-import { formatArticleDate } from "@/lib/article-dates";
+  ADMIN_RESERVED_PLACEHOLDER_PAGES,
+  ADMIN_SYSTEM_PAGES,
+} from "@/lib/content/admin-ui";
+import { getJjLegalPages } from "@/lib/jjb-legal/pages";
+import styles from "@/app/admin/admin.module.css";
 
 export const metadata: Metadata = {
   title: "Pages",
 };
 
-function formatPublishedAt(value: string | null): string {
-  if (!value) return "—";
-  try {
-    return formatArticleDate(value);
-  } catch {
-    return value.slice(0, 10);
-  }
-}
+export const dynamic = "force-dynamic";
 
-export default async function AdminPagesPage() {
-  const { pages, setupRequired, errorMessage } = await listAdminPages();
+type Search = Promise<{ status?: string; q?: string }>;
+
+export default async function AdminPagesPage({
+  searchParams,
+}: {
+  searchParams: Search;
+}) {
+  const sp = await searchParams;
+  const legalPages = getJjLegalPages();
 
   return (
-    <div className={styles.page}>
-      <header className={styles.pageHeader}>
-        <p className={styles.eyebrow}>Content</p>
-        <h1>Pages</h1>
-      </header>
-
-      <section className={styles.panel}>
-        {errorMessage ? (
-          <p className={styles.placeholderNote}>
-            Could not load pages from Supabase: <code>{errorMessage}</code>
-            <br />
-            If you just created <code>site_pages</code>, also run{" "}
-            <code>supabase/migrations/20260912120100_site_pages_grants.sql</code>{" "}
-            (table privileges), then refresh.
-          </p>
-        ) : pages.length === 0 ? (
-          <p className={styles.placeholderNote}>
-            {setupRequired ? (
-              <>
-                The <code>site_pages</code> table is not in Supabase yet. Apply
-                migration{" "}
-                <code>supabase/migrations/20260912120000_site_pages.sql</code>,
-                then{" "}
-                <code>supabase/migrations/20260912120100_site_pages_grants.sql</code>
-                , then refresh this page.
-              </>
-            ) : (
-              <>
-                No managed pages found. Re-run the <code>site_pages</code> seed
-                insert from the migration, then refresh.
-              </>
-            )}
-          </p>
-        ) : (
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Published</th>
-                  <th scope="col">
-                    <span className={styles.srOnly}>Actions</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {pages.map((page) => (
-                  <tr key={page.id}>
-                    <td className={styles.tablePrimary}>
-                      <div className={styles.tableTitle}>{page.title}</div>
-                      <div className={styles.tableMeta}>/{page.slug}/</div>
-                    </td>
-                    <td>
-                      {page.status === "published" ? (
-                        <span className={styles.badgeOk}>Published</span>
-                      ) : (
-                        <span className={styles.badgeSoon}>Draft</span>
-                      )}
-                    </td>
-                    <td className={styles.tableDate}>
-                      {formatPublishedAt(page.published_at)}
-                    </td>
-                    <td className={styles.rowActions}>
-                      <Link
-                        href={adminPageEditPath(page.id)}
-                        className={styles.rowActionLink}
-                      >
-                        Edit
-                      </Link>
-                    </td>
+    <AdminContentTypeList
+      type="page"
+      status={sp.status}
+      q={sp.q}
+      extraPanels={
+        <>
+          <section className={styles.panel}>
+            <h2>System pages (code-backed)</h2>
+            <p className={styles.lead}>
+              These public standalone pages are implemented as React routes.
+              They are not stored as CMS <code>page</code> rows and must not be
+              duplicated in the contents table.
+            </p>
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Public path</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">Editable</th>
+                    <th scope="col">
+                      <span className={styles.srOnly}>Actions</span>
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
-    </div>
+                </thead>
+                <tbody>
+                  {ADMIN_SYSTEM_PAGES.map((page) => (
+                    <tr key={page.path}>
+                      <td className={styles.tablePrimary}>
+                        <div className={styles.tableTitle}>{page.title}</div>
+                      </td>
+                      <td>
+                        <code>{page.path}</code>
+                      </td>
+                      <td className={styles.tableMeta}>{page.source}</td>
+                      <td>
+                        <span className={styles.badgeSoon}>Read-only</span>
+                      </td>
+                      <td className={styles.rowActions}>
+                        <Link
+                          href={page.path}
+                          className={styles.rowActionLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View live
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className={styles.panel}>
+            <h2>Legal pages (file-backed)</h2>
+            <p className={styles.lead}>
+              Published from{" "}
+              <code>content/legal/jjb-website-legal-pages.md</code>. Edit that
+              markdown in the repo — do not create CMS duplicates.
+            </p>
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Public path</th>
+                    <th scope="col">Last updated</th>
+                    <th scope="col">Editable</th>
+                    <th scope="col">
+                      <span className={styles.srOnly}>Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {legalPages.map((page) => (
+                    <tr key={page.slug}>
+                      <td className={styles.tablePrimary}>
+                        <div className={styles.tableTitle}>{page.title}</div>
+                      </td>
+                      <td>
+                        <code>{page.path}</code>
+                      </td>
+                      <td className={styles.tableDate}>
+                        {page.lastUpdatedLabel}
+                      </td>
+                      <td>
+                        <span className={styles.badgeSoon}>
+                          File-backed
+                        </span>
+                      </td>
+                      <td className={styles.rowActions}>
+                        <Link
+                          href={page.path}
+                          className={styles.rowActionLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View live
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className={styles.panel}>
+            <h2>Reserved Shopify URLs (placeholder)</h2>
+            <p className={styles.lead}>
+              These paths are preserved in the migration ledger and render a
+              public placeholder until real copy is approved. They are not CMS{" "}
+              <code>page</code> rows — do not invent duplicates.
+            </p>
+            <div className={styles.tableWrap}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Public path</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">
+                      <span className={styles.srOnly}>Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ADMIN_RESERVED_PLACEHOLDER_PAGES.map((page) => (
+                    <tr key={page.path}>
+                      <td className={styles.tablePrimary}>
+                        <div className={styles.tableTitle}>{page.title}</div>
+                        <div className={styles.tableMeta}>{page.note}</div>
+                      </td>
+                      <td>
+                        <code>{page.path}</code>
+                      </td>
+                      <td>
+                        <span className={styles.badgeSoon}>Placeholder</span>
+                      </td>
+                      <td className={styles.rowActions}>
+                        <Link
+                          href={page.path}
+                          className={styles.rowActionLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View live
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </>
+      }
+    />
   );
 }

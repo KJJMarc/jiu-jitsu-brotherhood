@@ -34,12 +34,18 @@ function toLocal(value: string | null | undefined): string {
 export default function AdminContentEditor({
   mode,
   content,
+  defaultType = "article",
+  lockType = false,
 }: {
   mode: "create" | "edit";
   content?: ContentRecord;
+  defaultType?: ContentRecord["type"];
+  /** When creating from a typed section, keep the type fixed. */
+  lockType?: boolean;
 }) {
   const action = mode === "create" ? createContentAction : updateContentAction;
   const [state, formAction] = useFormState(action, initialState);
+  const typeValue = content?.type ?? defaultType;
 
   return (
     <form className={styles.articleForm} action={formAction}>
@@ -60,17 +66,33 @@ export default function AdminContentEditor({
         <div className={styles.formGrid}>
           <div className={styles.field}>
             <label htmlFor="type">Type</label>
-            <select
-              id="type"
-              name="type"
-              defaultValue={content?.type ?? "article"}
-              required
-            >
-              <option value="article">Article</option>
-              <option value="technique">Technique</option>
-              <option value="past_event">Past event</option>
-              <option value="page">Page</option>
-            </select>
+            {lockType && mode === "create" ? (
+              <>
+                <input type="hidden" name="type" value={typeValue} />
+                <input
+                  id="type"
+                  value={
+                    typeValue === "past_event"
+                      ? "Past event"
+                      : typeValue.charAt(0).toUpperCase() + typeValue.slice(1)
+                  }
+                  disabled
+                  readOnly
+                />
+              </>
+            ) : (
+              <select
+                id="type"
+                name="type"
+                defaultValue={typeValue}
+                required
+              >
+                <option value="article">Article</option>
+                <option value="technique">Technique</option>
+                <option value="past_event">Past event</option>
+                <option value="page">Page</option>
+              </select>
+            )}
           </div>
           <div className={styles.field}>
             <label htmlFor="status">Status</label>
