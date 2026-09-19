@@ -24,6 +24,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/collections/all", priority: 0.8, changeFrequency: "weekly" },
     { path: "/search", priority: 0.2, changeFrequency: "yearly" },
     { path: "/cookie-policy", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/pages/privacy-policy", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/pages/terms-conditions", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/delivery-returns", priority: 0.3, changeFrequency: "yearly" },
   ];
 
   const contentRows = await listSitemapContentPaths();

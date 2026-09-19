@@ -3,7 +3,7 @@ import JjLegalPageView from "@/components/jjb-legal/JjLegalPageView";
 import { canonicalAlternate } from "@/lib/canonical";
 import { getJjLegalPage } from "@/lib/jjb-legal/pages";
 
-const page = getJjLegalPage("cookies");
+const page = getJjLegalPage("delivery-returns");
 
 export const metadata: Metadata = {
   title: page.title,
@@ -11,6 +11,6 @@ export const metadata: Metadata = {
   alternates: canonicalAlternate(page.path),
 };
 
-export default function CookiePolicyPage() {
+export default function DeliveryReturnsPage() {
   return <JjLegalPageView page={page} />;
 }

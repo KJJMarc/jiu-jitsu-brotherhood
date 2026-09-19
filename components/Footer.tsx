@@ -7,6 +7,7 @@ import {
   footerInfoNav,
 } from "@/lib/site";
 import { headerLogo } from "@/lib/brand";
+import { JJB_LEGAL_ENTITY } from "@/lib/legal-entity";
 import {
   getActiveSocialLinks,
   getDefaultSiteSettings,
@@ -111,6 +112,19 @@ export default async function Footer() {
               {"\u00A9"}
             </span>{" "}
             {year} {site.name}. All rights reserved.
+          </p>
+          <p className={styles.companyLine}>
+            {JJB_LEGAL_ENTITY.operatorLegalName} trading as{" "}
+            {JJB_LEGAL_ENTITY.tradingName}. Company number{" "}
+            {JJB_LEGAL_ENTITY.companyNumber}. Registered office:{" "}
+            {JJB_LEGAL_ENTITY.registeredOffice}.{" "}
+            <a href={`mailto:${JJB_LEGAL_ENTITY.email}`}>
+              {JJB_LEGAL_ENTITY.email}
+            </a>
+            {" · "}
+            <a href={`tel:${JJB_LEGAL_ENTITY.telephone.replace(/\s+/g, "")}`}>
+              {JJB_LEGAL_ENTITY.telephone}
+            </a>
           </p>
         </div>
       </div>

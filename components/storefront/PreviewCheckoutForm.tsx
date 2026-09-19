@@ -228,11 +228,15 @@ export default function PreviewCheckoutForm({
             <input type="checkbox" name="termsAccepted" required />
             <span>
               I agree to the{" "}
-              <Link href="/terms-and-conditions/" target="_blank">
+              <Link href="/pages/terms-conditions" target="_blank">
                 Terms &amp; Conditions
               </Link>
+              {" "}and{" "}
+              <Link href="/delivery-returns" target="_blank">
+                Delivery &amp; Returns
+              </Link>
               . See our{" "}
-              <Link href="/privacy-policy/" target="_blank">
+              <Link href="/pages/privacy-policy" target="_blank">
                 Privacy Policy
               </Link>
               .

@@ -5,10 +5,12 @@ import JjAboutPage from "@/components/jjb-about/JjAboutPage";
 import JjBeginnersGuidePage from "@/components/jjb-beginners-guide/JjBeginnersGuidePage";
 import JjClubNetworkPage from "@/components/jjb-club-network/JjClubNetworkPage";
 import JjContactPage from "@/components/jjb-contact/JjContactPage";
+import JjLegalPageView from "@/components/jjb-legal/JjLegalPageView";
 import PastEventsIndex from "@/components/jjb-past-events/PastEventsIndex";
 import JjSuckLessPage from "@/components/jjb-suck-less/JjSuckLessPage";
 import RoutePlaceholder from "@/components/RoutePlaceholder";
 import { canonicalAlternate } from "@/lib/canonical";
+import { getJjLegalPage } from "@/lib/jjb-legal/pages";
 import { isPreservedPath } from "@/lib/migration/resolve";
 import {
   getPublishedPageByHandle,
@@ -47,10 +49,30 @@ const SUCK_LESS_DESCRIPTION =
 
 const CLUB_NETWORK_HANDLE = "jiu-jitsu-brotherhood-club-network";
 const PAST_EVENTS_HANDLE = "past-events";
+const PRIVACY_HANDLE = "privacy-policy";
+const TERMS_HANDLE = "terms-conditions";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = await params;
   const path = pagePath(handle);
+
+  if (handle === PRIVACY_HANDLE) {
+    const legal = getJjLegalPage("privacy");
+    return {
+      title: legal.title,
+      description: legal.description,
+      alternates: canonicalAlternate(legal.path),
+    };
+  }
+
+  if (handle === TERMS_HANDLE) {
+    const legal = getJjLegalPage("terms");
+    return {
+      title: legal.title,
+      description: legal.description,
+      alternates: canonicalAlternate(legal.path),
+    };
+  }
 
   if (handle === "about") {
     const content = await getPublishedPageByHandle(handle);
@@ -187,6 +209,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ShopifyPageRoute({ params }: Props) {
   const { handle } = await params;
   const path = pagePath(handle);
+
+  if (handle === PRIVACY_HANDLE) {
+    return <JjLegalPageView page={getJjLegalPage("privacy")} />;
+  }
+
+  if (handle === TERMS_HANDLE) {
+    return <JjLegalPageView page={getJjLegalPage("terms")} />;
+  }
 
   if (handle === "about") {
     return <JjAboutPage />;

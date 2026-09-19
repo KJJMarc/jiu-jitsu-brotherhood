@@ -16,7 +16,7 @@ export const cookieConsent = {
    * Bump when the cookie policy materially changes — existing visitors are then
    * re-prompted because their stored version no longer matches.
    */
-  version: 3,
+  version: 4,
   /** How long the consent choice is remembered (PECR-friendly ~6 months). */
   maxAgeDays: 182,
 } as const;

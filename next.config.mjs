@@ -119,6 +119,22 @@ const nextConfig = {
         destination: `https://${CANONICAL_HOST}/:path*`,
         permanent: true,
       },
+      // Short legal aliases → preserved Shopify / existing public paths.
+      {
+        source: "/terms",
+        destination: "/pages/terms-conditions",
+        permanent: true,
+      },
+      {
+        source: "/privacy",
+        destination: "/pages/privacy-policy",
+        permanent: true,
+      },
+      {
+        source: "/cookies",
+        destination: "/cookie-policy",
+        permanent: true,
+      },
     ];
   },
 };

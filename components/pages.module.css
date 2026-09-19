@@ -1023,6 +1023,43 @@
   max-width: 42rem;
 }
 
+.legal :global(table),
+.legal :global(.jjb-legal-table) {
+  width: 100%;
+  max-width: 42rem;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+.legal :global(th),
+.legal :global(td) {
+  border: 1px solid var(--grey-200);
+  padding: 0.55rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.legal :global(th) {
+  background: var(--grey-100);
+  font-weight: 600;
+}
+
+.legal :global(blockquote) {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--red);
+  background: var(--grey-100);
+}
+
+.legal :global(blockquote p) {
+  margin: 0 0 0.5rem;
+}
+
+.legal :global(blockquote p:last-child) {
+  margin-bottom: 0;
+}
+
 .legal h2 {
   margin: 2rem 0 0.75rem;
   font-size: clamp(1.2rem, 2.4vw, 1.45rem);

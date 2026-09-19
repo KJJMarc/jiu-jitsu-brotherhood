@@ -231,6 +231,7 @@ assert.match(safety.reason, /Supabase|JJB_SUPABASE/i);
 
 // --- Legal identity constant present ---
 assert.equal(JJB_LEGAL_ENTITY.operatorLegalName, "Kingston Jiu Jitsu Ltd");
-assert.ok(!/company number|VAT|FastDD|PayPal/i.test(JSON.stringify(JJB_LEGAL_ENTITY)));
+assert.equal(JJB_LEGAL_ENTITY.companyNumber, "11578178");
+assert.ok(!/VAT|FastDD|PayPal/i.test(JSON.stringify(JJB_LEGAL_ENTITY)));
 
 console.log("Phase 2E content foundation tests passed.");

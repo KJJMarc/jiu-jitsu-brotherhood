@@ -108,12 +108,13 @@ export const footerShopNav: NavItem[] = [
   { label: "Bag", href: "/cart" },
 ];
 
-/** Footer Information group — existing canonical routes only. */
+/** Footer Information group — legal + contact. */
 export const footerInfoNav: NavItem[] = [
   { label: "Contact", href: "/pages/contact" },
   { label: "Privacy", href: "/pages/privacy-policy" },
   { label: "Cookies", href: "/cookie-policy" },
   { label: "Terms", href: "/pages/terms-conditions" },
+  { label: "Delivery & Returns", href: "/delivery-returns" },
 ];
 
 export type ClassCard = {
