@@ -10,29 +10,21 @@ export default function JjCheckYourInboxPage() {
     <div className={styles.page}>
       <div className={`container ${styles.inner}`}>
         <article className={styles.card} aria-labelledby="check-inbox-heading">
-          <p className={styles.eyebrow}>Signup</p>
           <h1 id="check-inbox-heading" className={styles.title}>
             Check your inbox
           </h1>
           <p className={styles.intro}>
-            We&apos;ve sent you an email from Jiu Jitsu Brotherhood. Please click
-            the confirmation button in that email to complete your signup.
+            We&apos;ve sent you a confirmation email. Click the button in that
+            email to complete your signup.
           </p>
-
-          <ol className={styles.steps}>
-            <li>Open the confirmation email.</li>
-            <li>Click the confirmation button.</li>
-            <li>
-              Once confirmed, your signup will be complete. If you requested a
-              free guide, it will arrive in a separate email shortly afterwards.
-            </li>
-          </ol>
-
+          <p className={styles.guideNote}>
+            If you requested a free guide, it will be sent separately after you
+            confirm your email.
+          </p>
           <p className={styles.help}>
-            The email may take a few minutes to arrive. If you cannot see it,
-            check your spam, junk or promotions folder.
+            Can&apos;t see the email? Check your spam, junk or promotions
+            folder.
           </p>
-
           <div className={styles.actions}>
             <Link className={`btn btn--outline ${styles.homeLink}`} href="/">
               Return to Jiu Jitsu Brotherhood
