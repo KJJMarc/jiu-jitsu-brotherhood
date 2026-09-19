@@ -8,6 +8,7 @@ import {
   extractYoutubeIdsFromHtml,
   sanitizeContentHtml,
 } from "@/lib/content/sanitize";
+import { decodeBasicHtmlEntities } from "@/lib/rich-text/html";
 
 export type TransformCode =
   | "HTTPS_WWW"
@@ -28,6 +29,13 @@ const HOST_RE =
   /https?:\/\/(?:www\.)?jiujitsubrotherhood\.com/gi;
 const STORE_RE = /https?:\/\/store\.jiujitsubrotherhood\.com/gi;
 const HTTP_WWW_RE = /http:\/\/(?:www\.)?jiujitsubrotherhood\.com/gi;
+
+/** Plain text from Shopify HTML/summary — strips tags and decodes entities. */
+export function plainTextFromShopifyHtml(raw: string): string {
+  return decodeBasicHtmlEntities(
+    raw.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
+  );
+}
 
 export function transformInternalLinks(html: string): {
   html: string;

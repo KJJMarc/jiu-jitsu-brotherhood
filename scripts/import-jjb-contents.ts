@@ -18,11 +18,13 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient } from "@supabase/supabase-js";
 import {
+  plainTextFromShopifyHtml,
   simpleChecksum,
   shouldSkipUnchanged,
   transformShopifyHtml,
   type TransformEvent,
 } from "../lib/content/import/transforms";
+import { decodeBasicHtmlEntities } from "../lib/rich-text/html";
 import { defaultCanonicalPath } from "../lib/content/paths";
 import { MAILERLITE_LANDINGS } from "../lib/content/types";
 import { BELT_SYSTEM_SEO_DESCRIPTION } from "../lib/home/from-contents";
@@ -76,7 +78,7 @@ const BELT_SYSTEM_FEATURED_IMAGE = {
 } as const;
 /** Inline article diagram (replaces the legacy Shopify CDN graphic). */
 const BELT_SYSTEM_BODY_IMAGE = {
-  url: "/images/jjb/bjj-belt-system-thumbnail.png",
+  url: "/images/jjb/bjj-belt-system.jpg",
   alt: "The Complete BJJ Belt System",
   /** Matches the historical Shopify file in any size suffix / query. */
   shopifySrcRe:
@@ -86,7 +88,10 @@ const BELT_SYSTEM_BODY_IMAGE = {
 function rewriteBeltSystemBodyImage(html: string): string {
   return html
     .replace(BELT_SYSTEM_BODY_IMAGE.shopifySrcRe, BELT_SYSTEM_BODY_IMAGE.url)
-    .replaceAll("/images/jjb/bjj-belt-system.jpg", BELT_SYSTEM_BODY_IMAGE.url);
+    .replace(
+      /src=(["'])\/images\/jjb\/bjj-belt-system-thumbnail\.png\1/gi,
+      `src=$1${BELT_SYSTEM_BODY_IMAGE.url}$1`,
+    );
 }
 
 type ShopifyArticle = {
@@ -201,10 +206,12 @@ function planArticle(a: ShopifyArticle): PlannedRow | null {
     title: a.title,
     status: a.isPublished ? "published" : "draft",
     published_at: a.publishedAt || null,
-    excerpt: (a.summary || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
+    excerpt: plainTextFromShopifyHtml(a.summary || ""),
     body_html: transformed.html || null,
-    seo_title: mf(a.metafields?.nodes, "title_tag"),
-    seo_description: mf(a.metafields?.nodes, "description_tag"),
+    seo_title: decodeBasicHtmlEntities(mf(a.metafields?.nodes, "title_tag") || "") || null,
+    seo_description:
+      decodeBasicHtmlEntities(mf(a.metafields?.nodes, "description_tag") || "") ||
+      null,
     featured_image_url: a.image?.url || null,
     featured_image_alt: a.image?.altText || null,
     youtube_ids: transformed.youtubeIds,
@@ -234,7 +241,7 @@ function planBeltSystemArticle(p: ShopifyPage): PlannedRow {
     published_at: BELT_SYSTEM_PUBLISHED_AT,
     excerpt: BELT_SYSTEM_SEO_DESCRIPTION,
     body_html: bodyHtml || null,
-    seo_title: mf(p.metafields?.nodes, "title_tag"),
+    seo_title: decodeBasicHtmlEntities(mf(p.metafields?.nodes, "title_tag") || "") || null,
     seo_description: BELT_SYSTEM_SEO_DESCRIPTION,
     featured_image_url: BELT_SYSTEM_FEATURED_IMAGE.url,
     featured_image_alt: BELT_SYSTEM_FEATURED_IMAGE.alt,
@@ -337,8 +344,10 @@ function planPage(p: ShopifyPage): PlannedRow {
       published_at: null,
       excerpt: "",
       body_html: null,
-      seo_title: mf(p.metafields?.nodes, "title_tag"),
-      seo_description: mf(p.metafields?.nodes, "description_tag"),
+      seo_title: decodeBasicHtmlEntities(mf(p.metafields?.nodes, "title_tag") || "") || null,
+      seo_description:
+        decodeBasicHtmlEntities(mf(p.metafields?.nodes, "description_tag") || "") ||
+        null,
       featured_image_url: null,
       featured_image_alt: null,
       youtube_ids: [],
@@ -369,13 +378,12 @@ function planPage(p: ShopifyPage): PlannedRow {
     title: p.title,
     status: p.isPublished ? "published" : "draft",
     published_at: p.publishedAt || null,
-    excerpt: (p.bodySummary || "")
-      .replace(/<[^>]+>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim(),
+    excerpt: plainTextFromShopifyHtml(p.bodySummary || ""),
     body_html: transformed.html || null,
-    seo_title: mf(p.metafields?.nodes, "title_tag"),
-    seo_description: mf(p.metafields?.nodes, "description_tag"),
+    seo_title: decodeBasicHtmlEntities(mf(p.metafields?.nodes, "title_tag") || "") || null,
+    seo_description:
+      decodeBasicHtmlEntities(mf(p.metafields?.nodes, "description_tag") || "") ||
+      null,
     featured_image_url: null,
     featured_image_alt: null,
     youtube_ids: transformed.youtubeIds,

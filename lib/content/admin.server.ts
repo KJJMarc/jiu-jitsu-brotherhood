@@ -19,6 +19,7 @@ import {
   normalizeCanonicalPath,
 } from "@/lib/content/paths";
 import { sanitizeContentHtml } from "@/lib/content/sanitize";
+import { decodeBasicHtmlEntities } from "@/lib/rich-text/html";
 
 export const ADMIN_CONTENT_PATH = "/admin/content/";
 export const ADMIN_CONTENT_NEW_PATH = "/admin/content/new/";
@@ -29,6 +30,12 @@ export function adminContentEditPath(id: string): string {
 
 export function adminContentPreviewPath(id: string): string {
   return `/admin/content/${id}/preview/`;
+}
+
+function decodePlain(value: string | null | undefined): string | null {
+  if (value == null) return null;
+  const decoded = decodeBasicHtmlEntities(value.trim());
+  return decoded || null;
 }
 
 export function validateContentWriteInput(
@@ -78,15 +85,15 @@ function prepareWritePayload(input: ContentWriteInput) {
     type: input.type,
     handle: input.handle.trim(),
     blog_handle,
-    title: input.title.trim(),
+    title: decodeBasicHtmlEntities(input.title.trim()),
     status: input.status,
     published_at: input.status === "published" ? input.published_at : input.published_at ?? null,
-    excerpt: input.excerpt?.trim() ?? "",
+    excerpt: decodeBasicHtmlEntities(input.excerpt?.trim() ?? ""),
     body_html: sanitised?.html ?? null,
-    seo_title: input.seo_title?.trim() || null,
-    seo_description: input.seo_description?.trim() || null,
+    seo_title: decodePlain(input.seo_title),
+    seo_description: decodePlain(input.seo_description),
     featured_image_url: input.featured_image_url?.trim() || null,
-    featured_image_alt: input.featured_image_alt?.trim() || null,
+    featured_image_alt: decodePlain(input.featured_image_alt),
     youtube_ids,
     tags_public: input.tags_public ?? [],
     tags_source: input.tags_source ?? [],

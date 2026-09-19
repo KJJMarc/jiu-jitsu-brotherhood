@@ -233,10 +233,15 @@ export function splitContentHtmlForRender(
  */
 const BELT_SYSTEM_SHOPIFY_IMG_RE =
   /https?:\/\/cdn\.shopify\.com\/s\/files\/1\/0363\/5125\/files\/brazilian-jiu-jitsu-belts-21[^"'>\s]*/gi;
-const BELT_SYSTEM_LOCAL_IMG = "/images/jjb/bjj-belt-system-thumbnail.png";
+/** In-article diagram only — not the card/featured thumbnail. */
+const BELT_SYSTEM_BODY_IMG = "/images/jjb/bjj-belt-system.jpg";
 
 export function rewriteKnownContentImages(html: string): string {
   return html
-    .replace(BELT_SYSTEM_SHOPIFY_IMG_RE, BELT_SYSTEM_LOCAL_IMG)
-    .replaceAll("/images/jjb/bjj-belt-system.jpg", BELT_SYSTEM_LOCAL_IMG);
+    .replace(BELT_SYSTEM_SHOPIFY_IMG_RE, BELT_SYSTEM_BODY_IMG)
+    // Undo accidental earlier rewrite that pointed the body at the thumbnail.
+    .replace(
+      /src=(["'])\/images\/jjb\/bjj-belt-system-thumbnail\.png\1/gi,
+      `src=$1${BELT_SYSTEM_BODY_IMG}$1`,
+    );
 }

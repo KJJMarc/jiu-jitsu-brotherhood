@@ -1,12 +1,15 @@
 import type { ContentRecord } from "@/lib/content/types";
 import type { HomeArticle } from "@/lib/home/prototype";
+import { decodeBasicHtmlEntities } from "@/lib/rich-text/html";
 
 /** Clip copy for homepage lead / cards — prefers word boundary under max. */
 export function clipSeoDescription(
   text: string | null | undefined,
   max = 160,
 ): string {
-  const cleaned = (text ?? "").replace(/\s+/g, " ").trim();
+  const cleaned = decodeBasicHtmlEntities(text ?? "")
+    .replace(/\s+/g, " ")
+    .trim();
   if (!cleaned) return "";
   if (cleaned.length <= max) return cleaned;
   const slice = cleaned.slice(0, max - 1);

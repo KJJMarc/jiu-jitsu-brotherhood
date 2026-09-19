@@ -12,11 +12,22 @@ import {
   contentTokenOrFilter,
   tokenizeSearchQuery,
 } from "@/lib/content/search";
+import { decodeBasicHtmlEntities } from "@/lib/rich-text/html";
+
+function mapPlain(value: string | null | undefined): string | null {
+  if (value == null) return null;
+  return decodeBasicHtmlEntities(value);
+}
 
 function mapRow(row: ContentRecord | null): ContentRecord | null {
   if (!row) return null;
   return {
     ...row,
+    title: decodeBasicHtmlEntities(row.title),
+    excerpt: decodeBasicHtmlEntities(row.excerpt ?? ""),
+    seo_title: mapPlain(row.seo_title),
+    seo_description: mapPlain(row.seo_description),
+    featured_image_alt: mapPlain(row.featured_image_alt),
     youtube_ids: row.youtube_ids ?? [],
     tags_public: row.tags_public ?? [],
     tags_source: row.tags_source ?? [],

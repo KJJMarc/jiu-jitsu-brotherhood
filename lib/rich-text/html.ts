@@ -7,6 +7,29 @@ export function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * Decode common HTML entities in plain-text fields (excerpt / SEO / titles).
+ * Shopify summaries sometimes store `&amp;` literally; React text nodes
+ * then show the entity instead of `&`.
+ */
+export function decodeBasicHtmlEntities(value: string): string {
+  return value
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&#(\d+);/g, (_, n: string) => {
+      const code = Number(n);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : _;
+    })
+    .replace(/&#x([0-9a-f]+);/gi, (_, h: string) => {
+      const code = Number.parseInt(h, 16);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : _;
+    });
+}
+
 /** Convert legacy plain paragraphs into TipTap-friendly HTML. */
 export function paragraphsToHtml(paragraphs: string[] | null | undefined): string {
   const list = (paragraphs ?? []).map((p) => p.trim()).filter(Boolean);
