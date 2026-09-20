@@ -73,14 +73,18 @@ export async function getAdminArticleCounts(): Promise<{
   await requireAdmin();
   const supabase = await createSupabaseServerClient();
 
+  // JJB editorial content lives in `contents` (type=article), not the legacy
+  // Kingston `articles` table.
   const [publishedResult, draftResult] = await Promise.all([
     supabase
-      .from("articles")
+      .from("contents")
       .select("id", { count: "exact", head: true })
+      .eq("type", "article")
       .eq("status", "published"),
     supabase
-      .from("articles")
+      .from("contents")
       .select("id", { count: "exact", head: true })
+      .eq("type", "article")
       .eq("status", "draft"),
   ]);
 
