@@ -1993,3 +1993,132 @@ a.secondaryButtonCompact {
     grid-template-columns: 1fr;
   }
 }
+
+/* Comments moderation */
+.pageLead {
+  margin: 0.35rem 0 0;
+  color: var(--admin-muted);
+  max-width: 42rem;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0 0 1.25rem;
+}
+
+.filterChip,
+.filterChipActive {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-panel);
+  color: var(--admin-text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.filterChipActive {
+  border-color: var(--admin-red);
+  color: var(--admin-red);
+  background: rgba(228, 6, 19, 0.06);
+}
+
+.commentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.commentListItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--admin-panel);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+}
+
+.commentMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.commentMeta p {
+  margin: 0;
+}
+
+.commentStatus {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--admin-elevated);
+  border: 1px solid var(--admin-border);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.commentBodyPreview {
+  color: var(--admin-text);
+  line-height: 1.5;
+}
+
+.muted {
+  color: var(--admin-muted);
+  font-size: 0.9rem;
+}
+
+.commentActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.inlineActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.stackForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.fieldLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.textarea {
+  font: inherit;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--admin-text);
+  resize: vertical;
+  min-height: 4.5rem;
+}
+
+@media (max-width: 900px) {
+  .commentListItem {
+    grid-template-columns: 1fr;
+  }
+}

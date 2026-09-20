@@ -1,5 +1,6 @@
 import ContentBody from "@/components/content/ContentBody";
 import MarcBartonAuthorBio from "@/components/content/MarcBartonAuthorBio";
+import ContentCommentsSection from "@/components/content/comments/ContentCommentsSection";
 import type { ContentRecord } from "@/lib/content/types";
 import {
   shouldAttachMarcBartonBio,
@@ -185,6 +186,9 @@ export default function ContentDocument({
             <div className="container">
               <ContentBody html={bodyHtml} />
               {showMarcBio ? <MarcBartonAuthorBio /> : null}
+              {isEditorial ? (
+                <ContentCommentsSection contentId={content.id} />
+              ) : null}
               {content.template === "mailerlite_landing" &&
               content.mailerlite_form_code ? (
                 <MailerLiteForm
