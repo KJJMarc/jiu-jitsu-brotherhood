@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { externalLinks, shopifyStoreUrl } from "@/lib/site";
 import type { HomeProduct } from "@/lib/home/prototype";
 import styles from "./jjb-home.module.css";
 
@@ -23,33 +23,45 @@ export default function ShopPreview({ products }: Props) {
               Brotherhood.
             </p>
           </div>
-          <Link className={styles.textLink} href="/collections/all">
+          <a
+            className={styles.textLink}
+            href={externalLinks.shop}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Visit the shop
-          </Link>
+          </a>
         </div>
 
         <div className={styles.shopGrid}>
-          {products.map((product) => (
-            <Link
-              key={product.href}
-              href={product.href}
-              className={styles.shopCard}
-            >
-              <div className={styles.shopFrame}>
-                <Image
-                  src={product.image.src}
-                  alt={product.image.alt}
-                  width={product.image.width}
-                  height={product.image.height}
-                  sizes="(max-width: 700px) 70vw, 28vw"
-                />
-              </div>
-              <h3 className={styles.shopTitle}>{product.title}</h3>
-              {product.priceLabel ? (
-                <p className={styles.shopPrice}>{product.priceLabel}</p>
-              ) : null}
-            </Link>
-          ))}
+          {products.map((product) => {
+            const href = product.href.startsWith("http")
+              ? product.href
+              : shopifyStoreUrl(product.href);
+            return (
+              <a
+                key={href}
+                href={href}
+                className={styles.shopCard}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className={styles.shopFrame}>
+                  <Image
+                    src={product.image.src}
+                    alt={product.image.alt}
+                    width={product.image.width}
+                    height={product.image.height}
+                    sizes="(max-width: 700px) 70vw, 28vw"
+                  />
+                </div>
+                <h3 className={styles.shopTitle}>{product.title}</h3>
+                {product.priceLabel ? (
+                  <p className={styles.shopPrice}>{product.priceLabel}</p>
+                ) : null}
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>

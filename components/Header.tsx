@@ -125,11 +125,25 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          {shopItem?.href && (
-            <Link href={shopItem.href} className={`btn btn--primary ${styles.cta}`}>
-              {shopItem.label}
-            </Link>
-          )}
+          {shopItem?.href ? (
+            shopItem.external ? (
+              <a
+                href={shopItem.href}
+                className={`btn btn--primary ${styles.cta}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {shopItem.label}
+              </a>
+            ) : (
+              <Link
+                href={shopItem.href}
+                className={`btn btn--primary ${styles.cta}`}
+              >
+                {shopItem.label}
+              </Link>
+            )
+          ) : null}
           <button
             className={styles.burger}
             aria-label={open ? "Close menu" : "Open menu"}

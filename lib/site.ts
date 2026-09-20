@@ -12,6 +12,7 @@ export const site = {
   description:
     "Since 2007, Jiu Jitsu Brotherhood has shared techniques, ideas and stories from the mats - a content and community home for people who believe there is always more to learn.",
   footerBlurb: "Sharing Jiu Jitsu knowledge since 2007.",
+  /** Canonical production origin for the Next.js site (metadata, sitemap, robots). */
   canonicalOrigin: "https://www.jiujitsubrotherhood.com",
   // Contact details are not approved for Phase 1 public display.
   email: "",
@@ -20,12 +21,29 @@ export const site = {
 } as const;
 
 /**
- * Public shop path. Empty academy keys remain so retired pages still
+ * Temporary Shopify storefront during domain cutover.
+ * Customer-facing Shop / product / bag links open here until the native
+ * Next.js catalogue replaces Shopify on www.
+ */
+export const SHOPIFY_STORE_ORIGIN =
+  "https://store.jiujitsubrotherhood.com" as const;
+
+/** Absolute URL on the temporary Shopify store (path must start with `/`). */
+export function shopifyStoreUrl(path: string = "/"): string {
+  const normalised = path.startsWith("/") ? path : `/${path}`;
+  if (normalised === "/") return SHOPIFY_STORE_ORIGIN;
+  return `${SHOPIFY_STORE_ORIGIN}${normalised}`;
+}
+
+/**
+ * Public shop destinations. Academy keys remain so retired pages still
  * typecheck; they are not linked from the JJB shell and must not point at
  * Dojo Director or KJJ services.
  */
 export const externalLinks = {
-  shop: "/collections/all",
+  /** Temporary Shopify storefront (cutover). */
+  shop: SHOPIFY_STORE_ORIGIN,
+  shopCart: shopifyStoreUrl("/cart"),
   freeTrial: "",
   membership: "",
   googleReviews: "",
@@ -90,7 +108,7 @@ export const primaryNav: NavItem[] = [
     href: "/pages/jiu-jitsu-brotherhood-club-network",
   },
   { label: "Community", href: "/#community" },
-  { label: "Shop", href: externalLinks.shop },
+  { label: "Shop", href: externalLinks.shop, external: true },
   { label: "Contact", href: "/pages/contact" },
 ];
 
@@ -102,10 +120,10 @@ export const footerExploreNav: NavItem[] = [
   { label: "About", href: "/pages/about" },
 ];
 
-/** Footer Shop group. */
+/** Footer Shop group — temporary Shopify storefront during cutover. */
 export const footerShopNav: NavItem[] = [
-  { label: "Shop", href: externalLinks.shop },
-  { label: "Bag", href: "/cart" },
+  { label: "Shop", href: externalLinks.shop, external: true },
+  { label: "Bag", href: externalLinks.shopCart, external: true },
 ];
 
 /** Footer Information group — legal + contact. */

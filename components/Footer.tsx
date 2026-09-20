@@ -86,7 +86,13 @@ export default async function Footer() {
           <ul>
             {footerShopNav.map((l) => (
               <li key={l.href}>
-                <Link href={l.href}>{l.label}</Link>
+                {l.external ? (
+                  <a href={l.href} target="_blank" rel="noopener noreferrer">
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link href={l.href}>{l.label}</Link>
+                )}
               </li>
             ))}
           </ul>

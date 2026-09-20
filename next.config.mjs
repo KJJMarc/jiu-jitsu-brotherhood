@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 
-// Canonical production host. NOTE: the production domain is intentionally NOT
-// configured/attached in this phase. These rules describe the intended
-// behaviour for when jiujitsubrotherhood.com is pointed at this deployment; they
-// are scoped by host so they never fire on Vercel preview URLs or localhost.
+// Canonical production host for the Next.js site.
+// Apex → www redirects are scoped by host so they never fire on Vercel preview
+// URLs or localhost. DNS / Vercel domain attachment is performed manually.
 const CANONICAL_HOST = "www.jiujitsubrotherhood.com";
 const APEX_HOST = "jiujitsubrotherhood.com";
 
