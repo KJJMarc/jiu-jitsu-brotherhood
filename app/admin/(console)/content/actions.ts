@@ -27,7 +27,7 @@ function formToInput(formData: FormData): ContentWriteInput {
   const blogFromForm = String(formData.get("blog_handle") ?? "").trim();
   const blog_handle = defaultBlogHandle(
     type,
-    blogFromForm || (type === "past_event" ? "blog" : null),
+    blogFromForm === "blog" ? "blog" : blogFromForm || null,
   );
   let canonical_path = String(formData.get("canonical_path") ?? "").trim();
   if (!canonical_path) {

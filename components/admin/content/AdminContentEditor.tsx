@@ -1,15 +1,22 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import RichTextEditor from "@/components/admin/rich-text/RichTextEditor";
+import YoutubeVideosField from "@/components/admin/articles/YoutubeVideosField";
 import { AdminFormSection } from "@/components/admin/AdminFormSection";
 import {
   createContentAction,
   updateContentAction,
   type ContentFormState,
 } from "@/app/admin/(console)/content/actions";
-import type { ContentRecord } from "@/lib/content/types";
+import type { ContentRecord, ContentType } from "@/lib/content/types";
 import { MAILERLITE_LANDINGS } from "@/lib/content/types";
+import {
+  defaultBlogHandle,
+  defaultCanonicalPath,
+  slugifyContentHandle,
+} from "@/lib/content/paths";
 import styles from "@/app/admin/admin.module.css";
 
 const initialState: ContentFormState = { error: null };
@@ -31,6 +38,11 @@ function toLocal(value: string | null | undefined): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+function typeLabel(type: ContentType): string {
+  if (type === "past_event") return "Past event";
+  return type.charAt(0).toUpperCase() + type.slice(1);
+}
+
 export default function AdminContentEditor({
   mode,
   content,
@@ -45,13 +57,53 @@ export default function AdminContentEditor({
 }) {
   const action = mode === "create" ? createContentAction : updateContentAction;
   const [state, formAction] = useFormState(action, initialState);
-  const typeValue = content?.type ?? defaultType;
+
+  const [type, setType] = useState<ContentType>(content?.type ?? defaultType);
+  const [title, setTitle] = useState(content?.title ?? "");
+  const [handle, setHandle] = useState(content?.handle ?? "");
+  const [handleLocked, setHandleLocked] = useState(mode === "edit");
+  const [showUrlOverride, setShowUrlOverride] = useState(false);
+  const [canonicalOverride, setCanonicalOverride] = useState(
+    content?.canonical_path ?? "",
+  );
+  const [pastEventBlog, setPastEventBlog] = useState(
+    content?.type === "past_event" && content.blog_handle === "blog",
+  );
+
+  const blogHandle = useMemo(() => {
+    if (type === "past_event") return pastEventBlog ? "blog" : null;
+    return defaultBlogHandle(type, null);
+  }, [type, pastEventBlog]);
+
+  const autoCanonical = useMemo(
+    () =>
+      defaultCanonicalPath({
+        type,
+        handle: handle || "untitled",
+        blog_handle: blogHandle,
+      }),
+    [type, handle, blogHandle],
+  );
+
+  const canonicalPath =
+    showUrlOverride && canonicalOverride.trim()
+      ? canonicalOverride.trim()
+      : autoCanonical;
+
+  function onTitleChange(value: string) {
+    setTitle(value);
+    if (!handleLocked) {
+      setHandle(slugifyContentHandle(value));
+    }
+  }
 
   return (
     <form className={styles.articleForm} action={formAction}>
       {mode === "edit" && content ? (
         <input type="hidden" name="id" value={content.id} />
       ) : null}
+      <input type="hidden" name="blog_handle" value={blogHandle ?? ""} />
+      <input type="hidden" name="canonical_path" value={canonicalPath} />
 
       {state.error ? (
         <p className={styles.lead} role="alert">
@@ -61,31 +113,25 @@ export default function AdminContentEditor({
 
       <AdminFormSection
         title="Basics"
-        description="Type, handles and canonical public path (Phase 2A SEO contract)."
+        description="Title sets the URL automatically. Change the handle only if you need a different slug."
       >
         <div className={styles.formGrid}>
           <div className={styles.field}>
             <label htmlFor="type">Type</label>
             {lockType && mode === "create" ? (
               <>
-                <input type="hidden" name="type" value={typeValue} />
-                <input
-                  id="type"
-                  value={
-                    typeValue === "past_event"
-                      ? "Past event"
-                      : typeValue.charAt(0).toUpperCase() + typeValue.slice(1)
-                  }
-                  disabled
-                  readOnly
-                />
+                <input type="hidden" name="type" value={type} />
+                <input id="type" value={typeLabel(type)} disabled readOnly />
               </>
             ) : (
               <select
                 id="type"
                 name="type"
-                defaultValue={typeValue}
+                value={type}
                 required
+                onChange={(event) =>
+                  setType(event.target.value as ContentType)
+                }
               >
                 <option value="article">Article</option>
                 <option value="technique">Technique</option>
@@ -111,38 +157,55 @@ export default function AdminContentEditor({
             <input
               id="title"
               name="title"
-              defaultValue={content?.title ?? ""}
+              value={title}
+              onChange={(event) => onTitleChange(event.target.value)}
               required
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="handle">Handle</label>
+            <label htmlFor="handle">URL handle</label>
             <input
               id="handle"
               name="handle"
-              defaultValue={content?.handle ?? ""}
+              value={handle}
+              onChange={(event) => {
+                setHandleLocked(true);
+                setHandle(slugifyContentHandle(event.target.value) || event.target.value);
+              }}
               required
             />
+            <p className={styles.fieldHint}>
+              Public path: <code>{canonicalPath}</code>
+              {mode === "create" && !handleLocked ? " (updates from title)" : null}
+            </p>
+            {mode === "create" && handleLocked ? (
+              <button
+                type="button"
+                className={styles.textButton}
+                onClick={() => {
+                  setHandleLocked(false);
+                  setHandle(slugifyContentHandle(title));
+                }}
+              >
+                Sync handle from title again
+              </button>
+            ) : null}
           </div>
-          <div className={styles.field}>
-            <label htmlFor="blog_handle">Blog handle</label>
-            <input
-              id="blog_handle"
-              name="blog_handle"
-              defaultValue={content?.blog_handle ?? ""}
-              placeholder="blog | techniques | empty for pages"
-            />
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="canonical_path">Canonical path</label>
-            <input
-              id="canonical_path"
-              name="canonical_path"
-              defaultValue={content?.canonical_path ?? ""}
-              placeholder="/blogs/blog/example"
-              required
-            />
-          </div>
+
+          {type === "past_event" ? (
+            <div className={styles.field}>
+              <label htmlFor="past_event_blog">
+                <input
+                  id="past_event_blog"
+                  type="checkbox"
+                  checked={pastEventBlog}
+                  onChange={(event) => setPastEventBlog(event.target.checked)}
+                />{" "}
+                Publish under /blogs/blog/…
+              </label>
+            </div>
+          ) : null}
+
           <div className={styles.field}>
             <label htmlFor="published_at">Published at</label>
             <input
@@ -173,6 +236,40 @@ export default function AdminContentEditor({
             </label>
           </div>
         </div>
+
+        <div className={styles.field} style={{ marginTop: "1rem" }}>
+          <label htmlFor="url-override-toggle">
+            <input
+              id="url-override-toggle"
+              type="checkbox"
+              checked={showUrlOverride}
+              onChange={(event) => {
+                setShowUrlOverride(event.target.checked);
+                if (event.target.checked && !canonicalOverride) {
+                  setCanonicalOverride(autoCanonical);
+                }
+              }}
+            />{" "}
+            Override canonical path (rare — keep Shopify URLs stable)
+          </label>
+          {showUrlOverride ? (
+            <input
+              id="canonical_path_override"
+              type="text"
+              value={canonicalOverride}
+              onChange={(event) => setCanonicalOverride(event.target.value)}
+              placeholder={autoCanonical}
+              style={{ marginTop: "0.5rem" }}
+            />
+          ) : null}
+        </div>
+      </AdminFormSection>
+
+      <AdminFormSection
+        title="YouTube videos"
+        description="Paste a normal YouTube URL. Videos stay attached even if the body editor strips embeds."
+      >
+        <YoutubeVideosField initialIds={content?.youtube_ids ?? []} />
       </AdminFormSection>
 
       <AdminFormSection title="Body" description="TipTap HTML. Sanitised on save.">
@@ -205,103 +302,122 @@ export default function AdminContentEditor({
         </div>
       </AdminFormSection>
 
-      <AdminFormSection title="Media" description="CDN URL by reference for now.">
+      <AdminFormSection
+        title="Thumbnail / featured image"
+        description="Paste a full CDN image URL (Supabase storage or existing Shopify CDN). This is the card/list thumbnail."
+      >
         <div className={styles.formGrid}>
           <div className={styles.field}>
-            <label htmlFor="featured_image_url">Featured image URL</label>
+            <label htmlFor="featured_image_url">Image URL</label>
             <input
               id="featured_image_url"
               name="featured_image_url"
               defaultValue={content?.featured_image_url ?? ""}
+              placeholder="https://…/image.jpg"
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="featured_image_alt">Featured image alt</label>
+            <label htmlFor="featured_image_alt">Image alt text</label>
             <input
               id="featured_image_alt"
               name="featured_image_alt"
               defaultValue={content?.featured_image_alt ?? ""}
             />
           </div>
-          <div className={styles.field}>
-            <label htmlFor="youtube_ids">YouTube IDs (comma/newline)</label>
-            <textarea
-              id="youtube_ids"
-              name="youtube_ids"
-              rows={2}
-              defaultValue={(content?.youtube_ids ?? []).join("\n")}
-            />
-          </div>
         </div>
       </AdminFormSection>
 
-      <AdminFormSection title="Past event fields">
-        <div className={styles.formGrid}>
-          <div className={styles.field}>
-            <label htmlFor="event_starts_at">Starts</label>
-            <input
-              id="event_starts_at"
-              name="event_starts_at"
-              type="datetime-local"
-              defaultValue={toLocal(content?.event_starts_at)}
-            />
+      {type === "past_event" ? (
+        <AdminFormSection title="Past event fields">
+          <div className={styles.formGrid}>
+            <div className={styles.field}>
+              <label htmlFor="event_starts_at">Starts</label>
+              <input
+                id="event_starts_at"
+                name="event_starts_at"
+                type="datetime-local"
+                defaultValue={toLocal(content?.event_starts_at)}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="event_ends_at">Ends</label>
+              <input
+                id="event_ends_at"
+                name="event_ends_at"
+                type="datetime-local"
+                defaultValue={toLocal(content?.event_ends_at)}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="event_location_label">Location label</label>
+              <input
+                id="event_location_label"
+                name="event_location_label"
+                defaultValue={content?.event_location_label ?? ""}
+              />
+            </div>
           </div>
-          <div className={styles.field}>
-            <label htmlFor="event_ends_at">Ends</label>
-            <input
-              id="event_ends_at"
-              name="event_ends_at"
-              type="datetime-local"
-              defaultValue={toLocal(content?.event_ends_at)}
-            />
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="event_location_label">Location label</label>
-            <input
-              id="event_location_label"
-              name="event_location_label"
-              defaultValue={content?.event_location_label ?? ""}
-            />
-          </div>
-        </div>
-      </AdminFormSection>
+        </AdminFormSection>
+      ) : (
+        <>
+          <input type="hidden" name="event_starts_at" value="" />
+          <input type="hidden" name="event_ends_at" value="" />
+          <input type="hidden" name="event_location_label" value="" />
+        </>
+      )}
 
-      <AdminFormSection
-        title="MailerLite landing"
-        description={`Public form codes only. Beginners ${MAILERLITE_LANDINGS.beginnersGuide.formCode}; Suck Less ${MAILERLITE_LANDINGS.suckLess.formCode}. Do not paste API keys.`}
-      >
-        <div className={styles.formGrid}>
-          <div className={styles.field}>
-            <label htmlFor="template">Template</label>
-            <select
-              id="template"
-              name="template"
-              defaultValue={content?.template ?? ""}
-            >
-              <option value="">default</option>
-              <option value="mailerlite_landing">mailerlite_landing</option>
-              <option value="legal_placeholder">legal_placeholder</option>
-              <option value="contact">contact</option>
-            </select>
+      {type === "page" ? (
+        <AdminFormSection
+          title="MailerLite landing"
+          description={`Public form codes only. Beginners ${MAILERLITE_LANDINGS.beginnersGuide.formCode}; Suck Less ${MAILERLITE_LANDINGS.suckLess.formCode}. Do not paste API keys.`}
+        >
+          <div className={styles.formGrid}>
+            <div className={styles.field}>
+              <label htmlFor="template">Template</label>
+              <select
+                id="template"
+                name="template"
+                defaultValue={content?.template ?? ""}
+              >
+                <option value="">default</option>
+                <option value="mailerlite_landing">mailerlite_landing</option>
+                <option value="legal_placeholder">legal_placeholder</option>
+                <option value="contact">contact</option>
+              </select>
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="mailerlite_form_code">Form code</label>
+              <input
+                id="mailerlite_form_code"
+                name="mailerlite_form_code"
+                defaultValue={content?.mailerlite_form_code ?? ""}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="mailerlite_embed_id">Embed id</label>
+              <input
+                id="mailerlite_embed_id"
+                name="mailerlite_embed_id"
+                defaultValue={content?.mailerlite_embed_id ?? ""}
+              />
+            </div>
           </div>
-          <div className={styles.field}>
-            <label htmlFor="mailerlite_form_code">Form code</label>
-            <input
-              id="mailerlite_form_code"
-              name="mailerlite_form_code"
-              defaultValue={content?.mailerlite_form_code ?? ""}
-            />
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="mailerlite_embed_id">Embed id</label>
-            <input
-              id="mailerlite_embed_id"
-              name="mailerlite_embed_id"
-              defaultValue={content?.mailerlite_embed_id ?? ""}
-            />
-          </div>
-        </div>
-      </AdminFormSection>
+        </AdminFormSection>
+      ) : (
+        <>
+          <input type="hidden" name="template" value={content?.template ?? ""} />
+          <input
+            type="hidden"
+            name="mailerlite_form_code"
+            value={content?.mailerlite_form_code ?? ""}
+          />
+          <input
+            type="hidden"
+            name="mailerlite_embed_id"
+            value={content?.mailerlite_embed_id ?? ""}
+          />
+        </>
+      )}
 
       <AdminFormSection title="Tags" description="tags_source = Shopify raw; tags_public = deliberate taxonomy.">
         <div className={styles.formGrid}>

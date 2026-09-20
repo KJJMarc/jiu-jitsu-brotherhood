@@ -128,6 +128,7 @@ export default function ContentDocument({
               <div className={styles.docCopyColumn}>
                 <ContentBody
                   html={networkHistoryHtml || content.body_html}
+                  youtubeIds={content.youtube_ids}
                 />
               </div>
             </div>
@@ -184,7 +185,10 @@ export default function ContentDocument({
             }
           >
             <div className="container">
-              <ContentBody html={bodyHtml} />
+              <ContentBody
+                html={bodyHtml}
+                youtubeIds={content.youtube_ids}
+              />
               {showMarcBio ? <MarcBartonAuthorBio /> : null}
               {isEditorial ? (
                 <ContentCommentsSection contentId={content.id} />

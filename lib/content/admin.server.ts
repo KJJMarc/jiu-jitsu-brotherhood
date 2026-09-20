@@ -20,6 +20,7 @@ import {
 } from "@/lib/content/paths";
 import { sanitizeContentHtml } from "@/lib/content/sanitize";
 import { decodeBasicHtmlEntities } from "@/lib/rich-text/html";
+import { extractYoutubeId } from "@/lib/admin/youtube";
 
 export const ADMIN_CONTENT_PATH = "/admin/content/";
 export const ADMIN_CONTENT_NEW_PATH = "/admin/content/new/";
@@ -36,6 +37,31 @@ function decodePlain(value: string | null | undefined): string | null {
   if (value == null) return null;
   const decoded = decodeBasicHtmlEntities(value.trim());
   return decoded || null;
+}
+
+function normalizeYoutubeIds(values: string[] | undefined): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const raw of values ?? []) {
+    const id = extractYoutubeId(raw) ?? (raw.trim().match(/^[a-zA-Z0-9_-]{11}$/) ? raw.trim() : null);
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    out.push(id);
+  }
+  return out;
+}
+
+function ensureYoutubeMarkersInHtml(
+  html: string | null,
+  youtubeIds: string[],
+): string | null {
+  if (!html && youtubeIds.length === 0) return html;
+  let out = html ?? "";
+  for (const id of youtubeIds) {
+    if (out.includes(`data-jjb-youtube="${id}"`)) continue;
+    out += `<div data-jjb-youtube="${id}" class="jjb-youtube"></div>`;
+  }
+  return out || null;
 }
 
 export function validateContentWriteInput(
@@ -76,10 +102,13 @@ function prepareWritePayload(input: ContentWriteInput) {
 
   const rawHtml = input.body_html?.trim() || null;
   const sanitised = rawHtml ? sanitizeContentHtml(rawHtml) : null;
-  const youtube_ids =
-    input.youtube_ids && input.youtube_ids.length > 0
-      ? input.youtube_ids
-      : sanitised?.youtubeIds ?? [];
+  const fromForm = normalizeYoutubeIds(input.youtube_ids);
+  const fromBody = sanitised?.youtubeIds ?? [];
+  const youtube_ids = normalizeYoutubeIds([...fromForm, ...fromBody]);
+  const body_html = ensureYoutubeMarkersInHtml(
+    sanitised?.html ?? null,
+    youtube_ids,
+  );
 
   return {
     type: input.type,
@@ -89,7 +118,7 @@ function prepareWritePayload(input: ContentWriteInput) {
     status: input.status,
     published_at: input.status === "published" ? input.published_at : input.published_at ?? null,
     excerpt: decodeBasicHtmlEntities(input.excerpt?.trim() ?? ""),
-    body_html: sanitised?.html ?? null,
+    body_html,
     seo_title: decodePlain(input.seo_title),
     seo_description: decodePlain(input.seo_description),
     featured_image_url: input.featured_image_url?.trim() || null,

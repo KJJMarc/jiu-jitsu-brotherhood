@@ -7,6 +7,18 @@ export function isValidHandle(handle: string): boolean {
   return HANDLE_RE.test(handle);
 }
 
+/** Slugify a title into a DB-safe kebab handle. */
+export function slugifyContentHandle(title: string): string {
+  return title
+    .trim()
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+}
+
 export function isValidCanonicalPath(path: string): boolean {
   if (path === "/") return true;
   return /^\/([a-z0-9-]+\/)*[a-z0-9-]+$/.test(path);
