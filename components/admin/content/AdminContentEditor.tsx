@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import RichTextEditor from "@/components/admin/rich-text/RichTextEditor";
 import YoutubeVideosField from "@/components/admin/articles/YoutubeVideosField";
+import ContentFeaturedImageField from "@/components/admin/content/ContentFeaturedImageField";
 import { AdminFormSection } from "@/components/admin/AdminFormSection";
 import {
   createContentAction,
@@ -304,27 +305,12 @@ export default function AdminContentEditor({
 
       <AdminFormSection
         title="Thumbnail / featured image"
-        description="Paste a full CDN image URL (Supabase storage or existing Shopify CDN). This is the card/list thumbnail."
+        description="Upload from your device, or paste an existing CDN URL. Used as the card/list thumbnail."
       >
-        <div className={styles.formGrid}>
-          <div className={styles.field}>
-            <label htmlFor="featured_image_url">Image URL</label>
-            <input
-              id="featured_image_url"
-              name="featured_image_url"
-              defaultValue={content?.featured_image_url ?? ""}
-              placeholder="https://…/image.jpg"
-            />
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="featured_image_alt">Image alt text</label>
-            <input
-              id="featured_image_alt"
-              name="featured_image_alt"
-              defaultValue={content?.featured_image_alt ?? ""}
-            />
-          </div>
-        </div>
+        <ContentFeaturedImageField
+          initialUrl={content?.featured_image_url ?? ""}
+          initialAlt={content?.featured_image_alt ?? ""}
+        />
       </AdminFormSection>
 
       {type === "past_event" ? (
