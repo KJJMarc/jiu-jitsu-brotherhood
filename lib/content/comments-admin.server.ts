@@ -174,11 +174,11 @@ export async function listAdminComments(input: {
 
 type ModerateInput = {
   commentId: string;
-  action: Exclude<ModerationAction, "edit" | "reply">;
+  action: Exclude<ModerationAction, "edit" | "reply" | "block_email">;
 };
 
 const TRANSITIONS: Record<
-  Exclude<ModerationAction, "edit" | "reply">,
+  Exclude<ModerationAction, "edit" | "reply" | "block_email">,
   { to: CommentStatus; from?: CommentStatus[] }
 > = {
   approve: { to: "published", from: ["pending", "rejected"] },
@@ -238,6 +238,213 @@ export async function moderateComment(
 
   await revalidateContentPath(row.content_id);
   return { ok: true };
+}
+
+/**
+ * Mark comment (and siblings sharing the same private email) as spam, and
+ * block that email from future public submissions.
+ */
+export async function blockEmailAndSpamRelated(
+  commentId: string,
+): Promise<
+  | { ok: true; emailBlocked: true; spamCount: number }
+  | { ok: false; error: string }
+> {
+  const session = await requireAdmin();
+  const admin = getSupabaseAdminClient();
+
+  const { data: row, error } = await admin
+    .from("content_comments")
+    .select("id, status, content_id")
+    .eq("id", commentId)
+    .maybeSingle();
+  if (error || !row) return { ok: false, error: "Comment not found." };
+
+  const { data: priv, error: privError } = await admin
+    .from("content_comment_private")
+    .select("author_email")
+    .eq("comment_id", commentId)
+    .maybeSingle();
+  if (privError) return { ok: false, error: privError.message };
+
+  const email = priv?.author_email?.trim().toLowerCase() ?? "";
+  if (!email || !email.includes("@")) {
+    return {
+      ok: false,
+      error: "No email on file for this comment — cannot block.",
+    };
+  }
+
+  const { error: blockError } = await admin
+    .from("content_comment_email_blocklist")
+    .upsert(
+      {
+        email,
+        created_by: session.userId,
+        note: "spam_and_block",
+        source_comment_id: commentId,
+      },
+      { onConflict: "email", ignoreDuplicates: false },
+    );
+  if (blockError) return { ok: false, error: blockError.message };
+
+  const { data: siblings, error: sibError } = await admin
+    .from("content_comment_private")
+    .select("comment_id")
+    .eq("author_email", email);
+  if (sibError) return { ok: false, error: sibError.message };
+
+  const siblingIds = (siblings ?? [])
+    .map((s) => s.comment_id as string)
+    .filter(Boolean);
+  const ids = Array.from(new Set([commentId, ...siblingIds]));
+
+  const { data: targets, error: targetError } = await admin
+    .from("content_comments")
+    .select("id, status, content_id")
+    .in("id", ids)
+    .neq("status", "deleted");
+  if (targetError) return { ok: false, error: targetError.message };
+
+  const now = new Date().toISOString();
+  const toSpam = (targets ?? []).filter((t) => t.status !== "spam");
+  if (toSpam.length > 0) {
+    const { error: updateError } = await admin
+      .from("content_comments")
+      .update({
+        status: "spam",
+        moderated_at: now,
+        moderated_by: session.userId,
+      })
+      .in(
+        "id",
+        toSpam.map((t) => t.id),
+      );
+    if (updateError) return { ok: false, error: updateError.message };
+  }
+
+  // Audit: block on the source comment; spam transitions on each changed row.
+  await appendModerationEvent({
+    commentId,
+    actorUserId: session.userId,
+    action: "block_email",
+    fromStatus: row.status,
+    toStatus: "spam",
+    note: `blocked_email_siblings:${toSpam.length}`,
+  });
+
+  for (const target of toSpam) {
+    if (target.id === commentId) {
+      await appendModerationEvent({
+        commentId: target.id,
+        actorUserId: session.userId,
+        action: "spam",
+        fromStatus: target.status,
+        toStatus: "spam",
+        note: "via_spam_and_block",
+      });
+    } else {
+      await appendModerationEvent({
+        commentId: target.id,
+        actorUserId: session.userId,
+        action: "spam",
+        fromStatus: target.status,
+        toStatus: "spam",
+        note: `via_spam_and_block_from:${commentId}`,
+      });
+    }
+  }
+
+  const contentIds = new Set(
+    (targets ?? []).map((t) => t.content_id as string).filter(Boolean),
+  );
+  for (const contentId of contentIds) {
+    await revalidateContentPath(contentId);
+  }
+
+  return { ok: true, emailBlocked: true, spamCount: toSpam.length };
+}
+
+/** One-off / ops: block an email and spam all matching comments. */
+export async function blockEmailAndSpamByAddress(
+  emailRaw: string,
+  note = "ops_cleanup",
+): Promise<
+  | { ok: true; spamCount: number }
+  | { ok: false; error: string }
+> {
+  const session = await requireAdmin();
+  const email = emailRaw.trim().toLowerCase();
+  if (!email || !email.includes("@")) {
+    return { ok: false, error: "Invalid email." };
+  }
+
+  const admin = getSupabaseAdminClient();
+  const { error: blockError } = await admin
+    .from("content_comment_email_blocklist")
+    .upsert(
+      {
+        email,
+        created_by: session.userId,
+        note,
+        source_comment_id: null,
+      },
+      { onConflict: "email" },
+    );
+  if (blockError) return { ok: false, error: blockError.message };
+
+  const { data: siblings, error: sibError } = await admin
+    .from("content_comment_private")
+    .select("comment_id")
+    .eq("author_email", email);
+  if (sibError) return { ok: false, error: sibError.message };
+
+  const ids = (siblings ?? []).map((s) => s.comment_id as string).filter(Boolean);
+  if (ids.length === 0) return { ok: true, spamCount: 0 };
+
+  const { data: targets, error: targetError } = await admin
+    .from("content_comments")
+    .select("id, status, content_id")
+    .in("id", ids)
+    .neq("status", "deleted");
+  if (targetError) return { ok: false, error: targetError.message };
+
+  const now = new Date().toISOString();
+  const toSpam = (targets ?? []).filter((t) => t.status !== "spam");
+  if (toSpam.length > 0) {
+    const { error: updateError } = await admin
+      .from("content_comments")
+      .update({
+        status: "spam",
+        moderated_at: now,
+        moderated_by: session.userId,
+      })
+      .in(
+        "id",
+        toSpam.map((t) => t.id),
+      );
+    if (updateError) return { ok: false, error: updateError.message };
+  }
+
+  for (const target of toSpam) {
+    await appendModerationEvent({
+      commentId: target.id,
+      actorUserId: session.userId,
+      action: "spam",
+      fromStatus: target.status,
+      toStatus: "spam",
+      note: `ops_block_email:${email}`,
+    });
+  }
+
+  const contentIds = new Set(
+    (targets ?? []).map((t) => t.content_id as string).filter(Boolean),
+  );
+  for (const contentId of contentIds) {
+    await revalidateContentPath(contentId);
+  }
+
+  return { ok: true, spamCount: toSpam.length };
 }
 
 export async function createOfficialReply(input: {

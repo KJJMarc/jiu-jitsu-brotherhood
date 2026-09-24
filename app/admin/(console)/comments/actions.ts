@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import {
+  blockEmailAndSpamRelated,
   createOfficialReply,
   moderateComment,
 } from "@/lib/content/comments-admin.server";
@@ -13,7 +14,7 @@ export type AdminCommentActionState = {
   message?: string | null;
 };
 
-const ALLOWED: Exclude<ModerationAction, "edit" | "reply">[] = [
+const ALLOWED: Exclude<ModerationAction, "edit" | "reply" | "block_email">[] = [
   "approve",
   "reject",
   "spam",
@@ -24,7 +25,7 @@ const ALLOWED: Exclude<ModerationAction, "edit" | "reply">[] = [
 
 function isAllowed(
   value: string,
-): value is Exclude<ModerationAction, "edit" | "reply"> {
+): value is Exclude<ModerationAction, "edit" | "reply" | "block_email"> {
   return (ALLOWED as string[]).includes(value);
 }
 
@@ -51,8 +52,32 @@ export async function moderateCommentAction(
   });
 
   revalidatePath("/admin/comments/");
+  revalidatePath("/admin/");
   if (!result.ok) return { ok: false, error: result.error };
   return { ok: true, error: null, message: `Action “${actionRaw}” applied.` };
+}
+
+export async function spamAndBlockAction(
+  _prev: AdminCommentActionState,
+  formData: FormData,
+): Promise<AdminCommentActionState> {
+  const commentId =
+    typeof formData.get("comment_id") === "string"
+      ? String(formData.get("comment_id")).trim()
+      : "";
+  if (!commentId) {
+    return { ok: false, error: "Invalid moderation request." };
+  }
+
+  const result = await blockEmailAndSpamRelated(commentId);
+  revalidatePath("/admin/comments/");
+  revalidatePath("/admin/");
+  if (!result.ok) return { ok: false, error: result.error };
+  return {
+    ok: true,
+    error: null,
+    message: `Email blocked. Marked ${result.spamCount} comment(s) as spam.`,
+  };
 }
 
 export async function officialReplyAction(

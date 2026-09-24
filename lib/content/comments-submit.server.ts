@@ -89,6 +89,23 @@ async function assertRateLimits(input: {
   return null;
 }
 
+export async function isCommentEmailBlocked(email: string): Promise<boolean> {
+  const normalized = email.trim().toLowerCase();
+  if (!normalized) return false;
+  const admin = getSupabaseAdminClient();
+  const { data, error } = await admin
+    .from("content_comment_email_blocklist")
+    .select("email")
+    .eq("email", normalized)
+    .maybeSingle();
+  if (error) {
+    console.error("[comments] blocklist check failed", error.message);
+    // Fail open if the table is missing/misconfigured so legitimate posts still work.
+    return false;
+  }
+  return Boolean(data?.email);
+}
+
 /**
  * Public comment submission. Always creates status=pending.
  * Email / IP hash only in content_comment_private.
@@ -153,6 +170,11 @@ export async function submitPublicComment(input: {
       error: "Please check the highlighted fields.",
       fieldErrors,
     };
+  }
+
+  if (await isCommentEmailBlocked(email)) {
+    // Silent success — same posture as honeypot (do not tip off blocked senders).
+    return { ok: true };
   }
 
   const admin = getSupabaseAdminClient();

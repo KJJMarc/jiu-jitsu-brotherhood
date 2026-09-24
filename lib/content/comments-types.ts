@@ -22,6 +22,7 @@ export const MODERATION_ACTIONS = [
   "delete",
   "restore",
   "reply",
+  "block_email",
 ] as const;
 
 export type ModerationAction = (typeof MODERATION_ACTIONS)[number];

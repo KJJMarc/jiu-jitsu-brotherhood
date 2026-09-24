@@ -4,6 +4,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import {
   moderateCommentAction,
   officialReplyAction,
+  spamAndBlockAction,
   type AdminCommentActionState,
 } from "@/app/admin/(console)/comments/actions";
 import type { AdminCommentRow } from "@/lib/content/comments-types";
@@ -63,8 +64,13 @@ function actionsForStatus(status: CommentStatus): Array<{
   }
 }
 
+function canSpamAndBlock(status: CommentStatus): boolean {
+  return status === "pending" || status === "published" || status === "rejected";
+}
+
 function ModerateForms({ comment }: { comment: AdminCommentRow }) {
   const [state, formAction] = useFormState(moderateCommentAction, initial);
+  const [blockState, blockAction] = useFormState(spamAndBlockAction, initial);
   const actions = actionsForStatus(comment.status);
 
   return (
@@ -79,6 +85,16 @@ function ModerateForms({ comment }: { comment: AdminCommentRow }) {
           {state.message}
         </p>
       ) : null}
+      {blockState.error ? (
+        <p className={styles.formError} role="alert">
+          {blockState.error}
+        </p>
+      ) : null}
+      {blockState.ok && blockState.message ? (
+        <p className={styles.formSuccess} role="status">
+          {blockState.message}
+        </p>
+      ) : null}
       <div className={styles.inlineActions}>
         {actions.map(({ action, label }) => (
           <form key={action} action={formAction}>
@@ -87,6 +103,12 @@ function ModerateForms({ comment }: { comment: AdminCommentRow }) {
             <ActionButton label={label} />
           </form>
         ))}
+        {canSpamAndBlock(comment.status) ? (
+          <form action={blockAction}>
+            <input type="hidden" name="comment_id" value={comment.id} />
+            <ActionButton label="Spam & block" />
+          </form>
+        ) : null}
       </div>
     </div>
   );
