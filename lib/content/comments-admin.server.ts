@@ -93,6 +93,18 @@ export async function getAdminCommentCounts(): Promise<AdminCommentCounts> {
   return counts;
 }
 
+/** Lightweight pending count for admin nav badge. */
+export async function getPendingCommentCount(): Promise<number> {
+  await requireAdmin();
+  const admin = getSupabaseAdminClient();
+  const { count, error } = await admin
+    .from("content_comments")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "pending");
+  if (error) throw new Error(error.message);
+  return count ?? 0;
+}
+
 export async function listAdminComments(input: {
   status?: string | null;
   limit?: number;

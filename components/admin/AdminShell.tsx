@@ -14,64 +14,76 @@ export type AdminNavSection = {
   items: AdminNavItem[];
 };
 
-const NAV: AdminNavSection[] = [
-  {
-    items: [{ href: "/admin/", label: "Dashboard", enabled: true }],
-  },
-  {
-    title: "Content",
-    items: [
-      { href: "/admin/articles/", label: "Articles", enabled: true },
-      { href: "/admin/techniques/", label: "Techniques", enabled: true },
-      { href: "/admin/comments/", label: "Comments", enabled: true },
-      { href: "/admin/pages/", label: "Pages", enabled: true },
-      { href: "/admin/past-events/", label: "Past Events", enabled: true },
-    ],
-  },
-  {
-    title: "Store",
-    items: [
-      { href: "/admin/store/", label: "Overview", enabled: true },
-      { href: "/admin/store/products/", label: "Products", enabled: true },
-      {
-        href: "/admin/store/fulfilment/",
-        label: "Shipping & collection",
-        enabled: true,
-      },
-      { href: "/admin/store/orders/", label: "Orders", enabled: true },
-      { href: "/admin/store/preview/", label: "Store preview", enabled: true },
-    ],
-  },
-  {
-    title: "Website",
-    items: [
-      { href: "/admin/settings/", label: "Site Settings", enabled: true },
-      {
-        href: "/admin/settings/tracking/",
-        label: "Tracking & Pixels",
-        enabled: true,
-      },
-      {
-        href: "/admin/settings/cookies/",
-        label: "Cookies & Privacy",
-        enabled: true,
-      },
-    ],
-  },
-  {
-    title: "Administration",
-    items: [
-      { href: "/admin/access/", label: "Admin Access", enabled: true },
-    ],
-  },
-];
+function buildNav(pendingComments: number): AdminNavSection[] {
+  const commentsLabel =
+    pendingComments > 0 ? `Comments [${pendingComments}]` : "Comments";
+  const commentsHref =
+    pendingComments > 0 ? "/admin/comments/?status=pending" : "/admin/comments/";
+
+  return [
+    {
+      items: [{ href: "/admin/", label: "Dashboard", enabled: true }],
+    },
+    {
+      title: "Content",
+      items: [
+        { href: "/admin/articles/", label: "Articles", enabled: true },
+        { href: "/admin/techniques/", label: "Techniques", enabled: true },
+        { href: commentsHref, label: commentsLabel, enabled: true },
+        { href: "/admin/pages/", label: "Pages", enabled: true },
+        { href: "/admin/past-events/", label: "Past Events", enabled: true },
+      ],
+    },
+    {
+      title: "Store",
+      items: [
+        { href: "/admin/store/", label: "Overview", enabled: true },
+        { href: "/admin/store/products/", label: "Products", enabled: true },
+        {
+          href: "/admin/store/fulfilment/",
+          label: "Shipping & collection",
+          enabled: true,
+        },
+        { href: "/admin/store/orders/", label: "Orders", enabled: true },
+        { href: "/admin/store/preview/", label: "Store preview", enabled: true },
+      ],
+    },
+    {
+      title: "Website",
+      items: [
+        { href: "/admin/settings/", label: "Site Settings", enabled: true },
+        {
+          href: "/admin/settings/tracking/",
+          label: "Tracking & Pixels",
+          enabled: true,
+        },
+        {
+          href: "/admin/settings/cookies/",
+          label: "Cookies & Privacy",
+          enabled: true,
+        },
+      ],
+    },
+    {
+      title: "Administration",
+      items: [
+        { href: "/admin/access/", label: "Admin Access", enabled: true },
+      ],
+    },
+  ];
+}
+
 export default function AdminShell({
   email,
+  pendingComments = 0,
   children,
 }: {
   email: string | null;
+  pendingComments?: number;
   children: React.ReactNode;
 }) {
+  const nav = buildNav(pendingComments);
+
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar} aria-label="Admin">
@@ -84,7 +96,7 @@ export default function AdminShell({
         </div>
 
         <nav className={styles.nav}>
-          {NAV.map((section) => (
+          {nav.map((section) => (
             <div key={section.title ?? "main"} className={styles.navSection}>
               {section.title ? (
                 <p className={styles.navSectionTitle}>{section.title}</p>
@@ -93,7 +105,16 @@ export default function AdminShell({
                 {section.items.map((item) => (
                   <li key={item.href}>
                     {item.enabled ? (
-                      <Link href={item.href} className={styles.navLink}>
+                      <Link
+                        href={item.href}
+                        className={styles.navLink}
+                        aria-label={
+                          item.href.includes("/admin/comments") &&
+                          pendingComments > 0
+                            ? `Comments, ${pendingComments} pending`
+                            : undefined
+                        }
+                      >
                         {item.label}
                       </Link>
                     ) : (
@@ -150,10 +171,14 @@ export default function AdminShell({
           </div>
         </header>
         <nav className={styles.mobileNav} aria-label="Admin sections">
-          {NAV.flatMap((section) =>
+          {nav.flatMap((section) =>
             section.items.map((item) =>
               item.enabled ? (
-                <Link key={item.href} href={item.href} className={styles.mobileNavLink}>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={styles.mobileNavLink}
+                >
                   {item.label}
                 </Link>
               ) : null,
