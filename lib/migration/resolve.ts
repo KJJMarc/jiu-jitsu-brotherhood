@@ -27,12 +27,13 @@ function isAbsoluteUrl(value: string): boolean {
   return value.startsWith("http://") || value.startsWith("https://");
 }
 
-function shopProductRedirect(pathname: string): string | null {
-  if (!pathname.startsWith("/shop/")) return null;
+/** Native shop catalogue, bag, and product pages. Do not send these to Shopify paths. */
+function isNativeShopPath(pathname: string): boolean {
+  if (pathname === "/shop" || pathname === "/shop/bag") return true;
+  if (!pathname.startsWith("/shop/")) return false;
   const rest = pathname.slice("/shop/".length);
-  if (!rest || rest.includes("/")) return null;
-  if (SHOP_RESERVED_SEGMENTS.has(rest)) return null;
-  return `/products/${rest}`;
+  if (!rest || rest.includes("/")) return false;
+  return !SHOP_RESERVED_SEGMENTS.has(rest);
 }
 
 /**
@@ -56,6 +57,10 @@ export function resolveMigration(
 
   const path = canonicalPath(pathname);
 
+  if (isNativeShopPath(path)) {
+    return { kind: "pass" };
+  }
+
   if (preserveSet.has(path)) {
     return { kind: "pass" };
   }
@@ -76,11 +81,6 @@ export function resolveMigration(
 
   if (extraGone.has(path)) {
     return { kind: "gone" };
-  }
-
-  const productDest = shopProductRedirect(path);
-  if (productDest) {
-    return { kind: "redirect", location: productDest, status: 301 };
   }
 
   if (isRetiredAcademyPath(path)) {

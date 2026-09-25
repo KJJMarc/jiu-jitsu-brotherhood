@@ -199,7 +199,7 @@ export const homeTechniques: HomeTechnique[] = [
 export const homeProducts: HomeProduct[] = [
   {
     title: "The Astrum Gi",
-    href: "/products/astrum-gi",
+    href: "/shop/astrum-gi",
     priceLabel: formatGbp(115),
     image: {
       src: "/images/jjb/shop/astrum-gi.png",
@@ -210,7 +210,7 @@ export const homeProducts: HomeProduct[] = [
   },
   {
     title: "The Gentle Art Rashguard",
-    href: "/products/the-gentle-art-rashguard",
+    href: "/shop/the-gentle-art-rashguard",
     priceLabel: formatGbp(38),
     image: {
       src: "/images/jjb/shop/gentle-art-rashguard.png",
@@ -221,7 +221,7 @@ export const homeProducts: HomeProduct[] = [
   },
   {
     title: "Enso 4.0 Gi (Black)",
-    href: "/products/enso-4-0-gi-black",
+    href: "/shop/enso-4-0-gi-black",
     priceLabel: formatGbp(100),
     image: {
       src: "/images/jjb/shop/enso-4-0-black.png",

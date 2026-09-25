@@ -9,13 +9,14 @@ import {
   mapAdminProductDetailToStorefront,
   mapAdminProductListItemToCard,
 } from "@/lib/storefront/map-from-admin";
+import { publicShopProductPath } from "@/lib/storefront/paths";
 import type {
   StorefrontProductCard,
   StorefrontProductDetail,
 } from "@/lib/storefront/types";
 
 function publicProductHref(slug: string): string {
-  return `/products/${slug}`;
+  return publicShopProductPath(slug);
 }
 
 function allowedPublicStatuses(): Array<"active" | "draft"> {

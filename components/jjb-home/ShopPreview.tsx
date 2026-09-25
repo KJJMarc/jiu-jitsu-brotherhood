@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { externalLinks, shopifyStoreUrl } from "@/lib/site";
+import Link from "next/link";
+import { externalLinks } from "@/lib/site";
 import type { HomeProduct } from "@/lib/home/prototype";
 import styles from "./jjb-home.module.css";
 
@@ -23,28 +24,19 @@ export default function ShopPreview({ products }: Props) {
               Brotherhood.
             </p>
           </div>
-          <a
-            className={styles.textLink}
-            href={externalLinks.shop}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link className={styles.textLink} href={externalLinks.shop}>
             Visit the shop
-          </a>
+          </Link>
         </div>
 
         <div className={styles.shopGrid}>
           {products.map((product) => {
-            const href = product.href.startsWith("http")
-              ? product.href
-              : shopifyStoreUrl(product.href);
+            const href = product.href;
             return (
-              <a
+              <Link
                 key={href}
                 href={href}
                 className={styles.shopCard}
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 <div className={styles.shopFrame}>
                   <Image
@@ -59,7 +51,7 @@ export default function ShopPreview({ products }: Props) {
                 {product.priceLabel ? (
                   <p className={styles.shopPrice}>{product.priceLabel}</p>
                 ) : null}
-              </a>
+              </Link>
             );
           })}
         </div>

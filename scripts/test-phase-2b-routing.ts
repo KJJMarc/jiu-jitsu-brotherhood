@@ -68,16 +68,8 @@ assert.deepEqual(decision("/news/"), {
   location: "/blogs/blog",
   status: 301,
 });
-assert.deepEqual(decision("/shop"), {
-  kind: "redirect",
-  location: "/collections/all",
-  status: 301,
-});
-assert.deepEqual(decision("/shop/"), {
-  kind: "redirect",
-  location: "/collections/all",
-  status: 301,
-});
+assert.deepEqual(decision("/shop"), { kind: "pass" });
+assert.deepEqual(decision("/shop/"), { kind: "pass" });
 assert.deepEqual(decision("/blog"), {
   kind: "redirect",
   location: "/pages/blog",
@@ -113,16 +105,8 @@ assert.deepEqual(decision("/membership-access"), { kind: "gone" });
 assert.deepEqual(decision("/classes"), { kind: "gone" });
 assert.deepEqual(decision("/adult-classes"), { kind: "gone" });
 
-assert.deepEqual(decision("/shop/bag"), {
-  kind: "redirect",
-  location: "/cart",
-  status: 301,
-});
-assert.deepEqual(decision("/shop/astrum-gi"), {
-  kind: "redirect",
-  location: "/products/astrum-gi",
-  status: 301,
-});
+assert.deepEqual(decision("/shop/bag"), { kind: "pass" });
+assert.deepEqual(decision("/shop/astrum-gi"), { kind: "pass" });
 assert.equal(decision("/shop/checkout").kind, "pass");
 assert.equal(decision("/shop/checkout/return").kind, "pass");
 

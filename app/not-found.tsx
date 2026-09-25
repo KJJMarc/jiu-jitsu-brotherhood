@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const suggestions = [
   { label: "Home", href: "/", external: false },
   { label: "Articles", href: "/blogs/blog", external: false },
-  { label: "Shop", href: externalLinks.shop, external: true },
+  { label: "Shop", href: externalLinks.shop, external: false },
 ];
 
 export default function NotFound() {

@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** Legacy /shop/bag — same bag as /cart. */
+/** Public bag. `/cart` redirects here. */
 export default async function PublicShopBagPage() {
   const checkoutEnabled = isPublicCheckoutEnabled();
   const { cart, notices } = await recoverPublicCart();

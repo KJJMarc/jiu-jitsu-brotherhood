@@ -21,29 +21,13 @@ export const site = {
 } as const;
 
 /**
- * Temporary Shopify storefront during domain cutover.
- * Customer-facing Shop / product / bag links open here until the native
- * Next.js catalogue replaces Shopify on www.
- */
-export const SHOPIFY_STORE_ORIGIN =
-  "https://store.jiujitsubrotherhood.com" as const;
-
-/** Absolute URL on the temporary Shopify store (path must start with `/`). */
-export function shopifyStoreUrl(path: string = "/"): string {
-  const normalised = path.startsWith("/") ? path : `/${path}`;
-  if (normalised === "/") return SHOPIFY_STORE_ORIGIN;
-  return `${SHOPIFY_STORE_ORIGIN}${normalised}`;
-}
-
-/**
  * Public shop destinations. Academy keys remain so retired pages still
  * typecheck; they are not linked from the JJB shell and must not point at
  * Dojo Director or KJJ services.
  */
 export const externalLinks = {
-  /** Temporary Shopify storefront (cutover). */
-  shop: SHOPIFY_STORE_ORIGIN,
-  shopCart: shopifyStoreUrl("/cart"),
+  shop: "/shop",
+  shopCart: "/shop/bag",
   freeTrial: "",
   membership: "",
   googleReviews: "",
@@ -96,7 +80,7 @@ export type NavItem = {
 };
 
 /**
- * Public navigation: preserved Shopify destinations (Phase 2B).
+ * Public navigation.
  */
 export const primaryNav: NavItem[] = [
   { label: "About", href: "/pages/about" },
@@ -108,7 +92,7 @@ export const primaryNav: NavItem[] = [
     href: "/pages/jiu-jitsu-brotherhood-club-network",
   },
   { label: "Community", href: "/#community" },
-  { label: "Shop", href: externalLinks.shop, external: true },
+  { label: "Shop", href: externalLinks.shop },
   { label: "Contact", href: "/pages/contact" },
 ];
 
@@ -120,10 +104,10 @@ export const footerExploreNav: NavItem[] = [
   { label: "About", href: "/pages/about" },
 ];
 
-/** Footer Shop group — temporary Shopify storefront during cutover. */
+/** Footer Shop group — native JJB store. */
 export const footerShopNav: NavItem[] = [
-  { label: "Shop", href: externalLinks.shop, external: true },
-  { label: "Bag", href: externalLinks.shopCart, external: true },
+  { label: "Shop", href: externalLinks.shop },
+  { label: "Bag", href: externalLinks.shopCart },
 ];
 
 /** Footer Information group — legal + contact. */

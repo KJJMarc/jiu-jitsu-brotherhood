@@ -23,6 +23,7 @@ import {
 } from "@/lib/store/cart";
 import { storeCustomerError } from "@/lib/store/customer-errors";
 import { includeDraftsInPublicShop } from "@/lib/store/shop-gates.server";
+import { publicShopProductPath } from "@/lib/storefront/paths";
 
 const CART_MAX_AGE_SECONDS = 60 * 60 * 24 * 14;
 
@@ -71,7 +72,7 @@ function channelConfig(channel: StoreCartChannel): ChannelConfig {
       requireAdminSession: false,
       // Local draft preview lets unpublished KEEP products into the bag.
       allowDraft: includeDraftsInPublicShop(),
-      productHref: (product) => `/products/${product.slug}`,
+      productHref: (product) => publicShopProductPath(product.slug),
     };
   }
   return {

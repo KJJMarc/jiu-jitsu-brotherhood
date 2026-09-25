@@ -1,9 +1,8 @@
 import type { ExtraRule, LedgerOverride } from "@/lib/migration/types";
 
 /**
- * Path-level CSV overrides. Empty after the 17 Sep 2026 approval that made
- * `/shop` → `/collections/all` the inventory row itself (no longer a runtime
- * discrepancy against the CSV).
+ * Path-level CSV overrides. The generated inventory still records the old
+ * `/shop` → `/collections/all` row; resolveMigration lets `/shop` through first.
  */
 export const LEDGER_OVERRIDES: LedgerOverride[] = [];
 
@@ -12,12 +11,6 @@ export const LEDGER_OVERRIDES: LedgerOverride[] = [];
  * so the audit file stays frozen; tests assert these are explicit extras.
  */
 export const EXTRA_REDIRECTS: ExtraRule[] = [
-  {
-    path: "/shop/bag",
-    action: "301",
-    destination: "/cart",
-    reason: "Public bag contract is /cart (Phase 2B). Internal /shop/bag is not canonical.",
-  },
   {
     path: "/category/news",
     action: "301",

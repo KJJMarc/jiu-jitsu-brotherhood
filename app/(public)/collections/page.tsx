@@ -13,7 +13,7 @@ export default function CollectionsIndexPage() {
     <RoutePlaceholder
       eyebrow="Shop"
       title="Collections"
-      body="Collection listings will appear here after the catalogue is migrated. The live shop catalogue is /collections/all."
+      body="Collection listings will appear here after the catalogue is migrated. The shop is at /shop."
     />
   );
 }
