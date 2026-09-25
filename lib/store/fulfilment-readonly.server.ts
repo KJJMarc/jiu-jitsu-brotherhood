@@ -38,7 +38,7 @@ const DEFAULT_SETTINGS: FulfilmentSettings = {
 
 function toSettings(row: FulfilmentSettingsRow): FulfilmentSettings {
   return {
-    collectionEnabled: false,
+    collectionEnabled: row.collection_enabled,
     collectionLabel: row.collection_label,
     collectionInstructions: row.collection_instructions,
     ukShippingEnabled: row.uk_shipping_enabled,

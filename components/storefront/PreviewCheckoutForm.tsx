@@ -80,11 +80,6 @@ export default function PreviewCheckoutForm({
   );
   const [shippingPence, setShippingPence] = useState(initialQuote.shippingPence);
   const [totalPence, setTotalPence] = useState(initialQuote.totalPence);
-  const [weightGrams, setWeightGrams] = useState(
-    initialQuote.shippingQuote?.ok
-      ? initialQuote.shippingQuote.totalWeightGrams
-      : 0,
-  );
   const [quoteError, setQuoteError] = useState<string | null>(null);
   const [pendingQuote, startQuote] = useTransition();
   const [submitState, boundSubmit] = useFormState(submitAction, initialSubmit);
@@ -100,7 +95,6 @@ export default function PreviewCheckoutForm({
       setQuoteError(null);
       setShippingPence(next.shippingPence);
       setTotalPence(next.totalPence);
-      setWeightGrams(next.totalWeightGrams);
     });
   }, [fulfilmentMethod, hasPhysical, quoteAction]);
 
@@ -285,10 +279,7 @@ export default function PreviewCheckoutForm({
           </div>
           {hasPhysical ? (
             <div>
-              <dt>
-                Shipping
-                {weightGrams > 0 ? ` (${weightGrams} g)` : ""}
-              </dt>
+              <dt>Shipping</dt>
               <dd>
                 {fulfilmentMethod === "collection"
                   ? "Free"

@@ -374,10 +374,6 @@ async function createCheckoutOrder(
     }
     fulfilmentMethod = input.fulfilmentMethod;
 
-    if (channel === "public" && fulfilmentMethod === "collection") {
-      throw new Error("Collection is not available.");
-    }
-
     if (fulfilmentMethod === "collection") {
       const quote = quoteCollection(settings);
       if (!quote.ok) throw new Error(quote.message);
