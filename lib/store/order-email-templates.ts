@@ -6,6 +6,8 @@ import {
   fulfilmentStatusLabel,
 } from "@/lib/store/orders";
 
+const ORDER_EMAIL_CONTACT = "admin@kingstonjiujitsu.com";
+
 const BRAND_RED = "#e40613";
 const INK = "#1b1c1e";
 const MUTED = "#5c6470";
@@ -133,8 +135,8 @@ function wrapHtml(title: string, body: string): string {
           </tr>
           <tr>
             <td style="padding:8px 24px 28px;font-size:13px;line-height:1.5;color:${MUTED};">
-              Questions? Reply to this email or contact us at
-              <a href="mailto:${escapeHtml(site.email)}" style="color:${BRAND_RED};text-decoration:none;">${escapeHtml(site.email)}</a>.
+              Questions? Contact us at
+              <a href="mailto:${ORDER_EMAIL_CONTACT}" style="color:${BRAND_RED};text-decoration:none;">${ORDER_EMAIL_CONTACT}</a>.
             </td>
           </tr>
         </table>
@@ -253,7 +255,7 @@ ${
     ...(customerOrderUrl ? ["", `View your order: ${customerOrderUrl}`] : []),
     "",
     `Thanks again for supporting ${site.name}.`,
-    ...(site.email ? [`Questions? Contact ${site.email}.`] : []),
+    `Questions? Contact us at ${ORDER_EMAIL_CONTACT}.`,
   ].join("\n");
 
   return { subject, html: wrapHtml(subject, body), text };
@@ -317,6 +319,8 @@ ${
     itemLinesText(order),
     "",
     `Admin: ${adminOrderUrl}`,
+    "",
+    `Questions? Contact us at ${ORDER_EMAIL_CONTACT}.`,
   ].join("\n");
 
   return { subject, html: wrapHtml(subject, body), text };
